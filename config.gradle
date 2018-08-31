@@ -1,0 +1,15 @@
+ext{
+    def organisation = "com.mdshi"
+    android = [
+            applicationId : "${organisation}",
+            compileSdkVersion: 27,
+            minSdkVersion :21,
+            targetSdkVersion :27,
+            versionCode :1,
+            versionName :"1.0"
+    ]
+    //合并到主程序运行的组件,没有填写的组件则可以独立运行
+    merge = [
+            "chat",
+    ]
+}
