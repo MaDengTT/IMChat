@@ -18,6 +18,7 @@ android {
             multiDexEnabled true
         }
 
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 
@@ -34,7 +35,6 @@ android {
                 arguments = [moduleName: project.getName()]
             }
         }
-
     }
 
     if(isRunAlone){

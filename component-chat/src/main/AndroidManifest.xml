@@ -3,7 +3,7 @@
     package="com.mdshi.component_chat">
 
     <application>
-        <activity android:name=".ui.ChatActivity"></activity>
+        <activity android:name=".ui.MainChatActivity"></activity>
     </application>
 
 </manifest>

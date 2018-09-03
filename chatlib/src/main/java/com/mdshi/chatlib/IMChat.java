@@ -1,20 +1,18 @@
 package com.mdshi.chatlib;
 
 import com.mdshi.chatlib.Bean.MessageBean;
+import com.mdshi.chatlib.Bean.SendMessage;
+import com.mdshi.chatlib.connection.BaseConnection;
+import com.mdshi.chatlib.connection.Config;
+import com.mdshi.chatlib.connection.Mqtt_Connection;
+import com.mdshi.chatlib.listener.ConnectionListener;
 import com.mdshi.chatlib.listener.IMListener;
 import com.mdshi.chatlib.listener.MessageListener;
+import com.mdshi.chatlib.listener.ReceiveListener;
 import com.mdshi.chatlib.listener.SendMessageListener;
 
-import org.fusesource.hawtbuf.Buffer;
-import org.fusesource.hawtbuf.UTF8Buffer;
-import org.fusesource.mqtt.client.Callback;
-import org.fusesource.mqtt.client.CallbackConnection;
-import org.fusesource.mqtt.client.ExtendedListener;
-import org.fusesource.mqtt.client.MQTT;
-import org.fusesource.mqtt.client.QoS;
-import org.fusesource.mqtt.client.Topic;
-
-import java.net.URISyntaxException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Created by MaDeng on 2018/8/31.
@@ -22,125 +20,123 @@ import java.net.URISyntaxException;
 public class IMChat {
 
     private static IMChat ins;
+//    private MessageListener messagelistener;
 
-    private MQTT mqtt;
-    private CallbackConnection connection;
+    Set<MessageListener> messageListeners;
+
+    private BaseConnection connection;
+
 
     private String iMtopic = "/IM/Chat";
-    private Topic[] topics;
+    private IMListener IMListener;
 
 
     private IMChat(){
 
     }
 
-    public static void init(String key){
-        ins = new IMChat();
-        String topics = "/IM/Chat/"+key;
-        Topic topic = new Topic(topics, QoS.AT_LEAST_ONCE);
-        ins.topics = new Topic[]{topic};
-        ins.mqtt("","");
-    }
-
-    public static void setMessageListener(final MessageListener listener) {
-        ins.connection.listener(new ExtendedListener() {
+    private IMChat(BaseConnection connection){
+        this.connection = connection;
+        ins.connection.receiveListener(new ReceiveListener() {
             @Override
-            public void onPublish(UTF8Buffer topic, Buffer body, Callback<Callback<Void>> ack) {
-                final byte[] topicb = topic.toByteArray();
-                final byte[] data = body.toByteArray();
-                final String mTopic = new String(topicb);
-                final String mData = new String(data);
-                listener.onSuccess();
-                if(mTopic.equals(ins.topics[0]))
-                    listener.message(mData);
-                //TODO 处理消息
+            public void onReciveMessage(String key, String message) {
+                if (messageListeners != null) {
+                    for (MessageListener listener:messageListeners) {
+                        listener.message(message);
+                    }
+                }
             }
 
             @Override
-            public void onConnected() {
-
-            }
-
-            @Override
-            public void onDisconnected() {
-
-            }
-
-            @Override
-            public void onPublish(UTF8Buffer topic, Buffer body, Runnable ack) {
-
-            }
-
-            @Override
-            public void onFailure(Throwable value) {
-                listener.onFailure(value);
-            }
-        });
-    }
-
-
-    public static void setIMListener(final IMListener listener) {
-        ins.connection.connect(new Callback<Void>() {
-            @Override
-            public void onSuccess(Void value) {
-                ins.connection.subscribe(ins.topics, new Callback<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] value) {
+            public void onSuccess() {
+                if (messageListeners != null) {
+                    for (MessageListener listener:messageListeners) {
                         listener.onSuccess();
                     }
+                }
+            }
 
-                    @Override
-                    public void onFailure(Throwable value) {
+            @Override
+            public void onFailure(Throwable value) {
+                if (messageListeners != null) {
+                    for (MessageListener listener:messageListeners) {
                         listener.onFailure(value);
                     }
-                });
-            }
-
-            @Override
-            public void onFailure(Throwable value) {
-                listener.onFailure(value);
+                }
             }
         });
-    }
-
-    public static void publishMessage(MessageBean bean, final SendMessageListener listener){
-        ins.connection.publish(ins.iMtopic, bean.message.getBytes(), QoS.AT_LEAST_ONCE, false, new Callback<Void>() {
+        ins.connection.connectionListener(new ConnectionListener() {
             @Override
-            public void onSuccess(Void value) {
-                if (listener != null) {
-                    listener.onSuccess();
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                if (IMListener != null) {
+                    IMListener.onSuccess();
                 }
             }
 
             @Override
             public void onFailure(Throwable value) {
-                if(listener!=null){
-                    listener.onFailure(value);
+                if (IMListener != null) {
+                    IMListener.onFailure(value);
                 }
             }
         });
     }
 
+    public static void init(String key){
+        Config config = new Config();
+        ins = new IMChat(new Mqtt_Connection(config));
+//        String topics = "/IM/Chat/"+key;
+//        Topic topic = new Topic(topics, QoS.AT_LEAST_ONCE);
+//        ins.topics = new Topic[]{topic};
+//        ins.connection = new Mqtt_Connection();
+    }
 
-    public void mqtt(String user, String psw){
-        MQTT mqtt = new MQTT();
+    public static void connect() {
+        ins.connection.connect();
+    }
 
-        try {
-            mqtt.setHost(Mqtt_Config.CONNECTION_STRING);
-            mqtt.setCleanSession(true);
-            mqtt.setReconnectAttemptsMax(Mqtt_Config.RECONNECTION_ATTRMPT_MAX);
-            mqtt.setReconnectDelay(Mqtt_Config.RECONNECTION_DELAY);
-            mqtt.setKeepAlive(Mqtt_Config.KEEP_ALIVE);
-            mqtt.setSendBufferSize(Mqtt_Config.SEND_BUFFER_SIZE);
-            mqtt.setUserName(user);
-            mqtt.setPassword(psw);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+    public static void addMessageListener(final MessageListener listener) {
+
+        if (ins == null) {
+            throw new NullPointerException("IMChat is not init!");
         }
+        if (ins.messageListeners == null) {
+            ins.messageListeners = new LinkedHashSet<>();
+        }
+        ins.messageListeners.add(listener);
+    }
 
-        connection = mqtt.callbackConnection();
+    public static void removeMessageListener(final MessageListener listener) {
+        if (ins == null) {
+            throw new NullPointerException("IMChat is not init!");
+        }
+        ins.messageListeners.remove(listener);
+    }
+
+    public static void setIMListener(final IMListener listener) {
+        if (ins == null) {
+            throw new NullPointerException("IMChat is not init!");
+        }
+        ins.IMListener = listener;
 
     }
+
+    public static void sendMessage(MessageBean bean, final SendMessageListener listener){
+        if (ins == null) {
+            throw new NullPointerException("IMChat is not init!");
+        }
+        SendMessage message = new SendMessage();
+        message.key = "";
+        message.body = bean.message;
+        ins.connection.sendMessage(message);
+    }
+
+
 
 
 }
