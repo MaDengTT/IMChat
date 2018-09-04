@@ -30,5 +30,6 @@ public interface AppComponent {
         @BindsInstance
         Builder application(Application application);
         AppComponent build();
+
     }
 }
