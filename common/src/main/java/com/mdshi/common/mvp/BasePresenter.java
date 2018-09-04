@@ -57,6 +57,7 @@ public class BasePresenter<M extends IModel,V extends IView> implements IPresent
     }
 
     @Override
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
 
     }

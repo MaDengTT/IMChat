@@ -3,6 +3,7 @@ package com.mdshi.common.di.component;
 import android.app.Application;
 
 import com.google.gson.Gson;
+import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.di.module.AppModule;
 import com.mdshi.common.di.module.ClientModule;
 import com.mdshi.common.image.ImageLoader;
@@ -21,6 +22,8 @@ public interface AppComponent {
     Application application();
     ImageLoader imageLoader();
     Gson gson();
+
+    MessageDao messageDao();
 
     @Component.Builder
     interface Builder{
