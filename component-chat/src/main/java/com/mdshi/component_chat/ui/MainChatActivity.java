@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.mdshi.component_chat.R;
+import com.mdshi.component_chat.ui.chatlist.ChatFragment;
 
 public class MainChatActivity extends AppCompatActivity {
 
