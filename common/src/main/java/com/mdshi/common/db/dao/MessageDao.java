@@ -1,5 +1,7 @@
 package com.mdshi.common.db.dao;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -26,6 +28,9 @@ public abstract class MessageDao {
     @Query("SELECT* FROM tb_message_list ORDER BY new_date DESC")
     public abstract Flowable<List<MessageListEntity>> getMessageListAll();
 
+    @Query("SELECT* FROM tb_message_list WHERE user_id IN(:userId) ORDER BY new_date DESC")
+    public abstract LiveData<List<MessageListEntity>> getMessageListAll(long userId);
+
     @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageNo)")
     public abstract Flowable<List<MessageEntity>> getMessageById(long id,int pageSize,int pageNo);
 
@@ -42,7 +47,7 @@ public abstract class MessageDao {
     public abstract void insertMessage(MessageEntity... messageEntities);
 
     @Insert
-    public abstract void insertMessageList(MessageListEntity messageListEntity);
+    public abstract void insertMessageList(MessageListEntity... messageListEntity);
 
     @Delete
     public abstract void deleteMessage(MessageEntity entity);

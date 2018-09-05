@@ -10,6 +10,8 @@ import android.support.annotation.ColorInt;
 
 import java.util.Date;
 
+import dagger.Component;
+
 
 /**
  * Created by MaDeng on 2018/9/3.
@@ -24,6 +26,8 @@ public class MessageListEntity {
 //    @ColumnInfo(name = "session_id")
 //    public long sessionId; //会话ID sessionType 为0时 表示好友ID+我的ID long+long 为运算
 
+    @ColumnInfo(name = "user_id")
+    public long user_Id;
 
     public long other_Id;   //对方ID
 
@@ -40,4 +44,18 @@ public class MessageListEntity {
     public int newMessageId; //最新消息ID
 //    @Embedded
 //    public MessageEntity newMessage;
+
+
+    @Override
+    public String toString() {
+        return "MessageListEntity{" +
+                "id=" + id +
+                ", user_Id=" + user_Id +
+                ", other_Id=" + other_Id +
+                ", sessionType=" + sessionType +
+                ", newDate=" + newDate +
+                ", unReadNum=" + unReadNum +
+                ", newMessageId=" + newMessageId +
+                '}';
+    }
 }

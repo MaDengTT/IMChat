@@ -1,6 +1,10 @@
 package com.mdshi.component_chat.ui;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,12 +17,22 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mdshi.common.base.BaseFragment;
+import com.mdshi.common.db.entity.MessageListEntity;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatItemAdapter;
 import com.mdshi.component_chat.bean.ChatBean;
+import com.mdshi.component_chat.di.component.DaggerChatComponent;
+
+import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.Flowable;
+import io.reactivex.functions.Function;
 
 /**
  * Created by MaDeng on 2018/8/31.
@@ -28,6 +42,10 @@ public class ChatFragment extends BaseFragment{
     private View rootView;
 
     private RecyclerView rvList;
+    @Inject
+    public ChatModel chatModel;
+    private ChatItemAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,16 +64,22 @@ public class ChatFragment extends BaseFragment{
         rvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ChatActivity.start(getActivity());
+//                ChatActivity.start(getActivity());
+                MessageListEntity entity = new MessageListEntity();
+                entity.id = SystemClock.currentThreadTimeMillis();
+                entity.user_Id = 123456;
+                entity.newDate = new Date();
+                chatModel.addChatValue(entity);
             }
         });
+        adapter = new ChatItemAdapter(null);
+        rvList.setAdapter(adapter);
     }
 
     private void initData() {
-        List<ChatBean> data = new ArrayList<>();
-        for(int i = 0;i<10;i++) {
-            data.add(new ChatBean());
-        }
-        rvList.setAdapter(new ChatItemAdapter(data));
+        DaggerChatComponent.builder().appComponent(getAppComponent()).build().inject(this);
+
+        chatModel.getChatList().observe(this, data -> adapter.setNewData(data));
+
     }
 }

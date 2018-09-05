@@ -12,7 +12,7 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig{
         if(isRunAlone){
-            applicationId rootProject.ext.android.organization + "."+componentName
+            applicationId rootProject.ext.android.applicationId + "."+componentName
             minSdkVersion rootProject.ext.android.minSdkVersion
             targetSdkVersion rootProject.ext.android.targetSdkVersion
             multiDexEnabled true

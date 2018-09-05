@@ -45,7 +45,12 @@ public class SimpleEntityReadWriteTest {
     private static final String TAG = "SimpleEntituReadWriteTe";
     @Test
     public void writeUserAndReadINlist() {
+
+        final Integer LOCK = 1;
+
         MessageEntity entity = new MessageEntity();
+
+
 
         entity.tUserId=123;
         entity.fUserId=456;
@@ -66,6 +71,7 @@ public class SimpleEntityReadWriteTest {
             public void accept(List<MessageListEntity> messageListEntities) throws Exception {
                 Log.d(TAG, "accept: "+messageListEntities.size());
                 System.out.println("a"+messageListEntities.size());
+                synchronized (LOCK){LOCK.notify();};
             }
         }/*, new Consumer<Throwable>() {
             @Override
@@ -73,5 +79,11 @@ public class SimpleEntityReadWriteTest {
                 Log.e(TAG,throwable.toString());
             }
         }*/);
+
+        try {
+            synchronized (LOCK){LOCK.wait();};
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
