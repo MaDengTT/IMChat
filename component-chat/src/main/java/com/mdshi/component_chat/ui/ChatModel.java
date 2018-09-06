@@ -46,5 +46,12 @@ public class ChatModel extends ViewModel {
        repository.addMessageList(value);
     }
 
+    public void removeChatValue(MessageListEntity value) {
+        repository.removeMessageList(value);
+    }
+
+    public void updateChatValue(MessageListEntity value) {
+        repository.updateMessageList(value);
+    }
 
 }

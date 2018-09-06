@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/chat_avatar"
+        android:id="@+id/iv_avatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <com.mdshi.component_chat.view.BubbleView
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:ChatArrowLocation="left"
+        app:ChatArrowPosition="10dp"
+        android:paddingLeft="8dp"
+        android:minHeight="20dp"
+        app:ChatArrowHeight="5dp"
+        app:ChatArrowWidth="5dp"
+        app:ChatAngle ="5dp"
+        app:ChatBubbleColor ="@color/colorPrimary"
+        android:text="aaaaaaa"
+        />
+
+</LinearLayout>

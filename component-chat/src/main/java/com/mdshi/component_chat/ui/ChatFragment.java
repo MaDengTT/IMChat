@@ -64,12 +64,7 @@ public class ChatFragment extends BaseFragment{
         rvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                ChatActivity.start(getActivity());
-                MessageListEntity entity = new MessageListEntity();
-                entity.id = SystemClock.currentThreadTimeMillis();
-                entity.user_Id = 123456;
-                entity.newDate = new Date();
-                chatModel.addChatValue(entity);
+                toActivity((MessageListEntity) adapter.getItem(position));
             }
         });
         adapter = new ChatItemAdapter(null);
@@ -81,5 +76,28 @@ public class ChatFragment extends BaseFragment{
 
         chatModel.getChatList().observe(this, data -> adapter.setNewData(data));
 
+    }
+
+    public void toActivity(MessageListEntity entity) {
+        entity.unReadNum = 0;
+        chatModel.updateChatValue(entity);
+        if (entity.sessionType == 0) {
+            ChatActivity.start(getActivity());
+        }
+    }
+
+    public void addTest() {
+        MessageListEntity entity = new MessageListEntity();
+        entity.id = SystemClock.currentThreadTimeMillis();
+        entity.user_Id = 123456;
+        entity.newDate = new Date();
+        chatModel.addChatValue(entity);
+    }
+
+    public void updateTest() {
+        MessageListEntity messageListEntity = adapter.getData().get(1);
+        messageListEntity.unReadNum++;
+        messageListEntity.newDate = new Date();
+        chatModel.updateChatValue(messageListEntity);
     }
 }

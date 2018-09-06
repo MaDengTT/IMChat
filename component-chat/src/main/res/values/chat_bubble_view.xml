@@ -1,0 +1,16 @@
+<resources>
+    <declare-styleable name="ChatBubbleView">
+        <attr name="ChatArrowWidth" format="dimension" />
+        <attr name="ChatAngle" format="dimension" />
+        <attr name="ChatArrowHeight" format="dimension" />
+        <attr name="ChatArrowPosition" format="dimension" />
+        <attr name="ChatBubbleColor" format="color"/>
+        <attr name="ChatArrowCenter" format="boolean"/>
+        <attr name="ChatArrowLocation" format="enum">
+            <enum name="left" value="0x00" />
+            <enum name="right" value="0x01" />
+            <enum name="top" value="0x02" />
+            <enum name="bottom" value="0x03" />
+        </attr>
+    </declare-styleable>
+</resources>

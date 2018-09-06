@@ -3,6 +3,7 @@ package com.mdshi.component_chat.data;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
+import android.util.Log;
 
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.entity.MessageListEntity;
@@ -37,7 +38,25 @@ public class ChatRepository {
 
     public void addMessageList(MessageListEntity entity) {
         Flowable.just(entity)
-                .observeOn(Schedulers.io())
-                .subscribe(entity1 -> dao.insertMessageList(entity));
+                .map(entity1 -> {dao.insertMessageList(entity1);return true;})
+                .subscribeOn(Schedulers.io())
+                .doOnError(error-> Log.e(TAG, "addMessageList: ",error ))
+                .subscribe();
+    }
+
+    private static final String TAG = "ChatRepository";
+    public void removeMessageList(MessageListEntity entity) {
+        Flowable.just(entity)
+                .map(entity1 -> {dao.deleteMessageList(entity1);return true;})
+                .subscribeOn(Schedulers.io())
+                .doOnError(error-> Log.e(TAG,"removeMessageList：",error))
+                .subscribe();
+    }
+
+    public void updateMessageList(MessageListEntity entity) {
+        Flowable.just(entity)
+                .map(entity1 -> {dao.updateMessageList(entity1); return true;})
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 }

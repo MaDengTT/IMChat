@@ -1,0 +1,21 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mdshi.component_chat.view.BubbleView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="#ccc"
+        android:paddingBottom="40dp"
+        android:paddingLeft="10dp"
+        app:ChatBubbleColor="#FFF"
+        app:ChatAngle="20dp"
+        app:ChatArrowLocation="right"
+        app:ChatArrowPosition="20dp"
+        app:ChatArrowHeight="10dp"
+        app:ChatArrowWidth="20dp"
+        android:text="aaaaaa"
+        />
+
+</FrameLayout>

@@ -51,6 +51,8 @@ public abstract class MessageDao {
 
     @Delete
     public abstract void deleteMessage(MessageEntity entity);
+    @Delete
+    public abstract void deleteMessageList(MessageListEntity entity);
 
     @Update
     public abstract void updateMessageList(MessageListEntity entity);
