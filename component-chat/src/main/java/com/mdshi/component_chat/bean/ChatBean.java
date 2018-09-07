@@ -6,7 +6,9 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * Created by MaDeng on 2018/9/3.
  */
 public class ChatBean implements MultiItemEntity {
-    
+
+    public long session_id;
+
     public enum Type {
         TEXT_L,
         TEXT_R,
@@ -21,6 +23,8 @@ public class ChatBean implements MultiItemEntity {
     }
 
     public Type type;
+
+    public String content;
 
     @Override
     public int getItemType() {

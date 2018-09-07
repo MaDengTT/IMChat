@@ -15,6 +15,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat_list"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp" />
@@ -29,10 +30,12 @@
             android:layout_width="match_parent"
             android:layout_height="45dp">
             <EditText
+                android:id="@+id/ed_chat"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
             <Button
+                android:id="@+id/but_send"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="发送"

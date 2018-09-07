@@ -22,6 +22,7 @@ public class ChatMessageAdapter extends BaseMultiItemQuickAdapter<ChatBean,BaseV
         super(data);
 //        addItemType();
         addItemType(ChatBean.Type.TEXT_L.ordinal(), R.layout.chat_left_msg_text_item);
+        addItemType(ChatBean.Type.TEXT_R.ordinal(), R.layout.chat_right_msg_text_item);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class ChatMessageAdapter extends BaseMultiItemQuickAdapter<ChatBean,BaseV
         switch (item.type) {
             case TEXT_R:
             case TEXT_L:
-
+                helper.setText(R.id.bv_msg_content, item.content);
                 break;
         }
     }

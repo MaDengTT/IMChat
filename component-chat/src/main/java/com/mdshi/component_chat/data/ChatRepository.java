@@ -2,19 +2,15 @@ package com.mdshi.component_chat.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
 import android.util.Log;
 
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
-import com.mdshi.component_chat.bean.ChatBean;
 
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -58,5 +54,14 @@ public class ChatRepository {
                 .map(entity1 -> {dao.updateMessageList(entity1); return true;})
                 .subscribeOn(Schedulers.io())
                 .subscribe();
+    }
+
+
+    public Flowable<List<MessageEntity>> getChatMessageList(long id, int pageSize, int pageNo) {
+        return dao.getMessageById(id, pageSize, pageNo);
+    }
+
+    public void addMessage(MessageEntity messageEntity) {
+        dao.insertMessage(messageEntity);
     }
 }
