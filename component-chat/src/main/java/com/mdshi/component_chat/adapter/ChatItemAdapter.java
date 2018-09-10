@@ -22,6 +22,7 @@ public class ChatItemAdapter extends BaseQuickAdapter<MessageListEntity,BaseView
     @Override
     protected void convert(BaseViewHolder helper, MessageListEntity item) {
         helper.setText(R.id.tv_tips, item.unReadNum+"")
-                .setText(R.id.tv_chat_time, TimeUtils.date2String(item.newDate));
+                .setText(R.id.tv_chat_time, TimeUtils.date2String(item.newDate))
+        .setText(R.id.tv_chat_new,item.newMessageContent);
     }
 }

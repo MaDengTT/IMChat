@@ -3,10 +3,12 @@ package com.mdshi.component_chat.di.component;
 import com.mdshi.common.di.component.AppComponent;
 import com.mdshi.common.di.scope.ActivityScope;
 import com.mdshi.component_chat.di.module.ChatModule;
+import com.mdshi.component_chat.ui.ChatActivity;
 import com.mdshi.component_chat.ui.ChatFragment;
 import com.mdshi.component_chat.ui.ChatModel;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import dagger.Component;
 
@@ -18,6 +20,8 @@ import dagger.Component;
 public interface ChatComponent {
 
     void inject(ChatFragment fragment);
+
+    void inject(ChatActivity activity);
     ChatModel chatModel();
 
 }

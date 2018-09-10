@@ -31,14 +31,19 @@ public abstract class MessageDao {
     @Query("SELECT* FROM tb_message_list WHERE user_id IN(:userId) ORDER BY new_date DESC")
     public abstract LiveData<List<MessageListEntity>> getMessageListAll(long userId);
 
-    @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageNo)")
-    public abstract Flowable<List<MessageEntity>> getMessageById(long id,int pageSize,int pageNo);
+    @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageSize-1)*(:pageNo)")
+    public abstract Flowable<List<MessageEntity>> getMessageToFlowableById(long id,int pageSize,int pageNo);
+
+    @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageSize-1)*(:pageNo)")
+    public abstract List<MessageEntity> getMessageById(long id,int pageSize,int pageNo);
+
 
     @Query("SELECT * From tb_message_list WHERE other_Id IN(:userID) LIMIT 1")
     public abstract Flowable<MessageListEntity> getMsgListByUserID(long userID);
 
+    //根据会话ID获取条目
     @Query("SELECT * From tb_message_list WHERE id IN(:sessionId) LIMIT 1")
-    public abstract Flowable<MessageListEntity> getMsgListBySessionID(long sessionId);
+    public abstract MessageListEntity getMsgListBySessionID(long sessionId);
 
     @Query("SELECT * from tb_message WHERE session_id IN(:sessionId)ORDER BY create_time DESC LIMIT 1")
     public abstract Flowable<MessageEntity> getMsgByNewDate(long sessionId);
@@ -57,40 +62,40 @@ public abstract class MessageDao {
     @Update
     public abstract void updateMessageList(MessageListEntity entity);
 
-    @Transaction
-    public void insertMessageUpdateMessageList(final MessageEntity msg){
-        getMsgListBySessionID(msg.session_id)
-                .flatMap(new Function<MessageListEntity, Publisher<Long>>() {
-                    @Override
-                    public Publisher<Long> apply(MessageListEntity messageListEntity) throws Exception {
-                        if (messageListEntity == null) {
-                            MessageListEntity listEntity = new MessageListEntity();
-                            listEntity.id=msg.session_id;
-                            listEntity.other_Id = msg.other_id;
-                            listEntity.sessionType = 0;
-                            listEntity.unReadNum = 0;
-                            insertMessageList(listEntity);
-                            return Flowable.just(msg.session_id);
-                        }
-                        return Flowable.just(messageListEntity.id);
-                    }
-                }).flatMap(new Function<Long, Publisher<MessageEntity>>() {
-                    @Override
-                    public Publisher<MessageEntity> apply(Long aLong) throws Exception {
-                        insertMessage(msg);
-                        return getMsgByNewDate(aLong);
-                    }
-                }).map(new Function<MessageEntity, Boolean>() {
-                    @Override
-                    public Boolean apply(MessageEntity value) throws Exception {
-                        MessageListEntity listEntity = new MessageListEntity();
-                        listEntity.id = msg.session_id;
-                        listEntity.newDate = value.createTime;
-                        listEntity.newMessageId = value.id;
-                        updateMessageList(listEntity);
-                        return true;
-                    }
-                }).subscribe();
-    }
+//    @Transaction
+//    public void insertMessageUpdateMessageList(final MessageEntity msg){
+//        getMsgListBySessionID(msg.session_id)
+//                .flatMap(new Function<MessageListEntity, Publisher<Long>>() {
+//                    @Override
+//                    public Publisher<Long> apply(MessageListEntity messageListEntity) throws Exception {
+//                        if (messageListEntity == null) {
+//                            MessageListEntity listEntity = new MessageListEntity();
+//                            listEntity.id=msg.session_id;
+//                            listEntity.other_Id = msg.other_id;
+//                            listEntity.sessionType = 0;
+//                            listEntity.unReadNum = 0;
+//                            insertMessageList(listEntity);
+//                            return Flowable.just(msg.session_id);
+//                        }
+//                        return Flowable.just(messageListEntity.id);
+//                    }
+//                }).flatMap(new Function<Long, Publisher<MessageEntity>>() {
+//                    @Override
+//                    public Publisher<MessageEntity> apply(Long aLong) throws Exception {
+//                        insertMessage(msg);
+//                        return getMsgByNewDate(aLong);
+//                    }
+//                }).map(new Function<MessageEntity, Boolean>() {
+//                    @Override
+//                    public Boolean apply(MessageEntity value) throws Exception {
+//                        MessageListEntity listEntity = new MessageListEntity();
+//                        listEntity.id = msg.session_id;
+//                        listEntity.newDate = value.createTime;
+//                        listEntity.newMessageId = value.id;
+//                        updateMessageList(listEntity);
+//                        return true;
+//                    }
+//                }).subscribe();
+//    }
 
 }

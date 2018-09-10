@@ -4,12 +4,15 @@ import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.component_chat.data.ChatRepository;
 import com.mdshi.component_chat.ui.ChatModel;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
 /**
  * Created by MaDeng on 2018/9/5.
  */
+
 @Module
 public class ChatModule {
 

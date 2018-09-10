@@ -42,10 +42,27 @@ public class MessageListEntity {
 
     @ColumnInfo(name = "new_message_id")
     public int newMessageId; //最新消息ID
+
+    @ColumnInfo(name = "new_message_content")
+    public String newMessageContent;
 //    @Embedded
 //    public MessageEntity newMessage;
 
+    public void createBean(long id, long user_Id, long other_Id, int sessionType) {
 
+        this.id = id;
+        this.user_Id = user_Id;
+        this.other_Id = other_Id;
+        this.sessionType = sessionType;
+        unReadNum = 0;
+    }
+
+    public void updateBean(Date newDate, int newMessageId,String newMessageContent) {
+        this.newDate = newDate;
+        this.newMessageId = newMessageId;
+        this.newMessageContent = newMessageContent;
+        unReadNum++;
+    }
     @Override
     public String toString() {
         return "MessageListEntity{" +

@@ -22,8 +22,9 @@ import java.util.Date;
         )} //外键 消息列表ID
 
 )
+
 public class MessageEntity {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;    //id
 
     @ColumnInfo(name = "from_user_id")

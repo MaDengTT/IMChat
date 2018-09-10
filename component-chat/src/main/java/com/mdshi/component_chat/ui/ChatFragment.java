@@ -82,7 +82,7 @@ public class ChatFragment extends BaseFragment{
         entity.unReadNum = 0;
         chatModel.updateChatValue(entity);
         if (entity.sessionType == 0) {
-            ChatActivity.start(getActivity());
+            ChatActivity.start(getActivity(),entity.id);
         }
     }
 

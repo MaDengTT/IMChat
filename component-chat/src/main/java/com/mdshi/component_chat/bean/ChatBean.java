@@ -2,6 +2,8 @@ package com.mdshi.component_chat.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.util.Date;
+
 /**
  * Created by MaDeng on 2018/9/3.
  */
@@ -25,6 +27,8 @@ public class ChatBean implements MultiItemEntity {
     public Type type;
 
     public String content;
+
+    public Date date;
 
     @Override
     public int getItemType() {
