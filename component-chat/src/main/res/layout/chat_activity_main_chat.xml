@@ -28,6 +28,12 @@
             android:layout_height="wrap_content"
             android:text="update"
             />
+        <Button
+            android:id="@+id/but_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="accept"
+            />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

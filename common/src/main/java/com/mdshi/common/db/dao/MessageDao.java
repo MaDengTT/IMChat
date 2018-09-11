@@ -62,6 +62,12 @@ public abstract class MessageDao {
     @Update
     public abstract void updateMessageList(MessageListEntity entity);
 
+    @Transaction
+    public void insertMessageListAndMessage(MessageListEntity entity, MessageEntity entity2) {
+        insertMessageList(entity);
+        insertMessage(entity2);
+    }
+
 //    @Transaction
 //    public void insertMessageUpdateMessageList(final MessageEntity msg){
 //        getMsgListBySessionID(msg.session_id)

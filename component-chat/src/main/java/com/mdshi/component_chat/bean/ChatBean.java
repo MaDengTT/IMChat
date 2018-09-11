@@ -30,6 +30,8 @@ public class ChatBean implements MultiItemEntity {
 
     public Date date;
 
+
+
     @Override
     public int getItemType() {
         return type.ordinal();

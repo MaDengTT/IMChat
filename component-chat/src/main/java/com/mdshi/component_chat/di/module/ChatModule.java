@@ -1,8 +1,11 @@
 package com.mdshi.component_chat.di.module;
 
+import android.arch.persistence.room.PrimaryKey;
+
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.component_chat.data.ChatRepository;
 import com.mdshi.component_chat.ui.ChatModel;
+import com.mdshi.component_chat.ui.chat.ChatActivityModel;
 
 import javax.inject.Singleton;
 

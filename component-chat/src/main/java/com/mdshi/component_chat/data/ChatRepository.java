@@ -7,13 +7,18 @@ import android.util.Log;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
+import com.mdshi.component_chat.bean.ChatBean;
 
 import org.reactivestreams.Publisher;
 
 import java.util.List;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -23,6 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ChatRepository {
 
     MessageDao dao;
+    private MutableLiveData<List<MessageEntity>> chatData;
 
     public ChatRepository(MessageDao dao) {
         this.dao = dao;
@@ -30,11 +36,24 @@ public class ChatRepository {
 
     public LiveData<List<MessageListEntity>> getChatBean(long userId) {
         LiveData<List<MessageListEntity>> data = new MutableLiveData<>();
-
         data = dao.getMessageListAll(userId);
-
         return data;
     }
+
+    public LiveData<List<MessageEntity>> getChatListData(long sessionId) {
+        return null;
+    }
+    public LiveData<List<MessageEntity>> getChatListData(long sessionId,int pageSize,int pageNo) {
+
+        if (chatData == null) {
+            chatData = new MutableLiveData<>();
+        }
+        getChatMessageList(sessionId,pageSize,pageNo)
+                .subscribe(messageEntities -> chatData.setValue(messageEntities)
+                ,error->{ chatData.setValue(null);Log.e(TAG, "getChatListData: ",error);});
+        return chatData;
+    }
+
 
     public void addMessageList(MessageListEntity entity) {
         Flowable.just(entity)
@@ -63,6 +82,9 @@ public class ChatRepository {
     public Flowable<MessageListEntity> getChatMessageListToSessionId(long id) {
         return Flowable.just(id).flatMap((Function<Long, Publisher<MessageListEntity>>) aLong -> {
             MessageListEntity msgListBySessionID = dao.getMsgListBySessionID(aLong);
+            if (msgListBySessionID == null) {
+                msgListBySessionID = new MessageListEntity();
+            }
             return Flowable.just(msgListBySessionID);
         }).subscribeOn(Schedulers.io());
     }
@@ -78,5 +100,8 @@ public class ChatRepository {
 
     public void addMessage(MessageEntity messageEntity) {
         dao.insertMessage(messageEntity);
+    }
+    public void addNewListMessage(MessageListEntity listEntity,MessageEntity messageEntity) {
+        dao.insertMessageListAndMessage(listEntity,messageEntity);
     }
 }

@@ -6,6 +6,7 @@ import com.mdshi.component_chat.di.module.ChatModule;
 import com.mdshi.component_chat.ui.ChatActivity;
 import com.mdshi.component_chat.ui.ChatFragment;
 import com.mdshi.component_chat.ui.ChatModel;
+import com.mdshi.component_chat.ui.chat.ChatActivityModel;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,5 +24,5 @@ public interface ChatComponent {
 
     void inject(ChatActivity activity);
     ChatModel chatModel();
-
+    ChatActivityModel chatActivityModel();
 }

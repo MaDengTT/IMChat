@@ -10,10 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.mdshi.common.base.BaseActivity;
+import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatMessageAdapter;
 import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.di.component.DaggerChatComponent;
+import com.mdshi.component_chat.listener.ChatListener;
+import com.mdshi.component_chat.ui.chat.ChatActivityModel;
 
 import java.util.Date;
 import java.util.List;
@@ -28,10 +31,14 @@ public class ChatActivity extends BaseActivity {
     EditText edChat;
     Button butSend;
 
+
     @Inject
-    ChatModel chatModel;
+    ChatActivityModel model;
 
     private long session_id;
+    private int pageSize = 10;
+    private int pageNo = 0;
+
     public static void start(Context context,long session_id) {
         Intent starter = new Intent(context, ChatActivity.class);
         starter.putExtra("session_id",session_id);
@@ -44,18 +51,25 @@ public class ChatActivity extends BaseActivity {
         setContentView(R.layout.chat_activity_chat);
         DaggerChatComponent.builder().appComponent(getAppComponent()).build().inject(this);
         session_id = getIntent().getLongExtra("session_id", 0);
-        chatModel.registerChatListener(session_id, bean -> addChatMessage(bean));
         initView();
         initData();
     }
 
     private void initData() {
-        chatModel.getChatMsgData(session_id, 10, 0)
-                .subscribe(list-> adapter.setNewData(list), error-> Log.e(TAG, "initData: ",error ));
+//        chatModel.getChatMsgData(session_id, 10, 0)
+//                .subscribe(list-> adapter.setNewData(list), error-> Log.e(TAG, "initData: ",error ));
+        model.getData(session_id)
+                .observe(this,data->addChatMessage(data));
+        model.getData(session_id,pageSize,pageNo)
+                .observe(this,datalist->setData(datalist));
     }
 
     private void setData(List<ChatBean> list) {
-        adapter.setNewData(list);
+        if (pageNo == 0) {
+            adapter.setNewData(list);
+        }else {
+            adapter.addData(list);
+        }
     }
 
     public void addChatMessage(ChatBean newMsg) {
@@ -77,7 +91,7 @@ public class ChatActivity extends BaseActivity {
             bean.type = ChatBean.Type.TEXT_R;
             bean.content = edChat.getText().toString();
             bean.session_id = session_id;
-            chatModel.addMsgChatData(bean).doOnError(error-> Log.e(TAG, "initView: ",error )).subscribe();
+            model.addMsgChatData(bean);
         });
 
         LinearLayoutManager llm = new LinearLayoutManager(this);

@@ -192,6 +192,9 @@ public final class TimeUtils {
    * @return 时间字符串
    */
   public static String date2String(final Date date, final DateFormat format) {
+    if (date == null) {
+      return "";
+    }
     return format.format(date);
   }
 

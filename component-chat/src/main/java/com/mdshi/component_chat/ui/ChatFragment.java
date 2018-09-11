@@ -1,8 +1,6 @@
 package com.mdshi.component_chat.ui;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -18,21 +16,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mdshi.common.base.BaseFragment;
 import com.mdshi.common.db.entity.MessageListEntity;
+import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatItemAdapter;
-import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.di.component.DaggerChatComponent;
 
-import org.reactivestreams.Publisher;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
-import io.reactivex.functions.Function;
+
 
 /**
  * Created by MaDeng on 2018/8/31.
@@ -76,6 +70,19 @@ public class ChatFragment extends BaseFragment{
 
         chatModel.getChatList().observe(this, data -> adapter.setNewData(data));
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ChatManager.getIns().registerListListener(bean -> true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ChatManager.getIns().unregisterChatListener(bean -> false);
     }
 
     public void toActivity(MessageListEntity entity) {
@@ -100,4 +107,6 @@ public class ChatFragment extends BaseFragment{
         messageListEntity.newDate = new Date();
         chatModel.updateChatValue(messageListEntity);
     }
+
+
 }
