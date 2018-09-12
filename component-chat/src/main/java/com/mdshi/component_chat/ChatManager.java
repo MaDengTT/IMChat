@@ -10,9 +10,9 @@ public class ChatManager {
 
     private static ChatManager ins;
 
-    ChatListener listListener;
-    ChatListener notifierListener;
-    ChatListener chatListener;
+    private ChatListener listListener;
+    private ChatListener notifierListener;
+    private ChatListener chatListener;
     private ChatManager() {
 
     }

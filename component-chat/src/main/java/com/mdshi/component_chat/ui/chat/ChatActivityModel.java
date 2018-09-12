@@ -22,7 +22,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -98,24 +97,10 @@ public class ChatActivityModel extends ViewModel{
     }
 
     public void addMsgChatData(ChatBean bean) {
-        //TODO 1,   存入数据库
-        //TODO 2,   如果是聊天页，是否ID相同，相同直接推送聊天页，不然则发送通知，
-        //          如果是信息表页不发送通知
-        //          如果在后台发送通知
         Flowable.just(bean)
                 .map(bean12 -> chatBean2MessageEntity(bean12))
                 .flatMap((io.reactivex.functions.Function<MessageEntity, Publisher<ChatBean>>) messageEntity -> addMegToDB(messageEntity, bean))
                 .map(bean1 -> {
-//                    if (ChatModel.this.chatListListener != null) {
-//                        ChatModel.this.chatListListener.callback(bean1);
-//                    }else {
-//                        ChatListener chatListener = ChatModel.this.chatListener.get(bean1.session_id);
-//                        if ( chatListener!= null) {
-//                            chatListener.callback(bean1);
-//                        }else {
-//                            notificationListener.callback(bean1);
-//                        }
-//                    }
                     newData.setValue(bean1);
                     return bean1;
                 }).subscribe();
