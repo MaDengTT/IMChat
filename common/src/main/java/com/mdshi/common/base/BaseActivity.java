@@ -1,6 +1,8 @@
 package com.mdshi.common.base;
 
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.mdshi.common.di.component.AppComponent;
 
@@ -14,5 +16,12 @@ public class BaseActivity extends AppCompatActivity{
         }else {
             return null;
         }
+    }
+
+    protected void toast(String msg) {
+        if (TextUtils.isEmpty(msg)) {
+            return;
+        }
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

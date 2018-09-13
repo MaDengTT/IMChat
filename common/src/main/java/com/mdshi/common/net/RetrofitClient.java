@@ -37,7 +37,7 @@ public class RetrofitClient {
 
 
 
-    public static <T> T createService(Class<T> serviceClass, final Context context, String baseUrl) {
+    public static Retrofit createService(final Context context, String baseUrl) {
         if (mRetrofit == null) {
             File httpCacheDirectory = new File(context.getCacheDir().getAbsolutePath(), HTTP_CACHE_FILENAME);
 
@@ -100,7 +100,7 @@ public class RetrofitClient {
             mRetrofit = retrofitBuilder.client(okHttpClient)
                     .build();
         }
-        return mRetrofit.create(serviceClass);
+        return mRetrofit;
     }
 
     public static Converter.Factory getGsonConverterFactory() {

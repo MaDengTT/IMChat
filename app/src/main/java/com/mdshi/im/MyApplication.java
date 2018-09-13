@@ -19,7 +19,7 @@ public class MyApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         appComponent = DaggerAppComponent.builder().application(this).build();
-        ininIMChat();
+//        ininIMChat();
     }
 
     private void ininIMChat() {

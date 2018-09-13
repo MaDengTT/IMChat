@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.di.module.AppModule;
 import com.mdshi.common.di.module.ClientModule;
 import com.mdshi.common.image.ImageLoader;
@@ -12,6 +13,7 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import retrofit2.Retrofit;
 
 /**
  * Created by MaDeng on 2018/8/31.
@@ -24,6 +26,10 @@ public interface AppComponent {
     Gson gson();
 
     MessageDao messageDao();
+
+    UserDao userDao();
+
+    Retrofit retrofit();
 
     @Component.Builder
     interface Builder{
