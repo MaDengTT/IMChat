@@ -6,12 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:background="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="45dp">
-
-    </RelativeLayout>
+    <include layout="@layout/title_layout" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -24,6 +19,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.userui.LoginActivity">
+
+            <TextView
+                android:id="@+id/tv_register"
+                app:layout_constraintBottom_toTopOf="@+id/ed_name"
+                app:layout_constraintRight_toRightOf="@+id/ed_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册"
+                />
 
             <EditText
                 android:layout_marginRight="32dp"

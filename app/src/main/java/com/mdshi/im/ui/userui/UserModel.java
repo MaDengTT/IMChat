@@ -4,17 +4,12 @@ import android.arch.lifecycle.ViewModel;
 
 import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.db.entity.UserEntity;
+import com.mdshi.common.rx.RxUtils;
 import com.mdshi.im.data.UserRepository;
-
-import org.reactivestreams.Publisher;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.HttpException;
 
 /**
  * Created by MaDeng on 2018/9/13.
@@ -30,16 +25,15 @@ public class UserModel extends ViewModel {
 
     public Flowable<BaseBean<UserEntity>> login(String phone, String email, String password) {
         return repository.login(phone,email,password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorReturn(throwable -> {
-                    BaseBean bean = new BaseBean();
-                    if (throwable instanceof HttpException) {
-                        bean.code = 404;
-                        bean.message = "网络异常";
-                    }
-                    return bean;
-                });
+                .compose(RxUtils.switchMainThread())
+                .onErrorReturn(RxUtils.baseBeanThrowable());
+    }
+
+
+    public Flowable<BaseBean<UserEntity>> register(String phone, String email, String password) {
+        return repository.register(phone,email,password)
+                .compose(RxUtils.switchMainThread())
+                .onErrorReturn(RxUtils.baseBeanThrowable());
     }
 
 

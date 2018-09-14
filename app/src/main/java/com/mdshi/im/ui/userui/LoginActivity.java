@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mdshi.common.base.BaseActivity;
 import com.mdshi.common.base.BaseBean;
@@ -15,6 +16,8 @@ import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.utils.RegexUtils;
 import com.mdshi.im.R;
 import com.mdshi.im.di.component.DaggerMainComponent;
+import com.mdshi.im.ui.MainActivity;
+import com.mdshi.im.ui.NavigationActivity;
 
 import javax.inject.Inject;
 
@@ -24,6 +27,7 @@ import io.reactivex.disposables.Disposable;
 
 public class LoginActivity extends BaseActivity {
 
+    TextView tvRegister;
     Button butLogin;
     EditText edName, edPassword;
     @Inject
@@ -46,10 +50,11 @@ public class LoginActivity extends BaseActivity {
         butLogin = findViewById(R.id.but_login);
         edName = findViewById(R.id.ed_name);
         edPassword = findViewById(R.id.ed_password);
+        tvRegister = findViewById(R.id.tv_register);
 
-        butLogin.setOnClickListener(v -> {
-            login(edName.getText().toString().trim(), edPassword.getText().toString());
-        });
+        butLogin.setOnClickListener(v -> login(edName.getText().toString().trim(), edPassword.getText().toString()));
+//        tvRegister.setOnClickListener(v -> RegisterActivity.start(this));
+        tvRegister.setOnClickListener(v-> NavigationActivity.start(this));
     }
 
     private static final String TAG = "LoginActivity";
@@ -73,10 +78,11 @@ public class LoginActivity extends BaseActivity {
         Disposable disposable = login.subscribe(userEntityBaseBean -> {
             Log.d(TAG, "onNext: " + userEntityBaseBean.toString());
             if (userEntityBaseBean.isSuccess()) {
-
+                MainActivity.start(this);
             } else {
                 toast(userEntityBaseBean.message);
             }
         }, throwable -> Log.e(TAG, "login: ", throwable));
+        addDisposable(disposable);
     }
 }

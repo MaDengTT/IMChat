@@ -1,18 +1,14 @@
 package com.mdshi.im.data;
 
-import android.arch.lifecycle.LiveData;
-
 import com.mdshi.common.base.BaseBean;
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.UserEntity;
-
-import org.reactivestreams.Publisher;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.functions.Function;
+
 import retrofit2.Retrofit;
 
 /**
@@ -24,15 +20,16 @@ public class UserRepository {
     UserService service;
     UserData userData;
     @Inject
-    public UserRepository(UserDao dao, Retrofit retrofit) {
+    public UserRepository(UserDao dao, Retrofit retrofit,UserData userData) {
         this.dao = dao;
+        this.userData = userData;
         service = retrofit.create(UserService.class);
     }
 
     public Flowable<BaseBean<UserEntity>> login(String phone, String email, String password) {
         return service.login(phone, email, password).flatMap(userEntityBaseBean -> {
             if (userEntityBaseBean.isSuccess()) {
-                UserEntity user = dao.getUser(userEntityBaseBean.data.id);
+                UserEntity user = dao.getUser(userEntityBaseBean.data.userID);
                 if (user != null) {
                     dao.updateUser(userEntityBaseBean.data);
                 }else {
@@ -44,11 +41,16 @@ public class UserRepository {
         });
     }
 
-    public UserData getUserData() {
-        if (userData == null) {
-            userData = new UserData();
-        }
-        return userData;
+    public Flowable<BaseBean<UserEntity>> register(String phone, String email, String password) {
+        return service.register(phone, email, password).flatMap(userEntityBaseBean -> {
+            if (userEntityBaseBean.isSuccess()) {
+                dao.insertUser(userEntityBaseBean.data);
+                userData.postValue(userEntityBaseBean.data);
+            }
+            return Flowable.just(userEntityBaseBean);
+        });
     }
+
+
 
 }

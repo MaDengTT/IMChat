@@ -19,5 +19,10 @@ public interface UserService {
     Flowable<BaseBean<UserEntity>> login(@Field("phone") String phone,
                                            @Field("email")String email,
                                            @Field("password")String password);
+    @FormUrlEncoded
+    @POST("/user/register")
+    Flowable<BaseBean<UserEntity>> register(@Field("phone") String phone,
+                                           @Field("email")String email,
+                                           @Field("password")String password);
 
 }
