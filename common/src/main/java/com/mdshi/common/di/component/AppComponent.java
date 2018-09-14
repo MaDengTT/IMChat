@@ -3,6 +3,7 @@ package com.mdshi.common.di.component;
 import android.app.Application;
 
 import com.google.gson.Gson;
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.di.module.AppModule;
@@ -30,6 +31,8 @@ public interface AppComponent {
     UserDao userDao();
 
     Retrofit retrofit();
+
+    UserData userData();
 
     @Component.Builder
     interface Builder{

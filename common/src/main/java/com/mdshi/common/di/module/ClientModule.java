@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.IMDataBase;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.dao.UserDao;
@@ -55,4 +56,9 @@ public class ClientModule {
         return RetrofitClient.createService(context,"http://www.mdshi.cn:8081");
     }
 
+    @Singleton
+    @Provides
+    public UserData provideUserData() {
+        return new UserData();
+    }
 }

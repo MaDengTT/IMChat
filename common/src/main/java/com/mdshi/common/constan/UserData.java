@@ -1,4 +1,4 @@
-package com.mdshi.im.data;
+package com.mdshi.common.constan;
 
 import android.arch.lifecycle.LiveData;
 
@@ -15,12 +15,12 @@ public class UserData extends LiveData<UserEntity> {
     }
 
     @Override
-    protected void postValue(UserEntity value) {
+    public void postValue(UserEntity value) {
         super.postValue(value);
     }
 
     @Override
-    protected void setValue(UserEntity value) {
+    public void setValue(UserEntity value) {
         super.setValue(value);
     }
 

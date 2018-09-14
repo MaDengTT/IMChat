@@ -1,5 +1,6 @@
 package com.mdshi.common.db.entity;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -9,10 +10,13 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "tb_user")
 public class UserEntity {
     @PrimaryKey
-    public long id;
+    @ColumnInfo(name = "id")
+    public long userID;
+
+    @ColumnInfo(name = "name")
+    public String userName;
 
     public String email;
     public String phone;
-    public String name;
     public String avatar;
 }
