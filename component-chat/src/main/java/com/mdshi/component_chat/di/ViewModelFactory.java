@@ -45,4 +45,6 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         }
         return null;
     }
+    // https://github.com/googlesamples/android-architecture-components/tree/master/GithubBrowserSample/app/src/main/java/com/android/example/github/di
+    //  TODO https://github.com/googlesamples/android-architecture-components/issues/141
 }
