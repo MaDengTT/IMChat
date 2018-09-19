@@ -5,6 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 
+import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.MessageEntity;
@@ -20,4 +21,6 @@ public abstract class IMDataBase extends RoomDatabase {
     public abstract MessageDao messageDao();
 
     public abstract UserDao userDao();
+
+    public abstract ContactsDao contactsDao();
 }
