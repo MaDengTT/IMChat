@@ -2,6 +2,8 @@ package com.mdshi.component_chat.ui.contacts;
 
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,8 @@ import com.mdshi.component_chat.adapter.ContactsAdapter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 
 public class ContactsFragment extends BaseFragment {
 
@@ -24,6 +28,9 @@ public class ContactsFragment extends BaseFragment {
 
     ContactsModel model;
     ContactsAdapter adapter;
+
+    @Inject
+    ViewModelProvider.Factory factory;
 
     public static ContactsFragment newInstance(String param1, String param2) {
         ContactsFragment fragment = new ContactsFragment();
@@ -34,6 +41,7 @@ public class ContactsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.chat_fragment_contacts, container, false);
+        model = ViewModelProviders.of(this, factory).get(ContactsModel.class);
         initView();
         initData();
         return root;

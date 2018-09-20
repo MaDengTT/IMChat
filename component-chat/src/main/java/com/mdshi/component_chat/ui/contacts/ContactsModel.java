@@ -1,6 +1,7 @@
 package com.mdshi.component_chat.ui.contacts;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModel;
 
 import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.component_chat.data.ContactsRepository;
@@ -12,7 +13,7 @@ import javax.inject.Inject;
 /**
  * Created by MaDeng on 2018/9/19.
  */
-public class ContactsModel {
+public class ContactsModel extends ViewModel{
 
     ContactsRepository repository;
     private long userid;

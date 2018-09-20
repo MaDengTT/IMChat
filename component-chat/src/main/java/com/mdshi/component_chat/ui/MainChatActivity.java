@@ -8,18 +8,23 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.mdshi.common.base.BaseActivity;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.bean.ChatBean;
+import com.mdshi.component_chat.ui.contacts.ContactsFragment;
 
 import java.util.Date;
 
-public class MainChatActivity extends AppCompatActivity {
+public class MainChatActivity extends BaseActivity {
 
     FrameLayout layout;
 
-    Button add,update,accept;
+    Button add,update,accept,butSwitch;
     private ChatFragment chatFragment;
+    private ContactsFragment contactsFragment;
+
+    int page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +35,10 @@ public class MainChatActivity extends AppCompatActivity {
     }
 
     private void setFragment() {
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-
         chatFragment = new ChatFragment();
-
-        fragmentTransaction.add(R.id.framelayout, chatFragment).commit();
+//        contactsFragment = ContactsFragment.newInstance("","");
+//        getSupportFragmentManager().beginTransaction().add(R.id.framelayout,contactsFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.framelayout, chatFragment).commit();
     }
 
     private void initView() {
@@ -43,6 +46,15 @@ public class MainChatActivity extends AppCompatActivity {
         add = findViewById(R.id.but_add);
         update = findViewById(R.id.but_update);
         accept = findViewById(R.id.but_accept);
+//
+//        findViewById(R.id.but_switch)
+//                .setOnClickListener(v -> {
+//                    if (page % 2 == 0) {
+//                        getSupportFragmentManager().beginTransaction().hide(contactsFragment).show(chatFragment).commit();
+//                    }else {
+//                        getSupportFragmentManager().beginTransaction().hide(chatFragment).show(contactsFragment).commit();
+//                    }
+//                });
 
         add.setOnClickListener(v -> chatFragment.addTest());
         update.setOnClickListener(v->chatFragment.updateTest());

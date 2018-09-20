@@ -1,5 +1,7 @@
 package com.mdshi.component_chat.ui;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.mdshi.common.base.BaseActivity;
-import com.mdshi.component_chat.ChatManager;
+
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatMessageAdapter;
 import com.mdshi.component_chat.bean.ChatBean;
-import com.mdshi.component_chat.di.component.DaggerChatComponent;
-import com.mdshi.component_chat.listener.ChatListener;
+
 import com.mdshi.component_chat.ui.chat.ChatActivityModel;
 
 import java.util.Date;
@@ -31,8 +32,9 @@ public class ChatActivity extends BaseActivity {
     EditText edChat;
     Button butSend;
 
-
     @Inject
+    ViewModelProvider.Factory factory;
+
     ChatActivityModel model;
 
     private long session_id;
@@ -49,7 +51,7 @@ public class ChatActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity_chat);
-        DaggerChatComponent.builder().appComponent(getAppComponent()).build().inject(this);
+        model = ViewModelProviders.of(this, factory).get(ChatActivityModel.class);
         session_id = getIntent().getLongExtra("session_id", 0);
         initView();
         initData();

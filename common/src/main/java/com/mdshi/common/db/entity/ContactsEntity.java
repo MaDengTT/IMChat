@@ -13,7 +13,6 @@ import android.arch.persistence.room.PrimaryKey;
         foreignKeys = {@ForeignKey(entity = UserEntity.class,
                 parentColumns = "id",childColumns = "userid",onDelete = ForeignKey.CASCADE
         )} //外键 消息列表ID
-
 )
 public class ContactsEntity {
 

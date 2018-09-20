@@ -1,18 +1,29 @@
 package com.mdshi.common.base;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.mdshi.common.di.component.AppComponent;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
  * Created by MaDeng on 2018/8/31.
  */
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     CompositeDisposable cDisposable;
 
@@ -25,7 +36,7 @@ public class BaseActivity extends AppCompatActivity{
 
     protected AppComponent getAppComponent(){
         if(getApplication() instanceof BaseApplication){
-            return ((BaseApplication)getApplication()).AppComponent();
+            return ((BaseApplication)getApplication()).appComponent();
         }else {
             return null;
         }
@@ -44,5 +55,10 @@ public class BaseActivity extends AppCompatActivity{
             cDisposable.clear();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }
