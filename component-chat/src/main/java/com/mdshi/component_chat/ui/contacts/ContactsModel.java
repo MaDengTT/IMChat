@@ -30,4 +30,8 @@ public class ContactsModel extends ViewModel{
     public void addContacts(long contactsId) {
         repository.addContacts(new ContactsEntity());
     }
+
+    public void removeContacts(long contactsId){
+
+    }
 }

@@ -33,6 +33,9 @@ public class ChatActivityModel extends ViewModel{
     long userid = 123456;
     LiveData<List<ChatBean>> data;
     MutableLiveData<ChatBean> newData;
+
+
+
     @Inject
     public ChatActivityModel(ChatRepository repository ){
         this.repository = repository;

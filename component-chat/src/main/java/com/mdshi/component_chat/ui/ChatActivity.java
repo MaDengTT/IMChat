@@ -52,6 +52,9 @@ public class ChatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_activity_chat);
         model = ViewModelProviders.of(this, factory).get(ChatActivityModel.class);
+
+        Log.d(TAG, "onCreate: "+model.getClass().hashCode());
+
         session_id = getIntent().getLongExtra("session_id", 0);
         initView();
         initData();
