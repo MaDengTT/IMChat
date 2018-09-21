@@ -17,12 +17,12 @@ import retrofit2.http.POST;
  */
 public interface ContactsService {
     @FormUrlEncoded
-    @POST()
-    public Flowable<List<ContactsEntity>> getContactsList(@Field("userid") long userid);
+    @POST("/contacts/list")
+    public Flowable<BaseBean<List<ContactsEntity>>> getContactsList(@Field("userid") long userid);
     @FormUrlEncoded
-    @POST()
+    @POST("/contacts/list")
     public LiveData<BaseBean<List<ContactsEntity>>> getContactsListToLiveData(@Field("userid") long userid);
     @FormUrlEncoded
-    @POST()
+    @POST("/contacts/add")
     public Flowable<List<ContactsEntity>> addContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);
 }

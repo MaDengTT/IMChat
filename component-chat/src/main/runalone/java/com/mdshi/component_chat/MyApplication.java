@@ -10,7 +10,6 @@ import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.data.ChatRepository;
 import com.mdshi.component_chat.di.AppInjector;
 import com.mdshi.component_chat.listener.ChatListener;
-import com.mdshi.component_chat.ui.ChatActivity;
 import com.mdshi.component_chat.ui.chat.ChatActivityModel;
 
 import javax.inject.Inject;

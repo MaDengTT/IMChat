@@ -1,5 +1,6 @@
 package com.mdshi.component_chat.ui;
 
+import android.arch.persistence.room.Database;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.mdshi.common.base.BaseActivity;
+import com.mdshi.common.db.IMDataBase;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.bean.ChatBean;
@@ -36,8 +38,8 @@ public class MainChatActivity extends BaseActivity {
 
     private void setFragment() {
         chatFragment = new ChatFragment();
-//        contactsFragment = ContactsFragment.newInstance("","");
-//        getSupportFragmentManager().beginTransaction().add(R.id.framelayout,contactsFragment).commit();
+        contactsFragment = ContactsFragment.newInstance("","");
+        getSupportFragmentManager().beginTransaction().add(R.id.framelayout,contactsFragment).hide(contactsFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.framelayout, chatFragment).commit();
     }
 
@@ -46,15 +48,16 @@ public class MainChatActivity extends BaseActivity {
         add = findViewById(R.id.but_add);
         update = findViewById(R.id.but_update);
         accept = findViewById(R.id.but_accept);
-//
-//        findViewById(R.id.but_switch)
-//                .setOnClickListener(v -> {
-//                    if (page % 2 == 0) {
-//                        getSupportFragmentManager().beginTransaction().hide(contactsFragment).show(chatFragment).commit();
-//                    }else {
-//                        getSupportFragmentManager().beginTransaction().hide(chatFragment).show(contactsFragment).commit();
-//                    }
-//                });
+
+        findViewById(R.id.but_switch)
+                .setOnClickListener(v -> {
+                    if (page % 2 == 0) {
+                        getSupportFragmentManager().beginTransaction().hide(contactsFragment).show(chatFragment).commit();
+                    }else {
+                        getSupportFragmentManager().beginTransaction().hide(chatFragment).show(contactsFragment).commit();
+                    }
+                    page++;
+                });
 
         add.setOnClickListener(v -> chatFragment.addTest());
         update.setOnClickListener(v->chatFragment.updateTest());

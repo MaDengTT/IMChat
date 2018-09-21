@@ -1,4 +1,4 @@
-package com.mdshi.component_chat.ui;
+package com.mdshi.component_chat.ui.chat;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -16,8 +16,6 @@ import com.mdshi.common.base.BaseActivity;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatMessageAdapter;
 import com.mdshi.component_chat.bean.ChatBean;
-
-import com.mdshi.component_chat.ui.chat.ChatActivityModel;
 
 import java.util.Date;
 import java.util.List;

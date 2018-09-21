@@ -1,6 +1,6 @@
 package com.mdshi.component_chat.di.module;
 
-import com.mdshi.component_chat.ui.ChatActivity;
+import com.mdshi.component_chat.ui.chat.ChatActivity;
 import com.mdshi.component_chat.ui.MainChatActivity;
 
 import dagger.Module;

@@ -14,11 +14,11 @@ import java.util.List;
  */
 public class ContactsAdapter extends BaseQuickAdapter<ContactsEntity,BaseViewHolder> {
     public ContactsAdapter(@Nullable List<ContactsEntity> data) {
-        super(data);
+        super(R.layout.chat_contacts_item,data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ContactsEntity item) {
-
+        helper.setText(R.id.tv_name, String.valueOf(item.contactsId));
     }
 }

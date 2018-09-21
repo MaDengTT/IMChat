@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mdshi.component_chat.ui.ChatActivity">
+    tools:context="com.mdshi.component_chat.ui.chat.ChatActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

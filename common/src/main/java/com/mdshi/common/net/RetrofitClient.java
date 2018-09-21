@@ -96,7 +96,7 @@ public class RetrofitClient {
             Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(getGsonConverterFactory())
-                    .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+//                    .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                     .addCallAdapterFactory(getRxJavaCallAdapterFactory());
 
             mRetrofit = retrofitBuilder.client(okHttpClient)

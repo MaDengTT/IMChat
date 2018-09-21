@@ -5,14 +5,20 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
+import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.ContactsEntity;
+import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.component_chat.data.ContactsRepository;
 import com.mdshi.common.vo.AbsentLiveData;
 import com.mdshi.common.vo.Resource;
 
 import java.util.List;
+import java.util.Observable;
 
 import javax.inject.Inject;
+
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by MaDeng on 2018/9/19.
@@ -23,7 +29,6 @@ public class ContactsModel extends ViewModel{
 
     LiveData<Resource<List<ContactsEntity>>> contactsData;
     MutableLiveData<Long> user = new MutableLiveData<>();
-    private long userid;
 
     public LiveData<Resource<List<ContactsEntity>>> getData() {
         return contactsData;
@@ -47,15 +52,15 @@ public class ContactsModel extends ViewModel{
         return contactsData;
     }
 
-    public void setUserid(long userid) {
-        if (user.getValue().longValue() == userid) {
+    public void setUserID(long userId) {
+        if (user.getValue()!=null&&user.getValue() == userId) {
             return;
         }
-        user.setValue(userid);
+        user.setValue(userId);
     }
 
     public void retry() {
-        if (user.getValue() != null && user.getValue().longValue() != 0) {
+        if (user.getValue() != null && user.getValue() != 0) {
             user.setValue(user.getValue());
         }
     }

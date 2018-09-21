@@ -49,20 +49,16 @@ public abstract class NetworkBoundResource<ResultType,RequestType> {
         result.addSource(apiResponse,response->{
             result.removeSource(apiResponse);
             result.removeSource(dbSource);
-            if(!response.isSuccess()){
+            if(response!=null&&response.isSuccess()){
                 appExecutors.diskIO().execute(()->{
+
                     saveCallResult(processResponse(response));
                     appExecutors.mainThread().execute(()->
                     result.addSource(loadFromDb(),newData->setValue(Resource.success(newData))));
                 });
             }else {
                 onFetchFailed();
-                result.addSource(dbSource, new Observer<ResultType>() {
-                    @Override
-                    public void onChanged(@Nullable ResultType newData) {
-                        setValue(Resource.error(response.message,newData));
-                    }
-                });
+                result.addSource(dbSource, newData -> setValue(Resource.error(response==null?"response is null":response.message,newData)));
             }
         });
     }

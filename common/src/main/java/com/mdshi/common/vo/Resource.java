@@ -18,6 +18,8 @@ public class Resource<T> {
     @Nullable
     public final T data;
 
+    public Throwable throwable;
+
     public Resource(@NonNull Status status, @Nullable T data, @Nullable String message) {
         this.status = status;
         this.data = data;

@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +18,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mdshi.common.base.BaseFragment;
 import com.mdshi.common.db.entity.MessageListEntity;
-import com.mdshi.common.di.Injectable;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatItemAdapter;
-import com.mdshi.component_chat.di.component.DaggerChatComponent;
+import com.mdshi.component_chat.ui.chat.ChatActivity;
 
 
 import java.util.Date;

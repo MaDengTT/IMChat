@@ -1,5 +1,6 @@
 package com.mdshi.common.db.entity;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
@@ -17,11 +18,14 @@ import android.arch.persistence.room.PrimaryKey;
 public class ContactsEntity {
 
 
-    public long userid;
+    @ColumnInfo(name = "userid")
+    public long userId;
+    @ColumnInfo(name = "contactsid")
+    public long contactsId;
+    @ColumnInfo(name = "name")
+    public String contactsName;
 
-    public long contactsid;
-
-    public String name;
+    public long groupId;
 
     public String avatar;
 

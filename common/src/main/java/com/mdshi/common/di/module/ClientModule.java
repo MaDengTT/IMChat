@@ -9,6 +9,7 @@ import com.mdshi.common.db.IMDataBase;
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.dao.UserDao;
+import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.image.ImageLoader;
 import com.mdshi.common.image.glide.GliderLoader;
 import com.mdshi.common.net.RetrofitClient;
@@ -49,7 +50,8 @@ public class ClientModule {
     @Singleton
     @Provides
     public UserDao provideUserDao(IMDataBase dataBase){
-        return dataBase.userDao();}
+        return dataBase.userDao();
+    }
     @Singleton
     @Provides
     public IMDataBase provideDataBase(Context context) {

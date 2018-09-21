@@ -6,13 +6,6 @@ import com.mdshi.component_chat.MyApplication;
 import com.mdshi.component_chat.di.module.ActivityModule;
 import com.mdshi.component_chat.di.module.ChatModule;
 import com.mdshi.component_chat.di.module.ViewModelModule;
-import com.mdshi.component_chat.ui.ChatActivity;
-import com.mdshi.component_chat.ui.ChatFragment;
-import com.mdshi.component_chat.ui.ChatModel;
-import com.mdshi.component_chat.ui.chat.ChatActivityModel;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;

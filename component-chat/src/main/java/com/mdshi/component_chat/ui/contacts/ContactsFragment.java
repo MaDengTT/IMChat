@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import com.mdshi.common.base.BaseFragment;
 import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ContactsAdapter;
-import com.mdshi.component_chat.ui.ChatActivity;
+import com.mdshi.component_chat.ui.chat.ChatActivity;
 import com.mdshi.common.vo.Status;
 
 import javax.inject.Inject;
@@ -48,22 +49,30 @@ public class ContactsFragment extends BaseFragment {
         return root;
     }
 
+    private static final String TAG = "ContactsFragment";
     private void initData() {
         model.getContactsData().observe(this, listResource -> {
             if (listResource.status == Status.ERROR) {
-
+                Log.e(TAG, "initData: ",listResource.throwable);
             } else if(listResource.status == Status.LOADING){
-
+                Log.d(TAG, "initData: Loading");
             } else if (listResource.status == Status.SUCCESS) {
                 adapter.setNewData(listResource.data);
+
+                Log.d(TAG, "initData: Success"+listResource.data.size());
             }
         });
+
+        model.setUserID(10013);
     }
 
     private void initView() {
         rvContacts = root.findViewById(R.id.rv_contacts);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvContacts.setLayoutManager(linearLayoutManager);
+
+        adapter = new ContactsAdapter(null);
+        rvContacts.setAdapter(adapter);
 
         rvContacts.addOnItemTouchListener(new OnItemClickListener() {
             @Override
