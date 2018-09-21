@@ -3,6 +3,7 @@ package com.mdshi.common.net;
 import android.content.Context;
 
 import com.mdshi.common.net.decodefactory.DecodeConverterFactory;
+import com.mdshi.common.net.decodefactory.LiveDataCallAdapterFactory;
 import com.mdshi.common.utils.NetWorkUtils;
 
 import java.io.File;
@@ -95,6 +96,7 @@ public class RetrofitClient {
             Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(getGsonConverterFactory())
+//                    .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                     .addCallAdapterFactory(getRxJavaCallAdapterFactory());
 
             mRetrofit = retrofitBuilder.client(okHttpClient)

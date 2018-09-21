@@ -1,11 +1,9 @@
 package com.mdshi.component_chat.ui.contacts;
 
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,9 +17,7 @@ import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ContactsAdapter;
 import com.mdshi.component_chat.ui.ChatActivity;
-import com.mdshi.component_chat.ui.chat.ChatActivityModel;
-
-import java.util.List;
+import com.mdshi.common.vo.Status;
 
 import javax.inject.Inject;
 
@@ -53,7 +49,15 @@ public class ContactsFragment extends BaseFragment {
     }
 
     private void initData() {
-        model.getDataList().observe(this, contactsEntities -> adapter.setNewData(contactsEntities));
+        model.getContactsData().observe(this, listResource -> {
+            if (listResource.status == Status.ERROR) {
+
+            } else if(listResource.status == Status.LOADING){
+
+            } else if (listResource.status == Status.SUCCESS) {
+                adapter.setNewData(listResource.data);
+            }
+        });
     }
 
     private void initView() {

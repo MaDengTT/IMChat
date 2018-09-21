@@ -13,6 +13,8 @@ import org.reactivestreams.Publisher;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -30,6 +32,7 @@ public class ChatRepository {
     MessageDao dao;
     private MutableLiveData<List<MessageEntity>> chatData;
 
+    @Inject
     public ChatRepository(MessageDao dao) {
         this.dao = dao;
     }

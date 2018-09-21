@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.graphics.pdf.PdfDocument;
 
 
 import com.mdshi.common.db.entity.MessageEntity;
@@ -33,8 +34,6 @@ public class ChatActivityModel extends ViewModel{
     long userid = 123456;
     LiveData<List<ChatBean>> data;
     MutableLiveData<ChatBean> newData;
-
-
 
     @Inject
     public ChatActivityModel(ChatRepository repository ){

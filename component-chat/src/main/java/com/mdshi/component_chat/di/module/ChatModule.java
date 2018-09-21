@@ -4,6 +4,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.component_chat.adapter.ContactsAdapter;
 import com.mdshi.component_chat.data.ChatRepository;
 import com.mdshi.component_chat.data.ContactsRepository;
 import com.mdshi.component_chat.data.ContactsService;
@@ -24,14 +25,10 @@ import retrofit2.Retrofit;
 @Module
 public class ChatModule {
 
-    @Provides
-    public static ChatRepository provideRepository(MessageDao dao) {
-        return new ChatRepository(dao);
-    }
 
     @Provides
-    public static ContactsRepository provideContactsRepository(ContactsDao dao, Retrofit retrofit) {
-        return new ContactsRepository(dao,retrofit.create(ContactsService.class));
+    public static ContactsService provideContactsService(Retrofit retrofit) {
+        return retrofit.create(ContactsService.class);
     }
 
 }

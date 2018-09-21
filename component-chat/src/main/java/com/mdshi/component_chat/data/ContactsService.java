@@ -1,5 +1,8 @@
 package com.mdshi.component_chat.data;
 
+import android.arch.lifecycle.LiveData;
+
+import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.db.entity.ContactsEntity;
 
 import java.util.List;
@@ -16,6 +19,9 @@ public interface ContactsService {
     @FormUrlEncoded
     @POST()
     public Flowable<List<ContactsEntity>> getContactsList(@Field("userid") long userid);
+    @FormUrlEncoded
+    @POST()
+    public LiveData<BaseBean<List<ContactsEntity>>> getContactsListToLiveData(@Field("userid") long userid);
     @FormUrlEncoded
     @POST()
     public Flowable<List<ContactsEntity>> addContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);

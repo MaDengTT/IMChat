@@ -32,7 +32,7 @@ public class RxUtils {
             @Override
             public BaseBean<T> apply(Throwable throwable) throws Exception {
                 Log.e("baseBeanThrowable", "apply: ",throwable );
-                BaseBean bean = new BaseBean();
+                BaseBean bean = new BaseBean(400,"异常",null);
                 if (throwable instanceof HttpException) {
                     bean.code = 404;
                     bean.message = "网络异常";

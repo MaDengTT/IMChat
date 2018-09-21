@@ -10,6 +10,7 @@ import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.di.module.AppModule;
 import com.mdshi.common.di.module.ClientModule;
 import com.mdshi.common.image.ImageLoader;
+import com.mdshi.common.vo.AppExecutors;
 
 import javax.inject.Singleton;
 
@@ -38,6 +39,7 @@ public interface AppComponent {
 
     UserData userData();
 
+    AppExecutors appExecutors();
 
     @Component.Builder
     interface Builder{
