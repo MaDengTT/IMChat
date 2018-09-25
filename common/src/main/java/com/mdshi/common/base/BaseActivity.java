@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.di.component.AppComponent;
 
 import javax.inject.Inject;
@@ -37,6 +38,13 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
     protected AppComponent getAppComponent(){
         if(getApplication() instanceof BaseApplication){
             return ((BaseApplication)getApplication()).appComponent();
+        }else {
+            return null;
+        }
+    }
+    protected UserData getUserData(){
+        if(getApplication() instanceof BaseApplication){
+            return ((BaseApplication)getApplication()).appComponent().userData();
         }else {
             return null;
         }

@@ -1,9 +1,11 @@
 package com.mdshi.component_chat.ui.contacts;
 
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +16,9 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mdshi.common.base.BaseFragment;
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.entity.ContactsEntity;
+import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ContactsAdapter;
 import com.mdshi.component_chat.ui.chat.ChatActivity;
@@ -30,6 +34,7 @@ public class ContactsFragment extends BaseFragment {
 
     ContactsModel model;
     ContactsAdapter adapter;
+
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -63,7 +68,7 @@ public class ContactsFragment extends BaseFragment {
             }
         });
 
-        model.setUserID(10013);
+        getUserData().observe(this, userEntity -> model.setUserID(userEntity.userID));
     }
 
     private void initView() {

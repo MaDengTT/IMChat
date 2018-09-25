@@ -64,9 +64,4 @@ public class ClientModule {
         return RetrofitClient.createService(context,"http://www.mdshi.cn:8081");
     }
 
-    @Singleton
-    @Provides
-    public UserData provideUserData() {
-        return new UserData();
-    }
 }

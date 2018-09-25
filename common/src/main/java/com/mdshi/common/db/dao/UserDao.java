@@ -19,6 +19,9 @@ public interface UserDao {
     @Query("SELECT * FROM tb_user WHERE id IN (:id)")
     UserEntity getUser(long id);
 
+    @Query("SELECT * FROM tb_user WHERE id IN (:id)")
+    LiveData<UserEntity> getUserToLiveData(long id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(UserEntity entity);
 
