@@ -1,8 +1,13 @@
 package com.mdshi.component_chat;
 
-//import com.mdshi.chatlib.IMChat;
-import android.app.Activity;
 
+import android.app.Activity;
+import android.util.Log;
+
+import com.mdshi.chatlib.Bean.MessageBean;
+import com.mdshi.chatlib.Debug;
+import com.mdshi.chatlib.IMChat;
+import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.common.base.BaseApplication;
 import com.mdshi.common.di.component.AppComponent;
 import com.mdshi.common.di.component.DaggerAppComponent;
@@ -23,7 +28,7 @@ import dagger.android.DispatchingAndroidInjector;
 public class MyApplication extends BaseApplication {
 
     private AppComponent appComponent;
-    private String IMKEY="";
+    private String IMKEY="123456";
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
@@ -46,7 +51,30 @@ public class MyApplication extends BaseApplication {
                 return false;
             }
         });
-//        IMChat.init(IMKEY);
+        Debug.init(true);
+        IMChat.init(IMKEY);
+        IMChat.connect();
+        IMChat.addMessageListener(new MessageListener() {
+            @Override
+            public void message(String data) {
+                Log.d("IMChat", "message: "+data);
+            }
+
+            @Override
+            public void messageTbean(MessageBean bean) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(Throwable value) {
+
+            }
+        });
     }
 
 

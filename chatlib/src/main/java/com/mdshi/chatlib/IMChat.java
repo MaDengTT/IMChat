@@ -11,6 +11,7 @@ import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.chatlib.listener.ReceiveListener;
 import com.mdshi.chatlib.listener.SendMessageListener;
 
+import java.security.Key;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -27,19 +28,21 @@ public class IMChat {
     private BaseConnection connection;
 
 
-    private String iMtopic = "/IM/Chat";
+    private String iMtopic = "/IM/Chat/";
     private IMListener IMListener;
+    private String key;
 
 
     private IMChat(){
 
     }
 
-    private IMChat(BaseConnection connection){
+    private IMChat(final BaseConnection connection){
         this.connection = connection;
-        ins.connection.receiveListener(new ReceiveListener() {
+        connection.receiveListener(new ReceiveListener() {
             @Override
             public void onReciveMessage(String key, String message) {
+                Debug.d("reciveMessage:"+key+":"+message);
                 if (messageListeners != null) {
                     for (MessageListener listener:messageListeners) {
                         listener.message(message);
@@ -49,6 +52,7 @@ public class IMChat {
 
             @Override
             public void onSuccess() {
+                Debug.d("reciveMessage: success");
                 if (messageListeners != null) {
                     for (MessageListener listener:messageListeners) {
                         listener.onSuccess();
@@ -58,6 +62,7 @@ public class IMChat {
 
             @Override
             public void onFailure(Throwable value) {
+                Debug.e("reciveMessage:onFailure"+value.toString());
                 if (messageListeners != null) {
                     for (MessageListener listener:messageListeners) {
                         listener.onFailure(value);
@@ -65,14 +70,16 @@ public class IMChat {
                 }
             }
         });
-        ins.connection.connectionListener(new ConnectionListener() {
+        connection.connectionListener(new ConnectionListener() {
             @Override
             public void onStart() {
-
+                Debug.d("connectionListener:onStart");
             }
 
             @Override
             public void onSuccess() {
+                Debug.d("connectionListener:onSuccess");
+                connection.sub(iMtopic+key);
                 if (IMListener != null) {
                     IMListener.onSuccess();
                 }
@@ -80,16 +87,21 @@ public class IMChat {
 
             @Override
             public void onFailure(Throwable value) {
+                Debug.e("connectionListener:onFailure"+value.toString());
                 if (IMListener != null) {
                     IMListener.onFailure(value);
                 }
             }
         });
+
     }
 
     public static void init(String key){
         Config config = new Config();
+        config.CONNECTION_STRING = "www.mdshi.cn";
+        config.key = key;
         ins = new IMChat(new Mqtt_Connection(config));
+        ins.key = key;
 //        String topics = "/IM/Chat/"+key;
 //        Topic topic = new Topic(topics, QoS.AT_LEAST_ONCE);
 //        ins.topics = new Topic[]{topic};
@@ -135,8 +147,6 @@ public class IMChat {
         message.body = bean.message;
         ins.connection.sendMessage(message);
     }
-
-
 
 
 }

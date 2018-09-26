@@ -26,6 +26,10 @@ import com.mdshi.common.vo.Status;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class ContactsFragment extends BaseFragment {
 

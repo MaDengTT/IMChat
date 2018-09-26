@@ -3,7 +3,9 @@ package com.mdshi.common.constan;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.support.annotation.AnyThread;
 import android.support.annotation.Nullable;
+import android.support.annotation.WorkerThread;
 import android.text.TextUtils;
 
 import com.mdshi.common.db.dao.UserDao;
@@ -40,6 +42,7 @@ public class UserData extends LiveData<UserEntity> {
         setValue(null);
     }
 
+    @WorkerThread
     @Override
     public void postValue(UserEntity value) {
         SPUtils.getInstance(context).put(USERID,value.userID);
