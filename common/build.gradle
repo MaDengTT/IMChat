@@ -54,9 +54,9 @@ dependencies {
     api "io.reactivex.rxjava2:rxandroid:2.0.1"
     api "io.reactivex.rxjava2:rxjava:2.1.8"
     //gson
-    api "com.google.code.gson:gson:2.8.1"
+    api "com.google.code.gson:gson:2.8.2"
     //okhttp
-    api "com.squareup.okhttp3:okhttp:3.9.1"
+    api "com.squareup.okhttp3:okhttp:3.10.0"
     api "com.squareup.okhttp3:logging-interceptor:3.9.1"
     //glide
     api "com.github.bumptech.glide:glide:4.7.1"
@@ -75,6 +75,9 @@ dependencies {
     api "android.arch.persistence.room:runtime:1.1.1"
     api "android.arch.persistence.room:rxjava2:1.1.1"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    //paging
+    api "android.arch.paging:runtime:1.0.1"
+    api "android.arch.paging:rxjava2:1.0.1"
     //dagger
     api "com.google.dagger:dagger:2.15"
     annotationProcessor "com.google.dagger:dagger-compiler:2.15"

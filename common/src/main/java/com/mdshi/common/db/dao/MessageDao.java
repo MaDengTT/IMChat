@@ -2,6 +2,7 @@ package com.mdshi.common.db.dao;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.paging.DataSource;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -32,6 +33,7 @@ public abstract class MessageDao {
     @Query("SELECT* FROM tb_message_list WHERE user_id IN(:userId) ORDER BY new_date DESC")
     public abstract LiveData<List<MessageListEntity>> getMessageListAll(long userId);
 
+
     @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageSize-1)*(:pageNo)")
     public abstract Flowable<List<MessageEntity>> getMessageToFlowableById(long id,int pageSize,int pageNo);
 
@@ -46,8 +48,12 @@ public abstract class MessageDao {
     @Query("SELECT * From tb_message_list WHERE id IN(:sessionId) LIMIT 1")
     public abstract MessageListEntity getMsgListBySessionID(long sessionId);
 
+
     @Query("SELECT * from tb_message WHERE session_id IN(:sessionId)ORDER BY create_time DESC LIMIT 1")
     public abstract Flowable<MessageEntity> getMsgByNewDate(long sessionId);
+
+    @Query("SELECT * from tb_message WHERE session_id IN(:sessionId)ORDER BY create_time DESC")
+    public abstract DataSource.Factory<Integer,MessageEntity> getMsgDataAll(long sessionId);
 
     @Insert
     public abstract void insertMessage(MessageEntity... messageEntities);
@@ -62,6 +68,8 @@ public abstract class MessageDao {
 
     @Update
     public abstract void updateMessageList(MessageListEntity entity);
+
+
 
     @Transaction
     public void insertMessageListAndMessage(MessageListEntity entity, MessageEntity entity2) {

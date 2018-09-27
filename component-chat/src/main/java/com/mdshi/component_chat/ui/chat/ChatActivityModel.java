@@ -1,15 +1,22 @@
 package com.mdshi.component_chat.ui.chat;
 
 
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.graphics.pdf.PdfDocument;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
+import com.mdshi.common.db.entity.UserEntity;
+import com.mdshi.common.vo.AbsentLiveData;
 import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.data.ChatRepository;
 
@@ -30,14 +37,36 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ChatActivityModel extends ViewModel{
 
+    long userid;
     private ChatRepository repository;
-    long userid = 123456;
     LiveData<List<ChatBean>> data;
     MutableLiveData<ChatBean> newData;
+    private final MutableLiveData<Long> sessionData;
 
     @Inject
-    public ChatActivityModel(ChatRepository repository ){
+    public ChatActivityModel(ChatRepository repository, UserData userdata) {
+        userdata.observeForever(userEntity -> userid = userEntity.userID);
         this.repository = repository;
+
+        sessionData = new MutableLiveData<>();
+        data = Transformations.switchMap(sessionData, input -> {
+            if (input == null || input == 0) {
+                return AbsentLiveData.create();
+            } else {
+                return new MutableLiveData<>();
+            }
+        });
+    }
+
+    public LiveData<List<ChatBean>> getData() {
+        return data;
+    }
+
+    public void setSessionId(long sessionId) {
+        if (sessionData.getValue() != null&&sessionData.getValue() == sessionId) {
+            return;
+        }
+        sessionData.setValue(sessionId);
     }
 
     private static final String TAG = "ChatActivityModel";

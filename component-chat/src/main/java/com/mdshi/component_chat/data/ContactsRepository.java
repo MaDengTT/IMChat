@@ -83,37 +83,6 @@ public class ContactsRepository {
         }.asLiveData();
     }
 
-    public LiveData<List<ContactsEntity>> getContactsData2(long userid) {
-        if (data == null) {
-            data = dao.findAllContacts(userid);
-        }
-
-        service.getContactsList(userid)
-                .subscribeOn(Schedulers.io())
-                .subscribe(/*new Subscriber<List<ContactsEntity>>() {
-                    @Override
-                    public void onSubscribe(Subscription s) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<ContactsEntity> contactsEntities) {
-                        dao.insert(contactsEntities.toArray(new ContactsEntity[contactsEntities.size()]));
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        Log.e(TAG, "onError: ",t );
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                }*/);
-        return data;
-    }
-
     public void addContacts(ContactsEntity entity) {
         service.addContacts(entity.userId,entity.contactsId);
     }

@@ -42,15 +42,15 @@ public class MyApplication extends BaseApplication {
     }
 
     private void ininIMChat() {
-        //TODO TEST Code
-        ChatManager.getIns().registerChatListener(new ChatListener() {
-            @Override
-            public boolean callback(ChatBean bean) {
-                ChatActivityModel a = new ChatActivityModel(new ChatRepository(appComponent.messageDao()));
-                a.addMsgChatData(bean);
-                return false;
-            }
-        });
+//        //TODO TEST Code
+//        ChatManager.getIns().registerChatListener(new ChatListener() {
+//            @Override
+//            public boolean callback(ChatBean bean) {
+//                ChatActivityModel a = new ChatActivityModel(new ChatRepository(appComponent.messageDao()));
+//                a.addMsgChatData(bean);
+//                return false;
+//            }
+//        });
         Debug.init(true);
         IMChat.init(IMKEY);
         IMChat.connect();

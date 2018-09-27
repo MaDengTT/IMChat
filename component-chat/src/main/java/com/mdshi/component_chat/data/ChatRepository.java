@@ -2,6 +2,8 @@ package com.mdshi.component_chat.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.paging.DataSource;
+import android.arch.paging.LivePagedListBuilder;
 import android.util.Log;
 
 import com.mdshi.common.db.dao.MessageDao;
@@ -35,6 +37,8 @@ public class ChatRepository {
     @Inject
     public ChatRepository(MessageDao dao) {
         this.dao = dao;
+        DataSource.Factory<Integer, MessageEntity> msgDataAll = dao.getMsgDataAll(12);
+
     }
 
     public LiveData<List<MessageListEntity>> getChatBean(long userId) {
