@@ -54,27 +54,27 @@ public class MyApplication extends BaseApplication {
         Debug.init(true);
         IMChat.init(IMKEY);
         IMChat.connect();
-        IMChat.addMessageListener(new MessageListener() {
-            @Override
-            public void message(String data) {
-                Log.d("IMChat", "message: "+data);
-            }
-
-            @Override
-            public void messageTbean(MessageBean bean) {
-
-            }
-
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(Throwable value) {
-
-            }
-        });
+//        IMChat.addMessageListener(new MessageListener() {
+//            @Override
+//            public void message(String data) {
+//                Log.d("IMChat", "message: "+data);
+//            }
+//
+//            @Override
+//            public void messageTbean(MessageBean bean) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable value) {
+//
+//            }
+//        });
     }
 
 

@@ -2,6 +2,8 @@ package com.mdshi.component_chat.di;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.ComponentCallbacks;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;

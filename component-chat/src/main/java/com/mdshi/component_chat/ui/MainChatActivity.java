@@ -1,10 +1,9 @@
 package com.mdshi.component_chat.ui;
 
-import android.arch.persistence.room.Database;
+
+import android.content.Intent;
 import android.os.SystemClock;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -14,6 +13,7 @@ import com.mdshi.common.db.IMDataBase;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.bean.ChatBean;
+import com.mdshi.component_chat.service.IMChatService;
 import com.mdshi.component_chat.ui.contacts.ContactsFragment;
 
 import java.util.Date;
@@ -34,6 +34,7 @@ public class MainChatActivity extends BaseActivity {
         setContentView(R.layout.chat_activity_main_chat);
         initView();
         setFragment();
+        startService(new Intent(this, IMChatService.class));
     }
 
     private void setFragment() {

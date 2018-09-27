@@ -17,7 +17,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.chat.ChatActivity"></activity>
+        <activity android:name=".ui.chat.ChatActivity" />
+
+        <service
+            android:name=".service.IMChatService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".receiver.IMReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>
