@@ -1,7 +1,6 @@
 package com.mdshi.component_chat.service;
 
 import android.app.Service;
-import android.content.Entity;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -11,21 +10,20 @@ import com.mdshi.chatlib.Bean.MessageBean;
 import com.mdshi.chatlib.IMChat;
 import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.common.base.BaseApplication;
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
+import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.di.component.DaggerChatComponent;
-
-import org.reactivestreams.Publisher;
+import com.mdshi.component_chat.utils.BeanUtils;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class IMChatService extends Service {
@@ -39,6 +37,8 @@ public class IMChatService extends Service {
     @Inject
     Gson gson;
 
+    @Inject
+    UserData userdata;
     private static final String TAG = "IMChatService";
     @Override
     public void onCreate() {
@@ -53,20 +53,21 @@ public class IMChatService extends Service {
                 Flowable.just(data)
                         .map(s -> gson.fromJson(data, MessageEntity.class))
                         .flatMap(s->addMegToDB(s))
-                        .subscribe(new Subscriber<MessageEntity>() {
+                        .flatMap(s->BeanUtils.MsgToChatBean(s,userdata.getValue().userID))
+                        .subscribe(new Subscriber<ChatBean>() {
                             @Override
                             public void onSubscribe(Subscription s) {
 
                             }
 
                             @Override
-                            public void onNext(MessageEntity messageEntity) {
-                                dao.insertMessage(messageEntity);
+                            public void onNext(ChatBean bean) {
+                                ChatManager.getIns().receive(bean);
                             }
 
                             @Override
                             public void onError(Throwable t) {
-                                Log.e(TAG, "onError: ",t );
+                                Log.e(TAG, "onError: ", t);
                             }
 
                             @Override
@@ -74,7 +75,6 @@ public class IMChatService extends Service {
 
                             }
                         });
-
             }
 
             @Override

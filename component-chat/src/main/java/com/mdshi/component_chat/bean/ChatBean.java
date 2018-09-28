@@ -30,7 +30,9 @@ public class ChatBean implements MultiItemEntity {
 
     public Date date;
 
+    public long userId;
 
+    public long tUserId;
 
     @Override
     public int getItemType() {

@@ -57,4 +57,5 @@ public class ChatManager {
     public void receive(ChatBean bean) {
         addMessage(bean);
     }
+
 }
