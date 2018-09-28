@@ -99,7 +99,7 @@ public class ChatRepository {
 
     public Flowable<List<MessageEntity>> getChatMessageList(long id, int pageSize, int pageNo) {
         return Flowable.just(id)
-                .flatMap((Function<Long, Publisher<List<MessageEntity>>>) aLong -> {
+                .flatMap(aLong -> {
                     List<MessageEntity> data = dao.getMessageById(id, pageSize, pageNo);
                     return Flowable.just(data);
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());

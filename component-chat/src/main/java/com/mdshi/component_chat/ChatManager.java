@@ -1,7 +1,16 @@
 package com.mdshi.component_chat;
 
+import android.util.Log;
+
+import com.mdshi.common.db.entity.MessageEntity;
+import com.mdshi.common.vo.AppExecutors;
 import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.listener.ChatListener;
+
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 
 /**
  * Created by MaDeng on 2018/9/11.
@@ -9,12 +18,12 @@ import com.mdshi.component_chat.listener.ChatListener;
 public class ChatManager {
 
     private static ChatManager ins;
-
+    AppExecutors appExecutors;
     private ChatListener listListener;
     private ChatListener notifierListener;
     private ChatListener chatListener;
     private ChatManager() {
-
+        appExecutors = new AppExecutors();
     }
 
     public void registerListListener(ChatListener listener){
@@ -54,8 +63,11 @@ public class ChatManager {
         }
     }
 
+    private static final String TAG = "ChatManager";
     public void receive(ChatBean bean) {
-        addMessage(bean);
+        Log.d(TAG, "receive: "+bean.session_id);
+        appExecutors.mainThread().execute(() -> addMessage(bean));
     }
+
 
 }

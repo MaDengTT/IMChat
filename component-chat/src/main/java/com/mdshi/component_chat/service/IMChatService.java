@@ -24,6 +24,7 @@ import org.reactivestreams.Subscription;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class IMChatService extends Service {
@@ -53,7 +54,7 @@ public class IMChatService extends Service {
                 Flowable.just(data)
                         .map(s -> gson.fromJson(data, MessageEntity.class))
                         .flatMap(s->addMegToDB(s))
-                        .flatMap(s->BeanUtils.MsgToChatBean(s,userdata.getValue().userID))
+                        .map(s1->BeanUtils.MsgToChatBean(s1,userdata.getValue().userID))
                         .subscribe(new Subscriber<ChatBean>() {
                             @Override
                             public void onSubscribe(Subscription s) {
@@ -123,6 +124,9 @@ public class IMChatService extends Service {
                     }
                     return Flowable.just(aLong);
                     })
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io()).map(s1->
+                {ChatBean bean = BeanUtils.MsgToChatBean(s1,userdata.getValue().userID);
+                ChatManager.getIns().receive(bean);
+                return s1;});
     }
 }

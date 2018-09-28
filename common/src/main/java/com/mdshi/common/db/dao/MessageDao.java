@@ -37,7 +37,7 @@ public abstract class MessageDao {
     @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageSize-1)*(:pageNo)")
     public abstract Flowable<List<MessageEntity>> getMessageToFlowableById(long id,int pageSize,int pageNo);
 
-    @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageSize-1)*(:pageNo)")
+    @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageNo)")
     public abstract List<MessageEntity> getMessageById(long id,int pageSize,int pageNo);
 
 
