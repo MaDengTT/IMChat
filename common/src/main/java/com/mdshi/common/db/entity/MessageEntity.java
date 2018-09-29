@@ -18,7 +18,7 @@ import java.util.Date;
 @Entity(tableName = "tb_message",
         indices = @Index("session_id"),
         foreignKeys = {@ForeignKey(entity = MessageListEntity.class,
-        parentColumns = "id",childColumns = "session_id",onDelete = ForeignKey.CASCADE
+        parentColumns = "id",childColumns = "session_id"
         )} //外键 消息列表ID
 
 )
@@ -47,4 +47,18 @@ public class MessageEntity {
 
     @Ignore
     public long other_id; //对方ID 如果为接受就是 fUserId；如果发送就是 to_user_Id
+
+    @Override
+    public String toString() {
+        return "MessageEntity{" +
+                "id=" + id +
+                ", fUserId=" + fUserId +
+                ", tUserId=" + tUserId +
+                ", type=" + type +
+                ", content='" + content + '\'' +
+                ", session_id=" + session_id +
+                ", createTime=" + createTime +
+                ", other_id=" + other_id +
+                '}';
+    }
 }

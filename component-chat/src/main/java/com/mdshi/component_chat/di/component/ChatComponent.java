@@ -7,6 +7,7 @@ import com.mdshi.component_chat.di.module.ActivityModule;
 import com.mdshi.component_chat.di.module.ChatModule;
 import com.mdshi.component_chat.di.module.ViewModelModule;
 import com.mdshi.component_chat.service.IMChatService;
+import com.mdshi.component_chat.ui.MainChatActivity;
 
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
@@ -28,6 +29,9 @@ public interface ChatComponent {
     void inject(MyApplication application);
 
     void inject(IMChatService service);
+
+    void inject(MainChatActivity activity);
+
 //    ChatModel chatModel();
 //    ChatActivityModel chatActivityModel();
 }

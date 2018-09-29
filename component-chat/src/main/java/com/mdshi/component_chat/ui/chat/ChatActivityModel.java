@@ -3,6 +3,11 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.mdshi.chatlib.Bean.MessageBean;
+import com.mdshi.chatlib.IMChat;
+import com.mdshi.chatlib.listener.SendMessageListener;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
@@ -10,13 +15,17 @@ import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.data.ChatRepository;
 import com.mdshi.component_chat.utils.BeanUtils;
-import org.reactivestreams.Publisher;
+
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.processors.FlowableProcessor;
 import io.reactivex.processors.PublishProcessor;
@@ -27,20 +36,22 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ChatActivityModel extends ViewModel{
 
-    long user;
+    private long user;
     private ChatRepository repository;
-    MutableLiveData<List<ChatBean>> addData;
+    private MutableLiveData<List<ChatBean>> addData;
 
+    private Gson gson;
 
-    FlowableProcessor<SessionBean> sessionBus;
+    private FlowableProcessor<SessionBean> sessionBus;
 
     @Inject
     public ChatActivityModel(ChatRepository repository, UserData userdata) {
-        userdata.observeForever(userEntity -> user = userEntity.userID);
+        userdata.observeForever(userEntity -> user = userEntity != null ? userEntity.userID : 0);
         this.repository = repository;
         sessionBus = PublishProcessor.create();
         addData = new MutableLiveData<>();
         beanData = new MutableLiveData<>();
+        gson = new Gson();
         sessionBus.flatMap(aLong ->
                 repository.getChatMessageList(aLong.sessionId, aLong.pageSize, aLong.pageNo))
         .flatMap(messageEntities -> {
@@ -82,13 +93,13 @@ public class ChatActivityModel extends ViewModel{
         return addData;
     }
 
-    MutableLiveData<SessionBean> beanData;
+    private MutableLiveData<SessionBean> beanData;
 
-    public void next(int size) {
+    void next(int size) {
         beanData.setValue(beanData.getValue().nextPage(size));
     }
 
-    public void setSessionId(long sessionId) {
+    void setSessionId(long sessionId) {
         SessionBean bean = new SessionBean();
         bean.sessionId = sessionId;
         bean.pageSize = 30;
@@ -104,8 +115,8 @@ public class ChatActivityModel extends ViewModel{
         int pageNo;
 
         int countPageSize = 30;
-        public SessionBean nextPage(int size) {
-            int temp = size%countPageSize;
+        SessionBean nextPage(int size) {
+            int temp = countPageSize - size%countPageSize;
             pageSize = temp==0?countPageSize:temp+countPageSize;
             pageNo = size-1;
             return this;
@@ -113,32 +124,33 @@ public class ChatActivityModel extends ViewModel{
     }
 
 
-    public void addMsgChatData(ChatBean bean) {
+    void addMsgChatData(ChatBean bean) {
         Flowable.just(bean)
-                .flatMap(bean12 -> Flowable.just(BeanUtils.ChatBeanToMsg(bean12)))
-                .flatMap(messageEntity -> addMegToDB(messageEntity, bean))
                 .map(bean1 -> {
                     ChatManager.getIns().receive(bean1);
                     return bean1;
-                }).subscribe();
-    }
+                })
+                .flatMap(bean12 -> Flowable.just(BeanUtils.ChatBeanToMsg(bean12)))
+                .map(bean13->{repository.addMessage(bean13,user);return bean13;})
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(s1-> Flowable.create((FlowableOnSubscribe<ChatBean>) emitter -> {
+                    MessageBean messageBean = new MessageBean();
+                    messageBean.message = gson.toJson(s1);
+                    IMChat.sendMessage(messageBean, new SendMessageListener() {
+                        @Override
+                        public void onSuccess() {
+                            emitter.onNext(bean);
+                            emitter.onComplete();
+                        }
 
-    private Flowable<ChatBean> addMegToDB(MessageEntity messageEntity, ChatBean bean) {
-        return repository.getChatMessageListToSessionId(messageEntity.session_id)
-                .flatMap((io.reactivex.functions.Function<MessageListEntity, Publisher<ChatBean>>) entity -> {
-                    if (entity.id == 0) {
-                        entity = new MessageListEntity();
-                        entity.createBean(messageEntity.session_id,
-                                user,
-                                messageEntity.other_id,
-                                messageEntity.type);
-                        repository.addNewListMessage(entity,messageEntity);
-                    }else {
-                        repository.addMessage(messageEntity);
-                    }
-                    entity.updateBean(messageEntity.createTime, messageEntity.id, messageEntity.content);
-                    repository.updateMessageList(entity);
-                    return Flowable.just(bean);
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                        @Override
+                        public void onFailure(Throwable value) {
+                            emitter.onError(value);
+                        }
+                    });
+                },BackpressureStrategy.BUFFER))
+                .doOnError(err-> Log.e(TAG, "addMsgChatData: ", err))
+                .subscribe();
     }
 }

@@ -61,18 +61,17 @@ public class ContactsFragment extends BaseFragment {
     private static final String TAG = "ContactsFragment";
     private void initData() {
         model.getContactsData().observe(this, listResource -> {
-            if (listResource.status == Status.ERROR) {
-                Log.e(TAG, "initData: ",listResource.throwable);
+            if (listResource == null||listResource.status == Status.ERROR) {
+                Log.e(TAG, "initData: ", listResource != null ? listResource.throwable : null);
             } else if(listResource.status == Status.LOADING){
                 Log.d(TAG, "initData: Loading");
             } else if (listResource.status == Status.SUCCESS) {
                 adapter.setNewData(listResource.data);
-
                 Log.d(TAG, "initData: Success"+listResource.data.size());
             }
         });
 
-        getUserData().observe(this, userEntity -> model.setUserID(userEntity.userID));
+//        getUserData().observe(this, userEntity -> model.setUserID(userEntity.userID));
     }
 
     private void initView() {

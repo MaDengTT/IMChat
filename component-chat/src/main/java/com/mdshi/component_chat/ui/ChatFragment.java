@@ -21,6 +21,7 @@ import com.mdshi.common.db.entity.MessageListEntity;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatItemAdapter;
+import com.mdshi.component_chat.di.component.DaggerChatComponent;
 import com.mdshi.component_chat.ui.chat.ChatActivity;
 
 

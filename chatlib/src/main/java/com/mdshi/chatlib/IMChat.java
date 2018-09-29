@@ -143,7 +143,7 @@ public class IMChat {
             throw new NullPointerException("IMChat is not init!");
         }
         SendMessage message = new SendMessage();
-        message.key = "";
+        message.key = "/IM/Chat/000";
         message.body = bean.message;
         ins.connection.sendMessage(message);
     }

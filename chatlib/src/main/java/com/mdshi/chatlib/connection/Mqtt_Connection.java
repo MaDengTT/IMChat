@@ -167,17 +167,17 @@ public class Mqtt_Connection implements BaseConnection {
     }
 
     @Override
-    public void sendMessage(SendMessage message) {
+    public void sendMessage(final SendMessage message) {
         if (connection != null) {
-            connection.publish(message.key, message.body.getBytes(), QoS.AT_LEAST_ONCE, false, new Callback<Void>() {
+            connection.publish(message.key, message.body.getBytes(), QoS.EXACTLY_ONCE, false, new Callback<Void>() {
                 @Override
                 public void onSuccess(Void value) {
-
+                    Debug.d("publish : "+message.key);
                 }
 
                 @Override
                 public void onFailure(Throwable value) {
-
+                    Debug.e("publish : ",value);
                 }
             });
         }

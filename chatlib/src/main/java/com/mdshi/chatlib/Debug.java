@@ -27,6 +27,11 @@ public  class Debug {
             Log.e(TAG,s);
         }
     }
+    public static void  e(String s,Throwable t) {
+        if (debug != null&&debug.isDebug) {
+            Log.e(TAG,s,t);
+        }
+    }
     public static void  d(String s) {
         if (debug != null&&debug.isDebug) {
             Log.d(TAG,s);

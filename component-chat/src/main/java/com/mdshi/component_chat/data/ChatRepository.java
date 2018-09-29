@@ -2,14 +2,11 @@ package com.mdshi.component_chat.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.DataSource;
-import android.arch.paging.LivePagedListBuilder;
 import android.util.Log;
 
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
-import com.mdshi.component_chat.bean.ChatBean;
 
 import org.reactivestreams.Publisher;
 
@@ -17,12 +14,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -32,37 +27,21 @@ import io.reactivex.schedulers.Schedulers;
 public class ChatRepository {
 
     MessageDao dao;
-    private MutableLiveData<List<MessageEntity>> chatData;
 
     @Inject
     public ChatRepository(MessageDao dao) {
         this.dao = dao;
-        DataSource.Factory<Integer, MessageEntity> msgDataAll = dao.getMsgDataAll(12);
 
     }
 
     public LiveData<List<MessageListEntity>> getChatBean(long userId) {
-        LiveData<List<MessageListEntity>> data = new MutableLiveData<>();
-        data = dao.getMessageListAll(userId);
+        LiveData<List<MessageListEntity>> data = dao.getMessageListAll(userId);
         return data;
-    }
-
-    public LiveData<List<MessageEntity>> getChatListData(long sessionId) {
-        return null;
-    }
-    public LiveData<List<MessageEntity>> getChatListData(long sessionId,int pageSize,int pageNo) {
-
-        if (chatData == null) {
-            chatData = new MutableLiveData<>();
-        }
-        getChatMessageList(sessionId,pageSize,pageNo)
-                .subscribe(messageEntities -> chatData.setValue(messageEntities)
-                ,error->{ chatData.setValue(null);Log.e(TAG, "getChatListData: ",error);});
-        return chatData;
     }
 
 
     public void addMessageList(MessageListEntity entity) {
+        Log.d(TAG, "addMessageList: "+entity.toString());
         Flowable.just(entity)
                 .map(entity1 -> {dao.insertMessageList(entity1);return true;})
                 .subscribeOn(Schedulers.io())
@@ -108,6 +87,15 @@ public class ChatRepository {
     public void addMessage(MessageEntity messageEntity) {
         dao.insertMessage(messageEntity);
     }
+
+    public void addMessage(MessageEntity messageEntity,long userId) {
+        MessageListEntity  mle = new MessageListEntity();
+        mle.createBean(messageEntity.session_id,userId,messageEntity.other_id,messageEntity.type);
+        mle.updateBean(messageEntity.createTime,messageEntity.id,messageEntity.content);
+        Log.d(TAG, "addMessage: "+mle.toString());
+        dao.insertMessageListAndMessage(mle,messageEntity);
+    }
+
     public void addNewListMessage(MessageListEntity listEntity,MessageEntity messageEntity) {
         dao.insertMessageListAndMessage(listEntity,messageEntity);
     }

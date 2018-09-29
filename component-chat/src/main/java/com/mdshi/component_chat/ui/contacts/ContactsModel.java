@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.common.db.entity.UserEntity;
@@ -37,26 +38,19 @@ public class ContactsModel extends ViewModel{
 
 
     @Inject
-    public ContactsModel(ContactsRepository repository) {
+    public ContactsModel(ContactsRepository repository, UserData userData) {
         this.repository = repository;
-        contactsData = Transformations.switchMap(user,data->{
-            if (data == null) {
+        contactsData = Transformations.switchMap(userData,data->{
+            if (data == null||data.userID == 0) {
                 return AbsentLiveData.create();
             }else {
-                return repository.getContactsData(data);
+                return repository.getContactsData(data.userID);
             }
         });
     }
 
     public LiveData<Resource<List<ContactsEntity>>> getContactsData() {
         return contactsData;
-    }
-
-    public void setUserID(long userId) {
-        if (user.getValue()!=null&&user.getValue() == userId) {
-            return;
-        }
-        user.setValue(userId);
     }
 
     public void retry() {

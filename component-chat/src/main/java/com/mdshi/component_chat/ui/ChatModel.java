@@ -1,13 +1,20 @@
 package com.mdshi.component_chat.ui;
 
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.entity.MessageListEntity;
 
+import com.mdshi.common.db.entity.UserEntity;
+import com.mdshi.common.vo.AbsentLiveData;
 import com.mdshi.component_chat.data.ChatRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -27,21 +34,25 @@ public class ChatModel extends ViewModel {
 
 
     @Inject
-    public ChatModel(ChatRepository repository) {
+    public ChatModel(ChatRepository repository, UserData userData) {
         this.repository = repository;
+        chatList = Transformations.switchMap(userData, input -> {
+            if (input == null || input.userID == 0) {
+                return AbsentLiveData.create();
+            }else {
+                userid = input.userID;
+                return repository.getChatBean(input.userID);
+            }
+        });
     }
 
     public LiveData<List<MessageListEntity>> getChatList() {
-        if (chatList == null) {
-            chatList = repository.getChatBean(123456);
-        }
         return chatList;
     }
 
 
 
     public void addChatValue(MessageListEntity value) {
-//        chatList.getValue().add(value);
         repository.addMessageList(value);
     }
 
