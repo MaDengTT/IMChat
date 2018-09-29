@@ -1,30 +1,28 @@
 package com.mdshi.component_chat.ui.chat;
 
-import android.arch.lifecycle.Observer;
+
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
 import com.mdshi.common.base.BaseActivity;
 
+import com.mdshi.common.constan.UserData;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatMessageAdapter;
 import com.mdshi.component_chat.bean.ChatBean;
-import com.mdshi.component_chat.listener.ChatListener;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -40,6 +38,8 @@ public class ChatActivity extends BaseActivity {
     ViewModelProvider.Factory factory;
 
     ChatActivityModel model;
+
+
 
     private long session_id;
 

@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.mdshi.common.base.BaseActivity;
+import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.IMDataBase;
+import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.bean.ChatBean;
@@ -17,6 +19,10 @@ import com.mdshi.component_chat.service.IMChatService;
 import com.mdshi.component_chat.ui.contacts.ContactsFragment;
 
 import java.util.Date;
+
+import javax.inject.Inject;
+
+import io.reactivex.Flowable;
 
 public class MainChatActivity extends BaseActivity {
 
@@ -27,6 +33,9 @@ public class MainChatActivity extends BaseActivity {
     private ContactsFragment contactsFragment;
 
     int page = 0;
+
+    @Inject
+    UserData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +72,18 @@ public class MainChatActivity extends BaseActivity {
         add.setOnClickListener(v -> chatFragment.addTest());
         update.setOnClickListener(v->chatFragment.updateTest());
         accept.setOnClickListener(v->{
-            ChatBean bean = new ChatBean();
-            bean.date = new Date();
-            bean.type = ChatBean.Type.TEXT_R;
-            bean.content = "receive Message";
-            bean.session_id = SystemClock.currentThreadTimeMillis();
-            ChatManager.getIns().receive(bean);
+//            ChatBean bean = new ChatBean();
+//            bean.date = new Date();
+//            bean.type = ChatBean.Type.TEXT_R;
+//            bean.content = "receive Message";
+//            bean.session_id = SystemClock.currentThreadTimeMillis();
+//            ChatManager.getIns().receive(bean);
+            new Thread(() -> {
+                UserEntity userEntity = new UserEntity();
+                userEntity.userID = 123456;
+                data.postValue(userEntity);
+            }).start();
+
         });
     }
 }

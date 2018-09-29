@@ -118,7 +118,7 @@ public class ChatActivityModel extends ViewModel{
         SessionBean nextPage(int size) {
             int temp = countPageSize - size%countPageSize;
             pageSize = temp==0?countPageSize:temp+countPageSize;
-            pageNo = size-1;
+            pageNo = size;
             return this;
         }
     }

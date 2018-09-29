@@ -11,6 +11,7 @@ import com.mdshi.component_chat.ui.MainChatActivity;
 
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
+import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 /**
@@ -18,7 +19,6 @@ import dagger.android.support.AndroidSupportInjectionModule;
  */
 @ActivityScope
 @Component(dependencies = AppComponent.class,modules = {
-        AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
         ChatModule.class,
         ViewModelModule.class,

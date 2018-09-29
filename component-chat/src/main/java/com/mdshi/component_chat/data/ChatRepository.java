@@ -65,17 +65,6 @@ public class ChatRepository {
                 .subscribe();
     }
 
-    public Flowable<MessageListEntity> getChatMessageListToSessionId(long id) {
-        return Flowable.just(id).flatMap((Function<Long, Publisher<MessageListEntity>>) aLong -> {
-            MessageListEntity msgListBySessionID = dao.getMsgListBySessionID(aLong);
-            if (msgListBySessionID == null) {
-                msgListBySessionID = new MessageListEntity();
-            }
-            return Flowable.just(msgListBySessionID);
-        }).subscribeOn(Schedulers.io());
-    }
-
-
     public Flowable<List<MessageEntity>> getChatMessageList(long id, int pageSize, int pageNo) {
         return Flowable.just(id)
                 .flatMap(aLong -> {
@@ -84,9 +73,6 @@ public class ChatRepository {
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public void addMessage(MessageEntity messageEntity) {
-        dao.insertMessage(messageEntity);
-    }
 
     public void addMessage(MessageEntity messageEntity,long userId) {
         MessageListEntity  mle = new MessageListEntity();
@@ -96,7 +82,4 @@ public class ChatRepository {
         dao.insertMessageListAndMessage(mle,messageEntity);
     }
 
-    public void addNewListMessage(MessageListEntity listEntity,MessageEntity messageEntity) {
-        dao.insertMessageListAndMessage(listEntity,messageEntity);
-    }
 }
