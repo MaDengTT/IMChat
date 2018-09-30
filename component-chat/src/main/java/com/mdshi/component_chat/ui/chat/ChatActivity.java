@@ -39,6 +39,8 @@ public class ChatActivity extends BaseActivity {
 
     ChatActivityModel model;
 
+    @Inject
+    UserData userData;
 
 
     private long session_id;
@@ -102,7 +104,7 @@ public class ChatActivity extends BaseActivity {
         butSend = findViewById(R.id.but_send);
 
         butSend.setOnClickListener(v -> {
-            ChatBean bean = new ChatBean();
+            ChatBean bean = new ChatBean(userData.getValue().userID);
             bean.date = new Date();
             bean.type = ChatBean.Type.TEXT_R;
             bean.content = edChat.getText().toString();

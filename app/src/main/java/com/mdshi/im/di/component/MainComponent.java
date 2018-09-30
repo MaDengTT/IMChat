@@ -17,10 +17,10 @@ import dagger.Component;
 @ActivityScope
 @Component(dependencies = AppComponent.class,modules = {UserModule.class})
 public interface MainComponent {
-    void inject(LoginActivity activity);
-    void inject(RegisterActivity activity);
-
-    void inject(MainActivity mainActivity);
+//    void inject(LoginActivity activity);
+//    void inject(RegisterActivity activity);
+//
+//    void inject(MainActivity mainActivity);
 
     UserData userData();
 

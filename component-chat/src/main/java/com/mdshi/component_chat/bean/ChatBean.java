@@ -34,6 +34,10 @@ public class ChatBean implements MultiItemEntity {
 
     public long tUserId;
 
+    public ChatBean(long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public int getItemType() {
         return type.ordinal();

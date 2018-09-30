@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
 import com.mdshi.common.base.BaseActivity;
+import com.mdshi.component_chat.ui.ChatFragment;
+import com.mdshi.component_chat.ui.contacts.ContactsFragment;
 import com.mdshi.im.R;
 
 public class NavigationActivity extends BaseActivity {
@@ -21,14 +23,17 @@ public class NavigationActivity extends BaseActivity {
 
     FrameLayout flFragment;
 
+    ChatFragment chatFragment;
+    ContactsFragment contactsFragment;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-    //                    mTextMessage.setText(R.string.title_home);
+                        changeFragment(chatFragment);
                         return true;
                     case R.id.navigation_dashboard:
-    //                    mTextMessage.setText(R.string.title_dashboard);
+                        changeFragment(contactsFragment);
                         return true;
                     case R.id.navigation_notifications:
     //                    mTextMessage.setText(R.string.title_notifications);
@@ -43,12 +48,21 @@ public class NavigationActivity extends BaseActivity {
         setContentView(R.layout.activity_navigation);
 
         initView();
+        initFragment();
+    }
+
+    private void initFragment() {
+        chatFragment = new ChatFragment();
+        contactsFragment = ContactsFragment.newInstance("", "");
+
+        currentFragment = chatFragment;
     }
 
     private void initView() {
         flFragment = findViewById(R.id.fl_fragment);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
     Fragment currentFragment;

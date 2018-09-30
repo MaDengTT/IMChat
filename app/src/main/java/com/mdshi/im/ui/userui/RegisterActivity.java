@@ -14,7 +14,8 @@ import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.utils.RegexUtils;
 import com.mdshi.im.R;
-import com.mdshi.im.di.component.DaggerMainComponent;
+
+
 import com.mdshi.im.ui.MainActivity;
 
 import org.reactivestreams.Subscriber;
@@ -45,7 +46,6 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
-        DaggerMainComponent.builder().appComponent(getAppComponent()).build().inject(this);
         initView();
     }
 

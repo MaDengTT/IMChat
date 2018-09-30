@@ -11,7 +11,6 @@ import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.chatlib.listener.ReceiveListener;
 import com.mdshi.chatlib.listener.SendMessageListener;
 
-import java.security.Key;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -46,6 +45,8 @@ public class IMChat {
                 if (messageListeners != null) {
                     for (MessageListener listener:messageListeners) {
                         listener.message(message);
+                        MessageBean bean = new MessageBean(message);
+                        listener.messagetbean(bean);
                     }
                 }
             }
@@ -144,7 +145,7 @@ public class IMChat {
         }
         SendMessage message = new SendMessage();
         message.key = "/IM/Chat/000";
-        message.body = bean.message;
+        message.body = bean.key+bean.message;
         ins.connection.sendMessage(message);
     }
 

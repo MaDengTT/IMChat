@@ -4,6 +4,17 @@
 
     <application>
         <activity android:name=".ui.MainChatActivity"></activity>
+        <activity android:name=".ui.chat.ChatActivity" />
+
+        <service
+            android:name=".service.IMChatService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".receiver.IMReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

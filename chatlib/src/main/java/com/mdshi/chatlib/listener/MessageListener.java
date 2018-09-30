@@ -8,5 +8,5 @@ import com.mdshi.chatlib.Bean.MessageBean;
 public interface MessageListener  extends BaseListener{
 
     void message(String data);
-    void messageTbean(MessageBean bean);
+    void messagetbean(MessageBean bean);
 }

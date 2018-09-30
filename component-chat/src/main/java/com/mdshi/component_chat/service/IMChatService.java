@@ -51,36 +51,39 @@ public class IMChatService extends Service {
             @Override
             public void message(String data) {
                 Log.d(TAG, "message: "+data);
-                Flowable.just(data)
-                        .map(s -> gson.fromJson(data, MessageEntity.class))
-                        .flatMap(s->addMegToDB(s))
-                        .map(s1->BeanUtils.MsgToChatBean(s1,userdata.getValue().userID))
-                        .subscribe(new Subscriber<ChatBean>() {
-                            @Override
-                            public void onSubscribe(Subscription s) {
 
-                            }
-
-                            @Override
-                            public void onNext(ChatBean bean) {
-                                ChatManager.getIns().receive(bean);
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
-                                Log.e(TAG, "onError: ", t);
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
-                        });
             }
 
             @Override
-            public void messageTbean(MessageBean bean) {
+            public void messagetbean(MessageBean bean) {
+                if (MessageBean.R_CHAT_KEY.equals(bean.key)) {
 
+                    Flowable.just(bean.message)
+                            .map(s -> gson.fromJson(s, MessageEntity.class))
+                            .flatMap(s1->addMegToDB(s1))
+                            .map(s1->BeanUtils.MsgToChatBean(s1,userdata.getValue().userID))
+                            .subscribe(new Subscriber<ChatBean>() {
+                                @Override
+                                public void onSubscribe(Subscription s) {
+
+                                }
+
+                                @Override
+                                public void onNext(ChatBean bean) {
+                                    ChatManager.getIns().receive(bean);
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    Log.e(TAG, "onError: ", t);
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                }
             }
 
             @Override

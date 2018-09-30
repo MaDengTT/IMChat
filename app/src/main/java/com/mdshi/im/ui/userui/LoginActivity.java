@@ -1,5 +1,7 @@
 package com.mdshi.im.ui.userui;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import com.mdshi.common.base.BaseActivity;
 import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.utils.RegexUtils;
+import com.mdshi.common.viewmodel.ViewModelFactory;
 import com.mdshi.im.R;
 import com.mdshi.im.di.component.DaggerMainComponent;
 import com.mdshi.im.ui.MainActivity;
@@ -30,8 +33,9 @@ public class LoginActivity extends BaseActivity {
     TextView tvRegister;
     Button butLogin;
     EditText edName, edPassword;
-    @Inject
     UserModel model;
+    @Inject
+    ViewModelProvider.Factory factory;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, LoginActivity.class);
@@ -42,7 +46,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        DaggerMainComponent.builder().appComponent(getAppComponent()).build().inject(this);
+        model = ViewModelProviders.of(this, factory).get(UserModel.class);
         initView();
     }
 
@@ -78,7 +82,7 @@ public class LoginActivity extends BaseActivity {
         Disposable disposable = login.subscribe(userEntityBaseBean -> {
             Log.d(TAG, "onNext: " + userEntityBaseBean.toString());
             if (userEntityBaseBean.isSuccess()) {
-                MainActivity.start(this);
+                NavigationActivity.start(this);
             } else {
                 toast(userEntityBaseBean.message);
             }

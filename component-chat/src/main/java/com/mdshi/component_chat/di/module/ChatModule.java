@@ -4,6 +4,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.common.di.scope.ActivityScope;
 import com.mdshi.component_chat.adapter.ContactsAdapter;
 import com.mdshi.component_chat.data.ChatRepository;
 import com.mdshi.component_chat.data.ContactsRepository;
@@ -25,7 +26,7 @@ import retrofit2.Retrofit;
 @Module
 public class ChatModule {
 
-
+    @ActivityScope
     @Provides
     public static ContactsService provideContactsService(Retrofit retrofit) {
         return retrofit.create(ContactsService.class);

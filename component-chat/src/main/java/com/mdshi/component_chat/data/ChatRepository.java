@@ -78,7 +78,7 @@ public class ChatRepository {
         MessageListEntity  mle = new MessageListEntity();
         mle.createBean(messageEntity.session_id,userId,messageEntity.other_id,messageEntity.type);
         mle.updateBean(messageEntity.createTime,messageEntity.id,messageEntity.content);
-        Log.d(TAG, "addMessage: "+mle.toString());
+        Log.d(TAG, "addMessage: "+messageEntity.toString());
         dao.insertMessageListAndMessage(mle,messageEntity);
     }
 

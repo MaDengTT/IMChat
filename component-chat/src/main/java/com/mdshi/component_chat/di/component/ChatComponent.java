@@ -2,7 +2,6 @@ package com.mdshi.component_chat.di.component;
 
 import com.mdshi.common.di.component.AppComponent;
 import com.mdshi.common.di.scope.ActivityScope;
-import com.mdshi.component_chat.MyApplication;
 import com.mdshi.component_chat.di.module.ActivityModule;
 import com.mdshi.component_chat.di.module.ChatModule;
 import com.mdshi.component_chat.di.module.ViewModelModule;
@@ -25,9 +24,6 @@ import dagger.android.support.AndroidSupportInjectionModule;
         ActivityModule.class,
 })
 public interface ChatComponent {
-
-    void inject(MyApplication application);
-
     void inject(IMChatService service);
 
     void inject(MainChatActivity activity);

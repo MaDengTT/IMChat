@@ -1,19 +1,18 @@
-package com.mdshi.component_chat.di;
+package com.mdshi.im.di;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.ComponentCallbacks;
-import android.content.res.Configuration;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.mdshi.common.base.BaseApplication;
+
 import com.mdshi.common.di.Injectable;
-import com.mdshi.common.di.component.DaggerAppComponent;
-import com.mdshi.component_chat.MyApplication;
-import com.mdshi.component_chat.di.component.DaggerChatComponent;
+
+import com.mdshi.im.MyApplication;
+import com.mdshi.im.di.component.DaggerAppMainComponent;
 
 import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
@@ -24,8 +23,7 @@ import dagger.android.support.HasSupportFragmentInjector;
  */
 public class AppInjector {
     public static final void init(MyApplication application) {
-        DaggerChatComponent.builder().appComponent(application.appComponent())
-                .build().inject(application);
+        DaggerAppMainComponent.builder().appComponent(application.appComponent()).build().inject(application);
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

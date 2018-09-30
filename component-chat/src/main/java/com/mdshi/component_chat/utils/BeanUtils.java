@@ -12,7 +12,7 @@ import io.reactivex.functions.Function;
 public class BeanUtils {
 
     public static ChatBean MsgToChatBean(MessageEntity entity,long userid) {
-        ChatBean c = new ChatBean();
+        ChatBean c = new ChatBean(entity.fUserId);
         c.content = entity.content;
         c.session_id = entity.session_id;
         c.date = entity.createTime;

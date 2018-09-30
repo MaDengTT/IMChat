@@ -61,7 +61,7 @@ public class MyApplication extends BaseApplication {
 //            }
 //
 //            @Override
-//            public void messageTbean(MessageBean bean) {
+//            public void messagetbean(MessageBean bean) {
 //
 //            }
 //
