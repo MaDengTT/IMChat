@@ -34,7 +34,7 @@ public class Mqtt_Connection implements BaseConnection {
     ReceiveListener receiveListener;
 
     Config config;
-    private Topic[] topics = topics = new Topic[1];
+    private Topic[] topics = new Topic[1];
 
     public Mqtt_Connection(Config config) {
         this.config = config;

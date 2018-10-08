@@ -73,6 +73,7 @@ public class IMChatService extends Service {
                             })
                             .map(messageEntity -> {
                                 repository.addMessage(messageEntity,userid);
+                                ChatManager.getIns().receive(BeanUtils.MsgToChatBean(messageEntity,userid));
                                 return messageEntity;
                             }).map(s1-> BeanUtils.MsgToChatBean(s1,userid))
                             .compose(RxUtils.switchMainThread())
@@ -84,7 +85,7 @@ public class IMChatService extends Service {
 
                                 @Override
                                 public void onNext(ChatBean bean) {
-                                    ChatManager.getIns().receive(bean);
+//                                    ChatManager.getIns().receive(bean);
                                 }
 
                                 @Override
@@ -115,6 +116,12 @@ public class IMChatService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        startService(new Intent(this, IMChatService.class));
+        super.onDestroy();
     }
 
     @Override

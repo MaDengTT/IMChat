@@ -43,7 +43,7 @@ public class MyApplication extends BaseApplication {
     private void initIMChat() {
         userData.observeForever(userEntity -> {
             if (userEntity == null||userEntity.userID==0) {
-
+                IMChat.unConnect();
             }else {
                 Debug.init(true);
                 IMChat.init(String.valueOf(userEntity.userID));

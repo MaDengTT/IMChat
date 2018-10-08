@@ -3,8 +3,10 @@
     package="com.mdshi.component_chat">
 
     <application>
-        <activity android:name=".ui.MainChatActivity"></activity>
-        <activity android:name=".ui.chat.ChatActivity" />
+        <activity android:name=".ui.MainChatActivity" />
+        <activity android:name=".ui.chat.ChatActivity"
+            android:launchMode="singleTask"
+            />
 
         <service
             android:name=".service.IMChatService"
@@ -14,7 +16,12 @@
         <receiver
             android:name=".receiver.IMReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
+
+        <service
+            android:name=".service.ProtectService"
+            android:enabled="false"
+            android:exported="false"></service>
     </application>
 
 </manifest>

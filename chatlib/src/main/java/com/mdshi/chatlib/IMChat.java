@@ -112,6 +112,11 @@ public class IMChat {
     public static void connect() {
         ins.connection.connect();
     }
+    public static void unConnect() {
+        if (ins != null||ins.connection!=null) {
+            ins.connection.unSub();
+        }
+    }
 
     public static void addMessageListener(final MessageListener listener) {
 
