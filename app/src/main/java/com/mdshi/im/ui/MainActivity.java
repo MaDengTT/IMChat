@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.mdshi.common.base.BaseActivity;
 
@@ -35,8 +34,10 @@ public class MainActivity extends BaseActivity {
         user.observe(this, entity -> {
             if (entity != null && entity.userID != 0) {
                 NavigationActivity.start(this);
+                finish();
             }else {
                 LoginActivity.start(this);
+                finish();
             }
         });
     }

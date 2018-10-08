@@ -10,6 +10,7 @@ import com.mdshi.common.db.entity.MessageListEntity;
 
 import org.reactivestreams.Publisher;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,7 +78,7 @@ public class ChatRepository {
     public void addMessage(MessageEntity messageEntity,long userId) {
         MessageListEntity  mle = new MessageListEntity();
         mle.createBean(messageEntity.session_id,userId,messageEntity.other_id,messageEntity.type);
-        mle.updateBean(messageEntity.createTime,messageEntity.id,messageEntity.content);
+        mle.updateBean(new Date(messageEntity.createTime),messageEntity.id,messageEntity.content);
         Log.d(TAG, "addMessage: "+messageEntity.toString());
         dao.insertMessageListAndMessage(mle,messageEntity);
     }

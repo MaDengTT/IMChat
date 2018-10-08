@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.mdshi.common.base.BaseActivity;
 import com.mdshi.common.base.BaseBean;
+
 import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.utils.RegexUtils;
 import com.mdshi.im.R;
@@ -18,15 +19,11 @@ import com.mdshi.im.R;
 
 import com.mdshi.im.ui.MainActivity;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.FlowableSubscriber;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -80,6 +77,7 @@ public class RegisterActivity extends BaseActivity {
             if (userEntityBaseBean.isSuccess()) {
                 toast("成功创建账户");
                 MainActivity.start(this);
+                finish();
             }else {
                 toast(userEntityBaseBean.message);
             }

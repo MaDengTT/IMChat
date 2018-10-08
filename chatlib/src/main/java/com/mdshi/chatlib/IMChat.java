@@ -22,7 +22,7 @@ public class IMChat {
     private static IMChat ins;
 //    private MessageListener messagelistener;
 
-    Set<MessageListener> messageListeners;
+    private Set<MessageListener> messageListeners;
 
     private BaseConnection connection;
 
@@ -46,7 +46,7 @@ public class IMChat {
                     for (MessageListener listener:messageListeners) {
                         listener.message(message);
                         MessageBean bean = new MessageBean(message);
-                        listener.messagetbean(bean);
+                        listener.messageTBean(bean);
                     }
                 }
             }

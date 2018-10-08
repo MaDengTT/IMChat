@@ -58,7 +58,7 @@ public class LoginActivity extends BaseActivity {
 
         butLogin.setOnClickListener(v -> login(edName.getText().toString().trim(), edPassword.getText().toString()));
 //        tvRegister.setOnClickListener(v -> RegisterActivity.start(this));
-        tvRegister.setOnClickListener(v-> NavigationActivity.start(this));
+        tvRegister.setOnClickListener(v-> RegisterActivity.start(this));
     }
 
     private static final String TAG = "LoginActivity";
@@ -83,6 +83,7 @@ public class LoginActivity extends BaseActivity {
             Log.d(TAG, "onNext: " + userEntityBaseBean.toString());
             if (userEntityBaseBean.isSuccess()) {
                 NavigationActivity.start(this);
+                finish();
             } else {
                 toast(userEntityBaseBean.message);
             }

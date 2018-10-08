@@ -44,10 +44,12 @@ public class ChatActivity extends BaseActivity {
 
 
     private long session_id;
+    private long tUser_id;
 
-    public static void start(Context context,long session_id) {
+    public static void start(Context context,long session_id,long tUserid) {
         Intent starter = new Intent(context, ChatActivity.class);
         starter.putExtra("session_id",session_id);
+        starter.putExtra("t_user_id", tUserid);
         context.startActivity(starter);
     }
 
@@ -57,6 +59,7 @@ public class ChatActivity extends BaseActivity {
         setContentView(R.layout.chat_activity_chat);
         model = ViewModelProviders.of(this, factory).get(ChatActivityModel.class);
         session_id = getIntent().getLongExtra("session_id", 0);
+        tUser_id = getIntent().getLongExtra("t_user_id", 0);
         Log.d(TAG, "session_id"+session_id);
         initView();
         initData();
@@ -109,6 +112,7 @@ public class ChatActivity extends BaseActivity {
             bean.type = ChatBean.Type.TEXT_R;
             bean.content = edChat.getText().toString();
             bean.session_id = session_id;
+            bean.tUserId = tUser_id;
             model.addMsgChatData(bean);
         });
 

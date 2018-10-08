@@ -11,21 +11,21 @@ import com.mdshi.chatlib.IMChat;
 import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.common.base.BaseApplication;
 import com.mdshi.common.constan.UserData;
-import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.entity.MessageEntity;
-import com.mdshi.common.db.entity.MessageListEntity;
+import com.mdshi.common.rx.RxUtils;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.bean.ChatBean;
+import com.mdshi.component_chat.data.ChatRepository;
 import com.mdshi.component_chat.di.component.DaggerChatComponent;
 import com.mdshi.component_chat.utils.BeanUtils;
+
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class IMChatService extends Service {
 
@@ -33,13 +33,16 @@ public class IMChatService extends Service {
     }
 
     @Inject
-    MessageDao dao;
-
-    @Inject
     Gson gson;
 
     @Inject
     UserData userdata;
+
+    @Inject
+    ChatRepository repository;
+
+    long userid;
+
     private static final String TAG = "IMChatService";
     @Override
     public void onCreate() {
@@ -47,21 +50,32 @@ public class IMChatService extends Service {
 
         DaggerChatComponent.builder().appComponent(((BaseApplication)getApplication()).appComponent()).build().inject(this);
 
+        userdata.observeForever(userEntity -> {
+            if (userEntity != null) {
+                userid = userEntity.userID;
+            }
+        });
+
         IMChat.addMessageListener(new MessageListener() {
             @Override
             public void message(String data) {
                 Log.d(TAG, "message: "+data);
-
             }
 
             @Override
-            public void messagetbean(MessageBean bean) {
+            public void messageTBean(MessageBean bean) {
                 if (MessageBean.R_CHAT_KEY.equals(bean.key)) {
-
                     Flowable.just(bean.message)
-                            .map(s -> gson.fromJson(s, MessageEntity.class))
-                            .flatMap(s1->addMegToDB(s1))
-                            .map(s1->BeanUtils.MsgToChatBean(s1,userdata.getValue().userID))
+                            .map(s -> {
+                                MessageEntity messageEntity = gson.fromJson(s, MessageEntity.class);
+                                messageEntity.other_id = messageEntity.fUserId;
+                                return messageEntity;
+                            })
+                            .map(messageEntity -> {
+                                repository.addMessage(messageEntity,userid);
+                                return messageEntity;
+                            }).map(s1-> BeanUtils.MsgToChatBean(s1,userid))
+                            .compose(RxUtils.switchMainThread())
                             .subscribe(new Subscriber<ChatBean>() {
                                 @Override
                                 public void onSubscribe(Subscription s) {
@@ -109,27 +123,4 @@ public class IMChatService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private Flowable<MessageEntity> addMegToDB(MessageEntity messageEntity) {
-        return Flowable.just(messageEntity)
-                .flatMap(aLong -> {
-                    MessageListEntity msgListBySessionID = dao.getMsgListBySessionID(aLong.session_id);
-                    if (msgListBySessionID == null) {
-                        msgListBySessionID = new MessageListEntity();
-                    }
-                    msgListBySessionID.updateBean(aLong.createTime,aLong.id,aLong.content);
-                    if (msgListBySessionID.id == 0) {
-                        msgListBySessionID.id = aLong.session_id;
-                        msgListBySessionID.user_Id = messageEntity.tUserId;
-                        dao.insertMessageListAndMessage(msgListBySessionID,aLong);
-                    }else {
-                        dao.insertMessage(aLong);
-                        dao.updateMessageList(msgListBySessionID);
-                    }
-                    return Flowable.just(aLong);
-                    })
-                .subscribeOn(Schedulers.io()).map(s1->
-                {ChatBean bean = BeanUtils.MsgToChatBean(s1,userdata.getValue().userID);
-                ChatManager.getIns().receive(bean);
-                return s1;});
-    }
 }

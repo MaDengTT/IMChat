@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.my.MyFragment">
+
+    <ImageView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintDimensionRatio="1.125:1"
+        android:src="@drawable/my_bg"
+        android:scaleType="fitXY"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:scrollbars="none"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/avatar"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="40dp"
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp">
+
+                </ImageView>
+
+                <TextView
+                    app:layout_constraintLeft_toRightOf="@+id/iv_avatar"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="下过晴天的雨"
+                    android:textSize="@dimen/text_title_size"
+                    app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_user_info"
+                    />
+
+                <TextView
+                    app:layout_constraintLeft_toLeftOf="@id/tv_user_name"
+                    android:id="@+id/tv_user_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_hint_size"
+                    android:text="等你下课"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@color/background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <RelativeLayout
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

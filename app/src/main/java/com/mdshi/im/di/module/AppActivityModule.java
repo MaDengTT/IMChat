@@ -19,7 +19,7 @@ public abstract class AppActivityModule {
     public abstract LoginActivity contributeLoginActivity();
     @ContributesAndroidInjector()
     public abstract MainActivity contributeMainActivity();
-    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    @ContributesAndroidInjector(modules = {FragmentBuildersModule.class,AppFragmentModule.class})
     public abstract NavigationActivity contributeNavugationActivity();
     @ContributesAndroidInjector()
     public abstract RegisterActivity contributeRegisterActivity();

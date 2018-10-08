@@ -43,7 +43,7 @@ public class MessageEntity {
     public long session_id; //会话列表ID 对应messagelistId
 
     @ColumnInfo(name = "create_time")
-    public Date createTime;
+    public long createTime;
 
     @Ignore
     public long other_id; //对方ID 如果为接受就是 fUserId；如果发送就是 to_user_Id

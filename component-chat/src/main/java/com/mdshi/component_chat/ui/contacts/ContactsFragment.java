@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,6 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ContactsFragment extends BaseFragment {
 
     RecyclerView rvContacts;
+    SwipeRefreshLayout srl;
     private View root;
 
     ContactsModel model;
@@ -63,10 +65,12 @@ public class ContactsFragment extends BaseFragment {
         model.getContactsData().observe(this, listResource -> {
             if (listResource == null||listResource.status == Status.ERROR) {
                 Log.e(TAG, "initData: ", listResource != null ? listResource.throwable : null);
+                srl.setRefreshing(false);
             } else if(listResource.status == Status.LOADING){
                 Log.d(TAG, "initData: Loading");
             } else if (listResource.status == Status.SUCCESS) {
                 adapter.setNewData(listResource.data);
+                srl.setRefreshing(false);
                 Log.d(TAG, "initData: Success"+listResource.data.size());
             }
         });
@@ -82,6 +86,9 @@ public class ContactsFragment extends BaseFragment {
         adapter = new ContactsAdapter(null);
         rvContacts.setAdapter(adapter);
 
+        srl = root.findViewById(R.id.srl);
+
+        srl.setOnRefreshListener(() -> model.retry());
         rvContacts.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -91,7 +98,7 @@ public class ContactsFragment extends BaseFragment {
     }
 
     private void toChatActivity(ContactsEntity item) {
-        ChatActivity.start(getActivity(),item.session_id);
+        ChatActivity.start(getActivity(),item.getSession_id(),item.contactsId);
     }
 
 

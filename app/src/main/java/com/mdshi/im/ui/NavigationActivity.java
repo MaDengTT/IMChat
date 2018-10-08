@@ -13,8 +13,11 @@ import com.mdshi.common.base.BaseActivity;
 import com.mdshi.component_chat.ui.ChatFragment;
 import com.mdshi.component_chat.ui.contacts.ContactsFragment;
 import com.mdshi.im.R;
+import com.mdshi.im.ui.my.MyFragment;
 
 public class NavigationActivity extends BaseActivity {
+
+    private BottomNavigationView navigation;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, NavigationActivity.class);
@@ -25,6 +28,7 @@ public class NavigationActivity extends BaseActivity {
 
     ChatFragment chatFragment;
     ContactsFragment contactsFragment;
+    MyFragment myFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
@@ -36,7 +40,7 @@ public class NavigationActivity extends BaseActivity {
                         changeFragment(contactsFragment);
                         return true;
                     case R.id.navigation_notifications:
-    //                    mTextMessage.setText(R.string.title_notifications);
+                        changeFragment(myFragment);
                         return true;
                 }
                 return false;
@@ -49,18 +53,20 @@ public class NavigationActivity extends BaseActivity {
 
         initView();
         initFragment();
+
+        changeFragment(chatFragment);
     }
 
     private void initFragment() {
         chatFragment = new ChatFragment();
         contactsFragment = ContactsFragment.newInstance("", "");
-
-        currentFragment = chatFragment;
+        myFragment = new MyFragment();
+        currentFragment = null;
     }
 
     private void initView() {
         flFragment = findViewById(R.id.fl_fragment);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
@@ -77,7 +83,11 @@ public class NavigationActivity extends BaseActivity {
         if (!fragment.isAdded()) {
             fragmentTransaction.add(R.id.fl_fragment,fragment);
         }
-        fragmentTransaction.hide(currentFragment).show(fragment).commit();
+        if (currentFragment == null) {
+            fragmentTransaction.show(fragment).commit();
+        }else {
+            fragmentTransaction.hide(currentFragment).show(fragment).commit();
+        }
         currentFragment = fragment;
     }
 

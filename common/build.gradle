@@ -84,6 +84,8 @@ dependencies {
     api 'com.google.dagger:dagger-android:2.15'
     api 'com.google.dagger:dagger-android-support:2.15' // if you use the support libraries
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
+
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 //    //buttrtknife 在lib中使用有bug 暂时弃用
 //    api "com.jakewharton:butterknife:8.8.1"
 //    annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"

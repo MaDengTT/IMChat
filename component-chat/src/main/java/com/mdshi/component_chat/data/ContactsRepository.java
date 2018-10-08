@@ -56,7 +56,8 @@ public class ContactsRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable List<ContactsEntity> data) {
-                return data == null||data.isEmpty();
+//                return data == null||data.isEmpty();
+                return true;
             }
 
             @NonNull

@@ -3,6 +3,8 @@ package com.mdshi.component_chat.utils;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.component_chat.bean.ChatBean;
 
+import java.util.Date;
+
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;
 
@@ -15,7 +17,7 @@ public class BeanUtils {
         ChatBean c = new ChatBean(entity.fUserId);
         c.content = entity.content;
         c.session_id = entity.session_id;
-        c.date = entity.createTime;
+        c.date = new Date(entity.createTime);
         switch (entity.type) {
             case 0:
                 if (entity.fUserId == userid) {
@@ -35,7 +37,7 @@ public class BeanUtils {
                 temp.type = 0;
                 break;
         }
-        temp.createTime = entity.date;
+        temp.createTime = entity.date.getTime();
         temp.content = entity.content;
         temp.session_id = entity.session_id;
         temp.tUserId = entity.tUserId;

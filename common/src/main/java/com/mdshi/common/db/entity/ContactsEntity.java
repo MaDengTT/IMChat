@@ -33,4 +33,12 @@ public class ContactsEntity {
 
     public long session_id;
 
+    public long getSession_id() {
+        if (userId > contactsId) {
+            return Long.valueOf(userId + "" + contactsId);
+        }else {
+            return Long.valueOf(contactsId + "" + userId);
+        }
+    }
+
 }

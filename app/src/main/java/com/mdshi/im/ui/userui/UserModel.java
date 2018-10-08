@@ -44,6 +44,12 @@ public class UserModel extends ViewModel {
 
     public Flowable<BaseBean<UserEntity>> register(String phone, String email, String password) {
         return repository.register(phone,email,password)
+                .map(userEntityBaseBean -> {
+                    if (userEntityBaseBean.isSuccess()) {
+                        userData.postValue(userEntityBaseBean.data);
+                    }
+                    return userEntityBaseBean;
+                })
                 .compose(RxUtils.switchMainThread())
                 .onErrorReturn(RxUtils.baseBeanThrowable());
     }

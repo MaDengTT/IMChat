@@ -44,6 +44,8 @@ public class ChatActivityModel extends ViewModel{
 
     private FlowableProcessor<SessionBean> sessionBus;
 
+    private long tUserId;
+
     @Inject
     public ChatActivityModel(ChatRepository repository, UserData userdata) {
         userdata.observeForever(userEntity -> user = userEntity != null ? userEntity.userID : 0);
@@ -83,7 +85,7 @@ public class ChatActivityModel extends ViewModel{
             }
         });
 
-        beanData.observeForever(sessionBean -> sessionBus.onNext(sessionBean));
+        beanData.observeForever(sessionBean -> {sessionBus.onNext(sessionBean);});
     }
 
 
