@@ -2,9 +2,13 @@ package com.mdshi.component_chat.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.common.db.dao.UserDao;
+import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
 
@@ -28,11 +32,11 @@ import io.reactivex.schedulers.Schedulers;
 public class ChatRepository {
 
     MessageDao dao;
-
+    ContactsDao contactsDao;
     @Inject
-    public ChatRepository(MessageDao dao) {
+    public ChatRepository(MessageDao dao,ContactsDao contactsDao) {
         this.dao = dao;
-
+        this.contactsDao = contactsDao;
     }
 
     public LiveData<List<MessageListEntity>> getChatBean(long userId) {
@@ -77,8 +81,12 @@ public class ChatRepository {
 
     public void addMessage(MessageEntity messageEntity,long userId) {
         MessageListEntity  mle = new MessageListEntity();
+        ContactsEntity contacts = contactsDao.findContacts(userId,messageEntity.other_id);
         mle.createBean(messageEntity.session_id,userId,messageEntity.other_id,messageEntity.type);
         mle.updateBean(new Date(messageEntity.createTime),messageEntity.id,messageEntity.content);
+        if (contacts != null) {
+            mle.setUserInfo(contacts.contactsName,contacts.avatar);
+        }
         Log.d(TAG, "addMessage: "+messageEntity.toString());
         dao.insertMessageListAndMessage(mle,messageEntity);
     }

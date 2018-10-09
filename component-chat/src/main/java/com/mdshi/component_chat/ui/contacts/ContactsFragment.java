@@ -7,12 +7,14 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -39,6 +41,8 @@ public class ContactsFragment extends BaseFragment {
     private View root;
 
     ContactsModel model;
+
+    @Inject
     ContactsAdapter adapter;
 
 
@@ -79,11 +83,19 @@ public class ContactsFragment extends BaseFragment {
     }
 
     private void initView() {
+
+        TextView title = root.findViewById(R.id.tv_title);
+        title.setText("联系人");
+        View add = root.findViewById(R.id.iv_add);
+        add.setVisibility(View.VISIBLE);
+        add.setOnClickListener(v -> SearchContactsActivity.start(getActivity()));
+
         rvContacts = root.findViewById(R.id.rv_contacts);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvContacts.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        rvContacts.addItemDecoration(decoration);
 
-        adapter = new ContactsAdapter(null);
         rvContacts.setAdapter(adapter);
 
         srl = root.findViewById(R.id.srl);

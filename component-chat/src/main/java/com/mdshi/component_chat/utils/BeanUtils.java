@@ -42,6 +42,7 @@ public class BeanUtils {
         temp.session_id = entity.session_id;
         temp.tUserId = entity.tUserId;
         temp.fUserId = entity.userId;
+        temp.other_id = entity.tUserId;
         return temp;
     }
 

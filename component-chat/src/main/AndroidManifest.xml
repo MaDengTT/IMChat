@@ -4,9 +4,9 @@
 
     <application>
         <activity android:name=".ui.MainChatActivity" />
-        <activity android:name=".ui.chat.ChatActivity"
-            android:launchMode="singleTask"
-            />
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:launchMode="singleTask" />
 
         <service
             android:name=".service.IMChatService"
@@ -21,7 +21,9 @@
         <service
             android:name=".service.ProtectService"
             android:enabled="false"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".ui.contacts.SearchContactsActivity"></activity>
     </application>
 
 </manifest>

@@ -45,6 +45,11 @@ public class MessageListEntity {
 
     @ColumnInfo(name = "new_message_content")
     public String newMessageContent;
+
+    @ColumnInfo(name = "avatar_url")
+    public String avatarUrl;
+    @ColumnInfo(name = "message_name")
+    public String name;
 //    @Embedded
 //    public MessageEntity newMessage;
 
@@ -62,6 +67,10 @@ public class MessageListEntity {
         this.newMessageId = newMessageId;
         this.newMessageContent = newMessageContent;
         unReadNum++;
+    }
+
+    public void setUserInfo(String name,String url) {
+        this.avatarUrl = url;
     }
     @Override
     public String toString() {

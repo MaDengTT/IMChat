@@ -19,9 +19,11 @@
 
     <TextView
         android:id="@+id/tv_tips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#f00"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:background="@drawable/ic_my_message_tips_shape"
         android:text="0"
         app:layout_constraintTop_toTopOf="@+id/iv_avatar"
         app:layout_constraintRight_toRightOf="@+id/iv_avatar" />

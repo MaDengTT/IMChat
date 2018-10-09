@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 
 import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.db.entity.ContactsEntity;
+import com.mdshi.common.db.entity.UserEntity;
 
 import java.util.List;
 
@@ -24,5 +25,9 @@ public interface ContactsService {
     public LiveData<BaseBean<List<ContactsEntity>>> getContactsListToLiveData(@Field("userid") long userid);
     @FormUrlEncoded
     @POST("/contacts/add")
-    public Flowable<List<ContactsEntity>> addContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);
+    public Flowable<BaseBean<List<ContactsEntity>>> addContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);
+
+    @FormUrlEncoded
+    @POST("/user/search")
+    public Flowable<BaseBean<List<UserEntity>>> searchContacts(@Field("search") String search, @Field("pagesize")int pagesize, @Field("pageno")int pageno);
 }

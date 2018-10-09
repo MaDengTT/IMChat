@@ -2,6 +2,7 @@ package com.mdshi.component_chat.di.module;
 
 import com.mdshi.component_chat.ui.chat.ChatActivity;
 import com.mdshi.component_chat.ui.MainChatActivity;
+import com.mdshi.component_chat.ui.contacts.SearchContactsActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -16,4 +17,6 @@ public abstract class ActivityModule {
 
     @ContributesAndroidInjector
     public abstract ChatActivity contributeChatActivity();
+    @ContributesAndroidInjector
+    public abstract SearchContactsActivity contributeSearchContactsActivity();
 }

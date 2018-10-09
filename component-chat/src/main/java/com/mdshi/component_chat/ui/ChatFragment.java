@@ -44,8 +44,8 @@ public class ChatFragment extends BaseFragment{
 
     @Inject
     ViewModelProvider.Factory factory;
-
-    private ChatItemAdapter adapter;
+    @Inject
+    ChatItemAdapter adapter;
 
     private static final String TAG = "ChatFragment";
     @Override
@@ -81,7 +81,6 @@ public class ChatFragment extends BaseFragment{
                 toActivity((MessageListEntity) adapter.getItem(position));
             }
         });
-        adapter = new ChatItemAdapter(null);
         rvList.setAdapter(adapter);
     }
 

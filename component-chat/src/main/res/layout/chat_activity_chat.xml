@@ -7,12 +7,7 @@
     android:orientation="vertical"
     tools:context="com.mdshi.component_chat.ui.chat.ChatActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:background="@color/title_bg"
-        android:layout_height="@dimen/title_height" >
-
-    </android.support.constraint.ConstraintLayout>
+    <include layout="@layout/chat_title" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_chat_list"

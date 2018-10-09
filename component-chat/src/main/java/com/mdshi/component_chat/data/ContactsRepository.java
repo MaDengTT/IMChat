@@ -13,6 +13,7 @@ import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.rx.RxUtils;
+import com.mdshi.common.vo.AbsentLiveData;
 import com.mdshi.common.vo.Resource;
 
 import org.reactivestreams.Subscriber;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import com.mdshi.common.vo.AppExecutors;
@@ -45,6 +47,21 @@ public class ContactsRepository {
     private LiveData<List<ContactsEntity>> data;
 
     private static final String TAG = "ContactsRepository";
+
+    public LiveData<BaseBean<List<UserEntity>>> searchContacts(String s,int pagesize,int pageno) {
+         MutableLiveData<BaseBean<List<UserEntity>>> data = new MutableLiveData<>();
+         service.searchContacts(s,pagesize,pageno)
+                        .compose(RxUtils.switchMainThread())
+                        .subscribe(contactsEntities -> {
+                            data.setValue(contactsEntities);
+                        }, error -> {
+                            Log.e(TAG, "createCall: ", error);
+                            BaseBean<List<UserEntity>> baseBean = new BaseBean<>(400, "error", null);
+                            data.setValue(baseBean);
+                        });
+                return data;
+
+    }
 
     public LiveData<Resource<List<ContactsEntity>>> getContactsData(long userId) {
         return new NetworkBoundResource<List<ContactsEntity>,List<ContactsEntity>>(appExecutors){
