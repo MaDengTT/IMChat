@@ -61,7 +61,7 @@ public class ClientModule {
     @Singleton
     @Provides
     public Retrofit provideRetrofit(Context context) {
-        return RetrofitClient.createService(context,"http://www.mdshi.cn:8081");
+        return RetrofitClient.createService(context,"http://api.mdshi.cn");
     }
 
 }
