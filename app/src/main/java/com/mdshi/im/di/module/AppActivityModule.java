@@ -1,9 +1,9 @@
 package com.mdshi.im.di.module;
 
 import com.mdshi.component_chat.di.module.FragmentBuildersModule;
-import com.mdshi.component_chat.ui.MainChatActivity;
 import com.mdshi.im.ui.MainActivity;
 import com.mdshi.im.ui.NavigationActivity;
+import com.mdshi.im.ui.userui.EditUserActivity;
 import com.mdshi.im.ui.userui.LoginActivity;
 import com.mdshi.im.ui.userui.RegisterActivity;
 
@@ -23,4 +23,6 @@ public abstract class AppActivityModule {
     public abstract NavigationActivity contributeNavugationActivity();
     @ContributesAndroidInjector()
     public abstract RegisterActivity contributeRegisterActivity();
+    @ContributesAndroidInjector()
+    public abstract EditUserActivity contributeEditUserActivity();
 }

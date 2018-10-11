@@ -19,6 +19,9 @@ android {
                 arguments = [moduleName: project.getName()]
             }
         }
+        ndk {
+            abiFilters 'armeabi','x86'//or armeabi-v7a、arm64-v8a、x86
+        }
     }
 
     compileOptions {
@@ -46,6 +49,10 @@ dependencies {
 
     implementation project(':common')
 
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    implementation 'com.zhihu.android:matisse:0.5.1'
     implementation project(path: ':chatlib')
     annotationProcessor "com.google.dagger:dagger-compiler:2.15"
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'

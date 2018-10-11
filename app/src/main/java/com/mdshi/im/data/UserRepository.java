@@ -1,14 +1,23 @@
 package com.mdshi.im.data;
 
+import android.net.Uri;
+
 import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.UserEntity;
+import com.mdshi.common.utils.FileUtils;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 
 /**
@@ -52,5 +61,14 @@ public class UserRepository {
     }
 
 
+    public Flowable<BaseBean<String>> uploadFile(String fileUri){
+        File file = FileUtils.getFileByPath(fileUri);
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"),file);
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+        return service.upload(body).subscribeOn(Schedulers.io());
+    }
 
 }

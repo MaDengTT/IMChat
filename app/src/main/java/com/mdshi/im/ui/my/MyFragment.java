@@ -18,6 +18,7 @@ import com.mdshi.common.base.BaseFragment;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.image.ImageLoader;
 import com.mdshi.im.R;
+import com.mdshi.im.ui.userui.EditUserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,8 @@ public class MyFragment extends BaseFragment {
         ivAvatar = root.findViewById(R.id.iv_avatar);
         tvUserName = root.findViewById(R.id.tv_user_name);
         tvUserInfo = root.findViewById(R.id.tv_user_info);
+
+        ivAvatar.setOnClickListener(v -> EditUserActivity.start(getActivity()));
 
         menuRV = root.findViewById(R.id.recycler_view);
         menuRV.setLayoutManager(new GridLayoutManager(getContext(), 4));

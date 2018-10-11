@@ -18,7 +18,9 @@ android {
                 arguments = [moduleName: project.getName(),"room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
-
+        ndk {
+            abiFilters 'armeabi','x86'//or armeabi-v7a、arm64-v8a、x86
+        }
     }
 
     buildTypes {
@@ -89,4 +91,6 @@ dependencies {
 //    //buttrtknife 在lib中使用有bug 暂时弃用
 //    api "com.jakewharton:butterknife:8.8.1"
 //    annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"
+    //图片压缩
+    api 'com.zxy.android:tiny:0.1.0'
 }
