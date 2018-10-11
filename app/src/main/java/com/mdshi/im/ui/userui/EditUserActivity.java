@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ public class EditUserActivity extends BaseActivity {
     ImageView ivAvatar;
     @BindView(R.id.tv_name)
     TextView tvName;
+    @BindView(R.id.ed_name)
+    EditText edName;
     private UserModel userModel;
 
     @Inject
@@ -73,7 +76,7 @@ public class EditUserActivity extends BaseActivity {
         userData.observe(this, userEntity -> {
             AvatarConfig config = new AvatarConfig(ivAvatar, userEntity.avatar);
             loader.loadImaToIv(config);
-            tvName.setText(userEntity.userName);
+            edName.setText(userEntity.userName);
         });
     }
 
