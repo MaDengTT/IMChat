@@ -1,14 +1,19 @@
 package com.mdshi.im.data;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.net.Uri;
+import android.util.Log;
 
 import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.UserEntity;
+import com.mdshi.common.rx.RxUtils;
 import com.mdshi.common.utils.FileUtils;
 
 import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -71,4 +76,27 @@ public class UserRepository {
         return service.upload(body).subscribeOn(Schedulers.io());
     }
 
+    public Flowable<BaseBean<UserEntity>> updateUserAvatar(long userId,String avatar){
+        return service.updateUser(userId,null,avatar).subscribeOn(Schedulers.io());
+    }
+
+    public Flowable<BaseBean<UserEntity>> updateUserName(long userId, String userName) {
+        return service.updateUser(userId, userName, null).subscribeOn(Schedulers.io());
+    }
+
+
+    public LiveData<BaseBean<List<UserEntity>>> searchContacts(String s, int pagesize, int pageno) {
+        MutableLiveData<BaseBean<List<UserEntity>>> data = new MutableLiveData<>();
+        service.searchContacts(s,pagesize,pageno)
+                .compose(RxUtils.switchMainThread())
+                .subscribe(contactsEntities -> {
+                    data.setValue(contactsEntities);
+                }, error -> {
+//                    Log.e(TAG, "createCall: ", error);
+                    BaseBean<List<UserEntity>> baseBean = new BaseBean<>(400, "error", null);
+                    data.setValue(baseBean);
+                });
+        return data;
+
+    }
 }

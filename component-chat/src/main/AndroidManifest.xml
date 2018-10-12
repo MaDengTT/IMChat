@@ -23,7 +23,7 @@
             android:enabled="false"
             android:exported="false" />
 
-        <activity android:name=".ui.contacts.SearchContactsActivity"></activity>
+
     </application>
 
 </manifest>

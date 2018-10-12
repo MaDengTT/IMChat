@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.mdshi.chatlib.Debug;
 import com.mdshi.chatlib.IMChat;
 import com.mdshi.common.base.BaseApplication;
@@ -36,8 +37,15 @@ public class MyApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         appComponent = DaggerAppComponent.builder().application(this).build();
+        initRouter();
         AppInjector.init(this);
         initIMChat();
+    }
+
+    private void initRouter() {
+        ARouter.openLog();
+        ARouter.openDebug();
+        ARouter.init(this);
     }
 
     private void initIMChat() {

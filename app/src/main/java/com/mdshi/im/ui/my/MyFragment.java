@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mdshi.common.base.BaseFragment;
 import com.mdshi.common.constan.UserData;
+import com.mdshi.common.image.AvatarConfig;
 import com.mdshi.common.image.ImageLoader;
 import com.mdshi.im.R;
 import com.mdshi.im.ui.userui.EditUserActivity;
@@ -71,7 +72,7 @@ public class MyFragment extends BaseFragment {
     private void initData() {
         userData.observe(this, userEntity -> {
             if (userEntity != null) {
-                imageLoader.loadImgToIv(userEntity.avatar,ivAvatar);
+                imageLoader.loadImaToIv(new AvatarConfig(ivAvatar,userEntity.avatar));
                 tvUserName.setText(userEntity.userName);
                 tvUserInfo.setText(userEntity.userID+"");
             }

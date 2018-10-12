@@ -28,8 +28,6 @@ public class ContactsModel extends ViewModel{
 
     LiveData<Resource<List<ContactsEntity>>> contactsData;
     MutableLiveData<Long> user = new MutableLiveData<>();
-    MutableLiveData<Search> search = new MutableLiveData<>();
-    private final LiveData<BaseBean<List<UserEntity>>> searchData;
 
     public LiveData<Resource<List<ContactsEntity>>> getData() {
         return contactsData;
@@ -48,20 +46,12 @@ public class ContactsModel extends ViewModel{
             }
         });
 
-        searchData = Transformations.switchMap(search, data -> {
-            if (data==null||TextUtils.isEmpty(data.search)) {
-                return AbsentLiveData.create();
-            } else {
-                return repository.searchContacts(data.search,data.pagesize,data.pageno);
-            }
-        });
+
 
         userData.observeForever(s->user.setValue(s.userID));
     }
 
-    public LiveData<BaseBean<List<UserEntity>>> getSearchData() {
-        return searchData;
-    }
+
 
     public LiveData<Resource<List<ContactsEntity>>> getContactsData() {
         return contactsData;
@@ -73,13 +63,7 @@ public class ContactsModel extends ViewModel{
         }
     }
 
-    public void searchContacts(String s) {
-        search.setValue(new Search(s));
-    }
 
-    public void searchNext() {
-        search.setValue(search.getValue().next());
-    }
 
     public void addContacts(long contactsId) {
         repository.addContacts(new ContactsEntity());
@@ -89,21 +73,6 @@ public class ContactsModel extends ViewModel{
 
     }
 
-    public class Search {
-        String search;
-        int pagesize;
-        int pageno;
 
-        public Search next() {
-            pageno++;
-            return this;
-        }
-
-        public Search(String search) {
-            this.search = search;
-            this.pagesize = 20;
-            this.pageno = 0;
-        }
-    }
 
 }

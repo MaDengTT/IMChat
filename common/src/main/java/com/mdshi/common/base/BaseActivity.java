@@ -3,8 +3,11 @@ package com.mdshi.common.base;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mdshi.common.R;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.di.component.AppComponent;
 
@@ -33,6 +36,12 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
             cDisposable = new CompositeDisposable();
         }
         cDisposable.add(disposable);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTitleName(getTitle().toString());
     }
 
     protected AppComponent getAppComponent(){
@@ -68,5 +77,12 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    protected void setTitleName(String titleName) {
+        TextView titleView = findViewById(R.id.tv_title);
+        if (titleView != null) {
+            titleView.setText(titleName);
+        }
     }
 }

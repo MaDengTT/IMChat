@@ -27,7 +27,5 @@ public interface ContactsService {
     @POST("/contacts/add")
     public Flowable<BaseBean<List<ContactsEntity>>> addContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);
 
-    @FormUrlEncoded
-    @POST("/user/search")
-    public Flowable<BaseBean<List<UserEntity>>> searchContacts(@Field("search") String search, @Field("pagesize")int pagesize, @Field("pageno")int pageno);
+
 }

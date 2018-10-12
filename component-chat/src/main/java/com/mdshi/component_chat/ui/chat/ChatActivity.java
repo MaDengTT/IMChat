@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import javax.inject.Inject;
 public class ChatActivity extends BaseActivity {
 
     RecyclerView chatListView;
+    @Inject
     ChatMessageAdapter adapter;
 
     EditText edChat;
@@ -107,10 +109,15 @@ public class ChatActivity extends BaseActivity {
         butSend = findViewById(R.id.but_send);
 
         butSend.setOnClickListener(v -> {
+            String string = edChat.getText().toString();
+            edChat.setText("");
+            if (TextUtils.isEmpty(string)) {
+                return;
+            }
             ChatBean bean = new ChatBean(userData.getValue().userID);
             bean.date = new Date();
             bean.type = ChatBean.Type.TEXT_R;
-            bean.content = edChat.getText().toString();
+            bean.content = string;
             bean.session_id = session_id;
             bean.tUserId = tUser_id;
             model.addMsgChatData(bean);
@@ -120,7 +127,7 @@ public class ChatActivity extends BaseActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         llm.setReverseLayout(true);
         chatListView.setLayoutManager(llm);
-        adapter = new ChatMessageAdapter(null);
+//        adapter = new ChatMessageAdapter(null);
         adapter.setLoadMoreView(new SimpleLoadMoreView());
         adapter.setOnLoadMoreListener(() -> model.next(adapter.getData()==null?0:adapter.getData().size()),chatListView);
         chatListView.setAdapter(adapter);

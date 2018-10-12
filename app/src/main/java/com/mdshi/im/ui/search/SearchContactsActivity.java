@@ -1,4 +1,4 @@
-package com.mdshi.component_chat.ui.contacts;
+package com.mdshi.im.ui.search;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -13,18 +13,18 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.mdshi.common.base.BaseActivity;
-import com.mdshi.common.constan.UserData;
-import com.mdshi.common.vo.Status;
-import com.mdshi.component_chat.R;
-import com.mdshi.component_chat.adapter.SerachUserAdapter;
-import com.mdshi.component_chat.data.ContactsRepository;
+import com.mdshi.common.route.RouteContact;
+import com.mdshi.im.R;
+
 
 import javax.inject.Inject;
 
+@Route(path = RouteContact.searchUser)
 public class SearchContactsActivity extends BaseActivity {
 
-    ContactsModel model;
+    SearchModel model;
 
     EditText edSearch;
     RecyclerView rvUsers;
@@ -38,13 +38,13 @@ public class SearchContactsActivity extends BaseActivity {
     ViewModelProvider.Factory factory;
 
     @Inject
-    SerachUserAdapter adapter;
+    SearchUserAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chat_activity_search_contacts);
-        model = ViewModelProviders.of(this, factory).get(ContactsModel.class);
+        setContentView(R.layout.activity_search_contacts);
+        model = ViewModelProviders.of(this, factory).get(SearchModel.class);
         initView();
         initData();
     }

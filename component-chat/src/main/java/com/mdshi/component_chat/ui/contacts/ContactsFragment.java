@@ -1,11 +1,9 @@
 package com.mdshi.component_chat.ui.contacts;
 
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,22 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mdshi.common.base.BaseFragment;
-import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.entity.ContactsEntity;
-import com.mdshi.common.db.entity.UserEntity;
+import com.mdshi.common.route.RouteContact;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ContactsAdapter;
 import com.mdshi.component_chat.ui.chat.ChatActivity;
 import com.mdshi.common.vo.Status;
 
 import javax.inject.Inject;
-
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class ContactsFragment extends BaseFragment {
@@ -88,7 +82,7 @@ public class ContactsFragment extends BaseFragment {
         title.setText("联系人");
         View add = root.findViewById(R.id.iv_add);
         add.setVisibility(View.VISIBLE);
-        add.setOnClickListener(v -> SearchContactsActivity.start(getActivity()));
+        add.setOnClickListener(v -> ARouter.getInstance().build(RouteContact.searchUser).navigation());
 
         rvContacts = root.findViewById(R.id.rv_contacts);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

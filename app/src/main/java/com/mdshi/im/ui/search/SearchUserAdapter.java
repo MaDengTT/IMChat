@@ -1,4 +1,4 @@
-package com.mdshi.component_chat.adapter;
+package com.mdshi.im.ui.search;
 
 import android.support.annotation.Nullable;
 
@@ -8,7 +8,8 @@ import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.image.AvatarConfig;
 import com.mdshi.common.image.ImageConfig;
 import com.mdshi.common.image.ImageLoader;
-import com.mdshi.component_chat.R;
+import com.mdshi.im.R;
+
 
 import java.util.List;
 
@@ -17,12 +18,12 @@ import javax.inject.Inject;
 /**
  * Created by MaDeng on 2018/10/9.
  */
-public class SerachUserAdapter extends BaseQuickAdapter<UserEntity,BaseViewHolder> {
+public class SearchUserAdapter extends BaseQuickAdapter<UserEntity,BaseViewHolder> {
 
 
     ImageLoader loader;
     @Inject
-    public SerachUserAdapter(ImageLoader loader) {
+    public SearchUserAdapter(ImageLoader loader) {
         super(R.layout.chat_serach_user_item, null);
         this.loader = loader;
     }

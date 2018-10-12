@@ -34,6 +34,21 @@ public class ChatBean implements MultiItemEntity {
 
     public long tUserId;
 
+//    public String avatar;
+
+
+    @Override
+    public String toString() {
+        return "ChatBean{" +
+                "session_id=" + session_id +
+                ", type=" + type +
+                ", content='" + content + '\'' +
+                ", date=" + date +
+                ", userId=" + userId +
+                ", tUserId=" + tUserId +
+                '}';
+    }
+
     public ChatBean(long userId) {
         this.userId = userId;
     }

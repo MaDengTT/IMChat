@@ -23,6 +23,7 @@ import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by MaDeng on 2018/9/13.
@@ -79,7 +80,16 @@ public class UserModel extends ViewModel {
                                 }
                             });
                 },BackpressureStrategy.BUFFER))
+                .subscribeOn(Schedulers.io())
                 .flatMap(img->repository.uploadFile(img))
+                .map(result -> result.isSuccess()?result.data:"")
+                .flatMap(imagesrc->repository.updateUserAvatar(userData.getValue().userID,imagesrc))
+                .map(userEntityBaseBean -> {
+                    if (userEntityBaseBean.isSuccess()) {
+                        userData.postValue(userEntityBaseBean.data);
+                    }
+                    return userEntityBaseBean;
+                })
                 .compose(RxUtils.switchMainThread())
                 .subscribe(stringBaseBean -> {
                     if (stringBaseBean.isSuccess()) {
