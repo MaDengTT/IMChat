@@ -4,6 +4,7 @@ import com.mdshi.component_chat.di.module.FragmentBuildersModule;
 import com.mdshi.im.ui.MainActivity;
 import com.mdshi.im.ui.NavigationActivity;
 import com.mdshi.im.ui.search.SearchContactsActivity;
+import com.mdshi.im.ui.setting.SettingActivity;
 import com.mdshi.im.ui.userui.EditUserActivity;
 import com.mdshi.im.ui.userui.LoginActivity;
 import com.mdshi.im.ui.userui.RegisterActivity;
@@ -28,4 +29,6 @@ public abstract class AppActivityModule {
     public abstract EditUserActivity contributeEditUserActivity();
     @ContributesAndroidInjector
     public abstract SearchContactsActivity contributeSearchContactsActivity();
+    @ContributesAndroidInjector
+    public abstract SettingActivity contributeSettingActivity();
 }

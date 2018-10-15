@@ -22,6 +22,8 @@ public interface ContactsDao {
 
     @Query("SELECT * FROM tb_contacts WHERE userid = :userid AND contactsid = :contactsId")
     public ContactsEntity findContacts(long userid,long contactsId);
+    @Query("SELECT * FROM tb_contacts WHERE userid = :userid AND contactsid = :contactsId")
+    public LiveData<ContactsEntity> findContactsToLiveData(long userid,long contactsId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insert(ContactsEntity... entities);

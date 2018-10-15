@@ -31,8 +31,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ChatRepository {
 
-    MessageDao dao;
-    ContactsDao contactsDao;
+    private MessageDao dao;
+    private ContactsDao contactsDao;
     @Inject
     public ChatRepository(MessageDao dao,ContactsDao contactsDao) {
         this.dao = dao;
@@ -91,4 +91,7 @@ public class ChatRepository {
         dao.insertMessageListAndMessage(mle,messageEntity);
     }
 
+    public LiveData<ContactsEntity> getContact(long user, long contactsId) {
+        return contactsDao.findContactsToLiveData(user,contactsId);
+    }
 }

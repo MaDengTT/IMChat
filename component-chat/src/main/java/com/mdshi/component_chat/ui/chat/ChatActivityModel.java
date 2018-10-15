@@ -9,6 +9,7 @@ import com.mdshi.chatlib.Bean.MessageBean;
 import com.mdshi.chatlib.IMChat;
 import com.mdshi.chatlib.listener.SendMessageListener;
 import com.mdshi.common.constan.UserData;
+import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
 import com.mdshi.component_chat.ChatManager;
@@ -43,8 +44,6 @@ public class ChatActivityModel extends ViewModel{
     private Gson gson;
 
     private FlowableProcessor<SessionBean> sessionBus;
-
-    private long tUserId;
 
     @Inject
     public ChatActivityModel(ChatRepository repository, UserData userdata) {
@@ -89,7 +88,9 @@ public class ChatActivityModel extends ViewModel{
     }
 
 
-
+    public LiveData<ContactsEntity> getContact(long contactsId){
+        return repository.getContact(user,contactsId);
+    }
 
     public LiveData<List<ChatBean>> getData() {
         return addData;

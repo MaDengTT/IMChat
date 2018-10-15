@@ -34,7 +34,7 @@ public class ChatBean implements MultiItemEntity {
 
     public long tUserId;
 
-//    public String avatar;
+    public String avatar;
 
 
     @Override

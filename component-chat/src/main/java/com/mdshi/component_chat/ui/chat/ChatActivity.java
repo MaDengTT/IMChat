@@ -1,12 +1,14 @@
 package com.mdshi.component_chat.ui.chat;
 
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,10 +20,13 @@ import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
 import com.mdshi.common.base.BaseActivity;
 
 import com.mdshi.common.constan.UserData;
+import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatMessageAdapter;
 import com.mdshi.component_chat.bean.ChatBean;
+
+import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -47,6 +52,8 @@ public class ChatActivity extends BaseActivity {
 
     private long session_id;
     private long tUser_id;
+
+    ContactsEntity contacts;
 
     public static void start(Context context,long session_id,long tUserid) {
         Intent starter = new Intent(context, ChatActivity.class);
@@ -76,6 +83,10 @@ public class ChatActivity extends BaseActivity {
             }
         });
         model.setSessionId(session_id);
+        model.getContact(tUser_id).observe(this, contactsEntity -> {contacts = contactsEntity;
+            setTitleName(TextUtils.isEmpty(contacts.contactsName)?contacts.info.userName:contacts.contactsName);
+            adapter.setOtherAvatar(contacts.info.avatar);
+        });
     }
 
     @Override
@@ -83,6 +94,7 @@ public class ChatActivity extends BaseActivity {
         super.onResume();
         ChatManager.getIns().registerChatListener(bean -> {
             if (bean.session_id == session_id) {
+//                bean.avatar = contacts.info.avatar;
                 addChatMessage(bean);
                 return true;
             }

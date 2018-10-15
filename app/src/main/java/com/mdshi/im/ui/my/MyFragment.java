@@ -19,6 +19,7 @@ import com.mdshi.common.constan.UserData;
 import com.mdshi.common.image.AvatarConfig;
 import com.mdshi.common.image.ImageLoader;
 import com.mdshi.im.R;
+import com.mdshi.im.ui.setting.SettingActivity;
 import com.mdshi.im.ui.userui.EditUserActivity;
 
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class MyFragment extends BaseFragment {
     private void menuClick(int type) {
         switch (type) {
             case Menu.MENU_SETTING:
-
+                SettingActivity.start(getActivity());
                 break;
         }
     }

@@ -21,18 +21,19 @@
             android:name=".ui.userui.LoginActivity"
             android:label="@string/login"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".ui.userui.RegisterActivity"
-            android:label="@string/regist"
-            />
+        <activity
+            android:name=".ui.userui.RegisterActivity"
+            android:label="@string/regist" />
         <activity
             android:name=".ui.NavigationActivity"
             android:label="@string/title_activity_navigation" />
         <activity
             android:name=".ui.userui.EditUserActivity"
             android:label="@string/userinfo" />
-        <activity android:name="com.mdshi.im.ui.search.SearchContactsActivity"
-            android:label="@string/search"
-            />
+        <activity
+            android:name=".ui.search.SearchContactsActivity"
+            android:label="@string/search" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.mdshi.im.fileprovider"
@@ -40,8 +41,12 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths_public"></meta-data>
+                android:resource="@xml/file_paths_public" />
         </provider>
+
+        <activity android:name=".ui.setting.SettingActivity"
+            android:label="@string/setting"
+            />
     </application>
 
 </manifest>
