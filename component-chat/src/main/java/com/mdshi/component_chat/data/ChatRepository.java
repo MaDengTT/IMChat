@@ -85,7 +85,7 @@ public class ChatRepository {
         mle.createBean(messageEntity.session_id,userId,messageEntity.other_id,messageEntity.type);
         mle.updateBean(new Date(messageEntity.createTime),messageEntity.id,messageEntity.content);
         if (contacts != null) {
-            mle.setUserInfo(contacts.contactsName,contacts.avatar);
+            mle.setUserInfo(contacts.contactsName,contacts.info.avatar);
         }
         Log.d(TAG, "addMessage: "+messageEntity.toString());
         dao.insertMessageListAndMessage(mle,messageEntity);

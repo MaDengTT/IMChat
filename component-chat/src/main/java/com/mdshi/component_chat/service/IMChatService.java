@@ -71,6 +71,11 @@ public class IMChatService extends Service {
                                 messageEntity.other_id = messageEntity.fUserId;
                                 return messageEntity;
                             })
+                            .map(s1->{
+                                MessageBean bean1 = new MessageBean(MessageBean.D_CHAT_KEY,"{\"id\":"+s1.id+"}");
+                                IMChat.sendMessage(bean1,null);
+                                return s1;
+                            })
                             .map(messageEntity -> {
                                 repository.addMessage(messageEntity,userid);
                                 ChatManager.getIns().receive(BeanUtils.MsgToChatBean(messageEntity,userid));

@@ -1,6 +1,7 @@
 package com.mdshi.component_chat.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -29,9 +30,9 @@ public class ContactsAdapter extends BaseQuickAdapter<ContactsEntity,BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder helper, ContactsEntity item) {
-        helper.setText(R.id.tv_name,item.contactsName).setText(R.id.tv_info,String.valueOf(item.contactsId));
+        helper.setText(R.id.tv_name,TextUtils.isEmpty(item.contactsName)?item.info.userName:item.contactsName).setText(R.id.tv_info,String.valueOf(item.contactsId));
 
-        ImageConfig config = new AvatarConfig(helper.getView(R.id.iv_avatar), item.avatar);
+        ImageConfig config = new AvatarConfig(helper.getView(R.id.iv_avatar), item.info.avatar);
         loader.loadImaToIv(config);
     }
 }

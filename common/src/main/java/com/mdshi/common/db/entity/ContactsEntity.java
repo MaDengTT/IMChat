@@ -1,10 +1,10 @@
 package com.mdshi.common.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
+
 
 /**
  * Created by MaDeng on 2018/9/19.
@@ -27,11 +27,12 @@ public class ContactsEntity {
 
     public long groupId;
 
-    public String avatar;
-
     public int status;
 
     public long session_id;
+
+    @Embedded
+    public UserInfo info;
 
     public long getSession_id() {
         if (userId > contactsId) {
@@ -39,6 +40,15 @@ public class ContactsEntity {
         }else {
             return Long.valueOf(contactsId + "" + userId);
         }
+    }
+
+    public static class UserInfo {
+        @ColumnInfo(name = "id")
+        public long userID;
+        public String userName;
+        public String email;
+        public String phone;
+        public String avatar;
     }
 
 }
