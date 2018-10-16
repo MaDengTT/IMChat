@@ -74,7 +74,7 @@ public class Mqtt_Connection implements BaseConnection {
         connection.subscribe(topics, new Callback<byte[]>() {
             @Override
             public void onSuccess(byte[] value) {
-                Debug.d("Sub success:"+sub+":value:"+String.valueOf(value));
+                Debug.d("Sub success:"+sub+":value:"+new String(value));
             }
 
             @Override
@@ -141,7 +141,7 @@ public class Mqtt_Connection implements BaseConnection {
                     @Override
                     public void onPublish(UTF8Buffer topic, Buffer body, Callback<Callback<Void>> ack) {
                         if (receiveListener != null) {
-                            receiveListener.onReciveMessage(topic.toString(),body.ascii().toString());
+                            receiveListener.onReciveMessage(topic.toString(),body.utf8().toString());
                             receiveListener.onSuccess();
                         }
                     }
