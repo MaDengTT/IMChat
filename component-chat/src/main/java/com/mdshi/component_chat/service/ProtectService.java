@@ -15,9 +15,9 @@ public class ProtectService extends Service {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    public int onStartCommand(Intent intent, int flags, int startId) {
         startService(new Intent(this, IMChatService.class));
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override

@@ -19,19 +19,24 @@
         </activity>
         <activity
             android:name=".ui.userui.LoginActivity"
+            android:launchMode="singleTask"
             android:label="@string/login"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".ui.userui.RegisterActivity"
+            android:launchMode="singleTask"
             android:label="@string/regist" />
         <activity
             android:name=".ui.NavigationActivity"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_navigation" />
         <activity
             android:name=".ui.userui.EditUserActivity"
+            android:launchMode="singleTask"
             android:label="@string/userinfo" />
         <activity
             android:name=".ui.search.SearchContactsActivity"
+            android:launchMode="singleTask"
             android:label="@string/search" />
 
         <provider

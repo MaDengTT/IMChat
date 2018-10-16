@@ -53,9 +53,14 @@ public class IMChatService extends Service {
         userdata.observeForever(userEntity -> {
             if (userEntity != null) {
                 userid = userEntity.userID;
+                initImChat();
             }
         });
 
+
+    }
+
+    private void initImChat() {
         IMChat.addMessageListener(new MessageListener() {
             @Override
             public void message(String data) {

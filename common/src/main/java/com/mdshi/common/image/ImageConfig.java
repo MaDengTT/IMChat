@@ -10,7 +10,11 @@ public class ImageConfig {
     protected ImageView imageView;
     protected int placeholder;//占位符
     protected int errorPic;//错误占位符
+    protected int roundedCorners = 0;//圆角角度 -1 圆形 0 不变
 
+    public int getRoundedCorners() {
+        return roundedCorners;
+    }
 
     public String getUrl() {
         return url;

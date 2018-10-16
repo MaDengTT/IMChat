@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.db.entity.MessageListEntity;
+import com.mdshi.component_chat.service.IMChatService;
 
 import javax.inject.Inject;
 
@@ -15,12 +16,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class IMReceiver extends BroadcastReceiver {
 
-
-
-
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        context.startService(new Intent(context, IMChatService.class));
     }
 
 }

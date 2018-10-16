@@ -27,5 +27,15 @@ public interface ContactsService {
     @POST("/contacts/add")
     public Flowable<BaseBean<List<ContactsEntity>>> addContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);
 
+    /**
+     * 请求添加
+     * @param userid
+     * @param contactsid
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/contacts/apply")
+    public Flowable<BaseBean<List<ContactsEntity>>> applyContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);
+
 
 }

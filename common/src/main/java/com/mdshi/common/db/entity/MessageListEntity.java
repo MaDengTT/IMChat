@@ -53,12 +53,13 @@ public class MessageListEntity {
 //    @Embedded
 //    public MessageEntity newMessage;
 
-    public void createBean(long id, long user_Id, long other_Id, int sessionType) {
+    public void createBean(long id, long user_Id, long other_Id, int sessionType,String name) {
 
         this.id = id;
         this.user_Id = user_Id;
         this.other_Id = other_Id;
         this.sessionType = sessionType;
+        this.name = name;
         unReadNum = 0;
     }
 

@@ -22,7 +22,7 @@ import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.common.route.RouteContact;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ContactsAdapter;
-import com.mdshi.component_chat.ui.chat.ChatActivity;
+
 import com.mdshi.common.vo.Status;
 
 import javax.inject.Inject;
@@ -104,7 +104,8 @@ public class ContactsFragment extends BaseFragment {
     }
 
     private void toChatActivity(ContactsEntity item) {
-        ChatActivity.start(getActivity(),item.getSession_id(),item.contactsId);
+//        ChatActivity.start(getActivity(),item.getSession_id(),item.contactsId);
+        ContactsInfoActivity.start(getActivity(),item.contactsId);
     }
 
 

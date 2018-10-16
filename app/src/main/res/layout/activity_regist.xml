@@ -13,35 +13,108 @@
         android:layout_weight="1"
         tools:context=".ui.userui.RegisterActivity">
 
-        <EditText
-            android:layout_marginRight="32dp"
-            android:layout_marginLeft="32dp"
-            android:id="@+id/ed_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:maxLines="1"
-            android:inputType="text"
-            android:hint="手机号/邮箱"
-            />
-        <EditText
-            android:id="@+id/ed_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@id/ed_name"
-            app:layout_constraintRight_toRightOf="@id/ed_name"
-            app:layout_constraintTop_toBottomOf="@+id/ed_name"
-            android:maxLines="1"
-            android:inputType="text"
-            android:hint="密码"
-            />
 
-        <Button
-            app:layout_constraintTop_toBottomOf="@+id/ed_password"
-            android:id="@+id/but_register"
-            android:text="register"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:fillViewport="true"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginRight="16dp"
+                            android:text="Regist"
+                            android:textColor="@color/primaryText"
+                            android:textSize="30sp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginRight="16dp"
+                            android:theme="@style/txt_lab">
+
+                            <android.support.v7.widget.AppCompatEditText
+
+                                android:id="@+id/ed_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="手机号/邮箱"
+                                android:inputType="text"
+                                android:maxLines="1" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:theme="@style/txt_lab">
+
+                            <android.support.v7.widget.AppCompatEditText
+                                android:id="@+id/ed_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="密码"
+                                android:inputType="textPassword"
+                                android:maxLines="1" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+
+                <Button
+                    android:id="@+id/but_register"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:text="register"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_bg_shape"
+                    android:textColor="@color/white_Fa"
+                    app:layout_constraintHorizontal_bias="0.75"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.25" />
+
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
+
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

@@ -38,17 +38,19 @@ public class ContactsModel extends ViewModel{
     @Inject
     public ContactsModel(ContactsRepository repository, UserData userData) {
         this.repository = repository;
-        contactsData = Transformations.switchMap(user,data->{
-            if (data == null|| data == 0) {
+        contactsData = Transformations.switchMap(userData,data->{
+            if (data == null|| data.userID == 0) {
                 return AbsentLiveData.create();
             }else {
-                return repository.getContactsData(data);
+                return repository.getContactsData(data.userID);
             }
         });
 
 
 
-        userData.observeForever(s->user.setValue(s.userID));
+        userData.observeForever(s->{
+            if(s!=null){user.setValue(s.userID);}
+        });
     }
 
 
@@ -63,6 +65,9 @@ public class ContactsModel extends ViewModel{
         }
     }
 
+    public LiveData<ContactsEntity> getContact(long contactsId){
+        return repository.getContact(user.getValue(),contactsId);
+    }
 
 
     public void addContacts(long contactsId) {

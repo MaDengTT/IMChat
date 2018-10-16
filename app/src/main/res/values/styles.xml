@@ -24,4 +24,17 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="txt_lab" parent="@android:style/TextAppearance">
+        <!-- 默认状态提示颜色和字体-->
+        <item name="android:textColorHint">#AEB2B8</item>
+        <item name="android:textSize">14sp</item>
+        <!-- 下面可以根据需要设置，如果没有将默认使用默认theme的颜色 -->
+        <!-- Label标签的颜色 -->
+        <item name="colorAccent">#78808A</item>
+        <!-- 默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">#D3DFEF</item>
+        <!-- 选择的底线颜色 -->
+        <item name="colorControlActivated">#5D74E2</item>
+    </style>
+
 </resources>

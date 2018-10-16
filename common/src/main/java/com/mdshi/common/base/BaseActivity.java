@@ -1,5 +1,6 @@
 package com.mdshi.common.base;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -36,6 +37,14 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
             cDisposable = new CompositeDisposable();
         }
         cDisposable.add(disposable);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = new Intent("com.mdshi.component_chat.imreceiver");
+        intent.addCategory("android.intent.category.DEFAULT");
+        sendBroadcast(intent);
     }
 
     @Override

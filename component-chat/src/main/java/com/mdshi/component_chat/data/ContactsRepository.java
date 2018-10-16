@@ -36,12 +36,13 @@ public class ContactsRepository {
     private final ContactsDao dao;
     private final ContactsService service;
     private final AppExecutors appExecutors;
-
+    private ContactsDao contactsDao;
     @Inject
-    public ContactsRepository(ContactsDao dao, ContactsService service, AppExecutors appExecutors) {
+    public ContactsRepository(ContactsDao dao, ContactsService service, AppExecutors appExecutors,ContactsDao contactsDao) {
         this.dao = dao;
         this.service = service;
         this.appExecutors = appExecutors;
+        this.contactsDao = contactsDao;
     }
 
     private LiveData<List<ContactsEntity>> data;
@@ -89,5 +90,9 @@ public class ContactsRepository {
 
     public void addContacts(ContactsEntity entity) {
         service.addContacts(entity.userId,entity.contactsId);
+    }
+
+    public LiveData<ContactsEntity> getContact(long user, long contactsId) {
+        return contactsDao.findContactsToLiveData(user,contactsId);
     }
 }

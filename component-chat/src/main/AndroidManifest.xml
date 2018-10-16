@@ -16,14 +16,20 @@
         <receiver
             android:name=".receiver.IMReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.mdshi.component_chat.imreceiver" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".service.ProtectService"
             android:enabled="false"
             android:exported="false" />
 
-
+        <activity android:name=".ui.contacts.ContactsInfoActivity"></activity>
     </application>
 
 </manifest>
