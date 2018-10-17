@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.mdshi.common.di.scope.ViewModelKey;
 import com.mdshi.im.ui.search.SearchModel;
+import com.mdshi.im.ui.show.ShowViewModel;
 import com.mdshi.im.ui.userui.UserModel;
 
 import dagger.Binds;
@@ -25,4 +26,8 @@ public abstract class AppViewModelModule {
     @ViewModelKey(SearchModel.class)
     public abstract ViewModel bindSearchModel(SearchModel serachModel);
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ShowViewModel.class)
+    public abstract ViewModel bindShowModel(ShowViewModel showViewModel);
 }

@@ -1,6 +1,7 @@
 package com.mdshi.im.di.module;
 
 import com.mdshi.im.ui.my.MyFragment;
+import com.mdshi.im.ui.show.ShowFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -12,4 +13,6 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class AppFragmentModule {
     @ContributesAndroidInjector
     public abstract MyFragment contributeMyFragment();
+    @ContributesAndroidInjector
+    public abstract ShowFragment contributeShowFragment();
 }

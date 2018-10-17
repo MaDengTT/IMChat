@@ -1,0 +1,87 @@
+package com.mdshi.im.ui.show;
+
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.mdshi.common.base.BaseFragment;
+import com.mdshi.im.R;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
+public class ShowFragment extends BaseFragment {
+
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.srl)
+    SwipeRefreshLayout srl;
+    Unbinder unbinder;
+    private ShowViewModel mViewModel;
+
+    @Inject
+    ViewModelProvider.Factory factory;
+
+    @Inject
+    ShowAdapter adapter;
+
+    public static ShowFragment newInstance() {
+        return new ShowFragment();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_show, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        initView();
+        return view;
+    }
+
+    private void initView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = ViewModelProviders.of(this, factory).get(ShowViewModel.class);
+        initData();
+    }
+
+    private void initData() {
+        for (int i = 0; i < 10; i++) {
+            ShowBean bean = new ShowBean();
+            bean.images = new ArrayList<>();
+            Random random = new Random();
+            int i1 = random.nextInt(9)+1;
+            for (int j = 0; j < i1; j++) {
+                bean.images.add("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2970597459,3762914954&fm=58&bpow=705&bpoh=675");
+            }
+            adapter.addData(bean);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+}

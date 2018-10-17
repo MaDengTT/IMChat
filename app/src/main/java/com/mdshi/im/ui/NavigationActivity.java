@@ -14,6 +14,7 @@ import com.mdshi.component_chat.ui.ChatFragment;
 import com.mdshi.component_chat.ui.contacts.ContactsFragment;
 import com.mdshi.im.R;
 import com.mdshi.im.ui.my.MyFragment;
+import com.mdshi.im.ui.show.ShowFragment;
 
 public class NavigationActivity extends BaseActivity {
 
@@ -28,6 +29,7 @@ public class NavigationActivity extends BaseActivity {
 
     ChatFragment chatFragment;
     ContactsFragment contactsFragment;
+    ShowFragment showFragment;
     MyFragment myFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -38,6 +40,9 @@ public class NavigationActivity extends BaseActivity {
                         return true;
                     case R.id.navigation_dashboard:
                         changeFragment(contactsFragment);
+                        return true;
+                    case R.id.navigation_image:
+                        changeFragment(showFragment);
                         return true;
                     case R.id.navigation_notifications:
                         changeFragment(myFragment);
@@ -61,6 +66,7 @@ public class NavigationActivity extends BaseActivity {
         chatFragment = new ChatFragment();
         contactsFragment = ContactsFragment.newInstance("", "");
         myFragment = new MyFragment();
+        showFragment = ShowFragment.newInstance();
         currentFragment = null;
     }
 
