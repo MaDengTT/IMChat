@@ -1,5 +1,6 @@
 package com.mdshi.common.db.entity;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 
@@ -19,4 +20,7 @@ public class CircleEntity {
     String avatar;
     String contnent;
     List<String> images;
+
+    @ColumnInfo(name = "create_time")
+    public long createTime;
 }
