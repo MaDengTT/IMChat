@@ -16,4 +16,5 @@
 
     <dimen name="text_menu_size">13sp</dimen>
     <dimen name="gap">100dp</dimen>
+    <dimen name="grid_expected_size">120dp</dimen>
 </resources>

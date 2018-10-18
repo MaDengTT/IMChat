@@ -14,12 +14,12 @@ import java.util.List;
 )
 public class CircleEntity {
 
-    long id;
-    long userid;
-    String username;
-    String avatar;
-    String contnent;
-    List<String> images;
+    public long id;
+    public long userid;
+    public String username;
+    public String avatar;
+    public String contnent;
+    public String images;
 
     @ColumnInfo(name = "create_time")
     public long createTime;

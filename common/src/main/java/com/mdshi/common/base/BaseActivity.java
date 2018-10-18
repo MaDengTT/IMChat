@@ -1,9 +1,12 @@
 package com.mdshi.common.base;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +14,14 @@ import android.widget.Toast;
 import com.mdshi.common.R;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.di.component.AppComponent;
+import com.mdshi.common.image.glide.Glide4Engine;
+import com.mdshi.common.utils.PermissionRequest;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,6 +37,11 @@ import io.reactivex.disposables.Disposable;
  */
 public class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
+    final String[] permissionNames = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+    private static final int REQUEST_CODE_CHOOSE = 23;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -92,6 +108,54 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
         TextView titleView = findViewById(R.id.tv_title);
         if (titleView != null) {
             titleView.setText(titleName);
+        }
+    }
+
+    protected void putImage(int imageSize) {
+        PermissionRequest.getInstance(this).requestPermission(new PermissionRequest.PermissionListener() {
+            @Override
+            public void permissionGranted() {
+                        startImage(imageSize);
+            }
+
+            @Override
+            public void permissionDenied(ArrayList<String> permissions) {
+
+            }
+
+            @Override
+            public void permissionNeverAsk(ArrayList<String> permissions) {
+
+            }
+        }, permissionNames);
+
+
+    }
+
+    private void startImage(int imageSize) {
+        Matisse.from(this)
+                .choose(MimeType.ofAll(), false)
+                .countable(true)
+                .captureStrategy(new CaptureStrategy(true, "com.mdshi.im.fileprovider"))
+                .maxSelectable(imageSize)
+                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .thumbnailScale(0.85f)
+                .imageEngine(new Glide4Engine())
+                .forResult(REQUEST_CODE_CHOOSE);
+    }
+    protected void onImageData(List<String> data) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
+            if (Matisse.obtainPathResult(data) != null) {
+                onImageData(Matisse.obtainPathResult(data));
+            }
         }
     }
 }

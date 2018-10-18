@@ -1,6 +1,7 @@
 package com.mdshi.common.db.dao;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * Created by MaDeng on 2018/10/17.
  */
+@Dao
 public interface CircleDao {
 
     @Query("SELECT * FROM tb_circle ORDER BY create_time DESC")

@@ -1,4 +1,4 @@
-package com.mdshi.im.utils;
+package com.mdshi.common.image.glide;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

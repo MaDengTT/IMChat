@@ -95,4 +95,6 @@ dependencies {
     //图片压缩
     api 'com.zxy.android:tiny:0.1.0'
     api 'com.android.support:cardview-v7:27.1.1'
+    //图片选择
+    api 'com.zhihu.android:matisse:0.5.1'
 }

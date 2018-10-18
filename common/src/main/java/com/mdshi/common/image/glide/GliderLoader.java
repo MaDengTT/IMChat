@@ -28,6 +28,13 @@ public class GliderLoader implements ImageLoader {
     }
 
     @Override
+    public void loadImgToIv(int res, ImageView view) {
+        GlideApp.with(view)
+                .load(res)
+                .into(view);
+    }
+
+    @Override
     public void loadImaToIv(ImageConfig config) {
         GlideApp.with(config.getImageView())
                 .load(config.getUrl())
