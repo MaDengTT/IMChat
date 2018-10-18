@@ -19,25 +19,25 @@
         </activity>
         <activity
             android:name=".ui.userui.LoginActivity"
-            android:launchMode="singleTask"
             android:label="@string/login"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".ui.userui.RegisterActivity"
-            android:launchMode="singleTask"
-            android:label="@string/regist" />
+            android:label="@string/regist"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.NavigationActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_navigation" />
+            android:label="@string/title_activity_navigation"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.userui.EditUserActivity"
-            android:launchMode="singleTask"
-            android:label="@string/userinfo" />
+            android:label="@string/userinfo"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.search.SearchContactsActivity"
-            android:launchMode="singleTask"
-            android:label="@string/search" />
+            android:label="@string/search"
+            android:launchMode="singleTask" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -49,9 +49,10 @@
                 android:resource="@xml/file_paths_public" />
         </provider>
 
-        <activity android:name=".ui.setting.SettingActivity"
-            android:label="@string/setting"
-            />
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:label="@string/setting" />
+        <activity android:name=".ui.show.UploadActivity"></activity>
     </application>
 
 </manifest>

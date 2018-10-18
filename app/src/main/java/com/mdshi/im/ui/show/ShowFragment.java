@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.mdshi.common.base.BaseFragment;
 import com.mdshi.im.R;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ShowFragment extends BaseFragment {
@@ -32,6 +34,8 @@ public class ShowFragment extends BaseFragment {
     @BindView(R.id.srl)
     SwipeRefreshLayout srl;
     Unbinder unbinder;
+    @BindView(R.id.iv_add)
+    ImageView ivAdd;
     private ShowViewModel mViewModel;
 
     @Inject
@@ -55,7 +59,7 @@ public class ShowFragment extends BaseFragment {
 
     private void initView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
     }
 
@@ -63,6 +67,7 @@ public class ShowFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this, factory).get(ShowViewModel.class);
+        ivAdd.setVisibility(View.VISIBLE);
         initData();
     }
 
@@ -71,7 +76,7 @@ public class ShowFragment extends BaseFragment {
             ShowBean bean = new ShowBean();
             bean.images = new ArrayList<>();
             Random random = new Random();
-            int i1 = random.nextInt(9)+1;
+            int i1 = random.nextInt(9) + 1;
             for (int j = 0; j < i1; j++) {
                 bean.images.add("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2970597459,3762914954&fm=58&bpow=705&bpoh=675");
             }
@@ -83,5 +88,10 @@ public class ShowFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.iv_add)
+    public void onViewClicked() {
+        UploadActivity.start(getActivity());
     }
 }
