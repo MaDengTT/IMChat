@@ -25,6 +25,8 @@ public interface CircleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(CircleEntity... data);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<CircleEntity> data);
 
     @Delete
     void delete(CircleEntity... data);
