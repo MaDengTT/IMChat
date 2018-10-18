@@ -19,12 +19,13 @@ import com.mdshi.common.image.AvatarConfig;
 import com.mdshi.common.image.ImageLoader;
 import com.mdshi.common.utils.PermissionRequest;
 import com.mdshi.im.R;
-import com.mdshi.im.utils.Glide4Engine;
+import com.mdshi.common.image.glide.Glide4Engine;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -47,7 +48,7 @@ public class EditUserActivity extends BaseActivity {
 
     @Inject
     ImageLoader loader;
-    private static final int REQUEST_CODE_CHOOSE = 23;
+
 
     public static void start(Context context) {
         Intent starter = new Intent(context, EditUserActivity.class);
@@ -57,10 +58,6 @@ public class EditUserActivity extends BaseActivity {
     @Inject
     ViewModelProvider.Factory factory;
 
-    final String[] permissionNames = new String[]{
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,53 +84,16 @@ public class EditUserActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_avatar:
-                PermissionRequest.getInstance(this).requestPermission(new PermissionRequest.PermissionListener() {
-                    @Override
-                    public void permissionGranted() {
-                        putImage();
-                    }
-
-                    @Override
-                    public void permissionDenied(ArrayList<String> permissions) {
-
-                    }
-
-                    @Override
-                    public void permissionNeverAsk(ArrayList<String> permissions) {
-
-                    }
-                }, permissionNames);
-
+                putImage(1);
                 break;
             case R.id.rl_avatar:
                 break;
         }
     }
 
-    private void putImage() {
-        Matisse.from(this)
-                .choose(MimeType.ofAll(), false)
-                .countable(true)
-                .captureStrategy(new CaptureStrategy(true, "com.mdshi.im.fileprovider"))
-                .maxSelectable(1)
-                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                .thumbnailScale(0.85f)
-                .imageEngine(new Glide4Engine())
-                .forResult(REQUEST_CODE_CHOOSE);
-
-    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-//            mAdapter.setData(Matisse.obtainResult(data), Matisse.obtainPathResult(data));
-//            Log.d("OnActivityResult", "onActivityResult: "+Matisse.obtainPathResult(data).toString());
-            Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
-            if (Matisse.obtainPathResult(data) != null) {
-                userModel.setUserImage(Matisse.obtainPathResult(data).get(0));
-            }
-        }
+    protected void onImageData(List<String> data) {
+        userModel.setUserImage(data.get(0));
     }
 }
