@@ -16,6 +16,7 @@ import com.mdshi.common.constan.UserData;
 import com.mdshi.common.di.component.AppComponent;
 import com.mdshi.common.image.glide.Glide4Engine;
 import com.mdshi.common.utils.PermissionRequest;
+import com.mdshi.common.utils.PermissionUtils;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
@@ -112,22 +113,26 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
     }
 
     protected void putImage(int imageSize) {
-        PermissionRequest.getInstance(this).requestPermission(new PermissionRequest.PermissionListener() {
-            @Override
-            public void permissionGranted() {
-                        startImage(imageSize);
-            }
+        if(PermissionUtils.hasPermission(this,permissionNames)){
+            startImage(imageSize);
+        }else {
+            PermissionRequest.getInstance(this).requestPermission(new PermissionRequest.PermissionListener() {
+                @Override
+                public void permissionGranted() {
+                    startImage(imageSize);
+                }
 
-            @Override
-            public void permissionDenied(ArrayList<String> permissions) {
+                @Override
+                public void permissionDenied(ArrayList<String> permissions) {
 
-            }
+                }
 
-            @Override
-            public void permissionNeverAsk(ArrayList<String> permissions) {
+                @Override
+                public void permissionNeverAsk(ArrayList<String> permissions) {
 
-            }
-        }, permissionNames);
+                }
+            }, permissionNames);
+        }
 
 
     }

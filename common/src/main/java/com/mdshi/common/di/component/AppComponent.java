@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 import com.mdshi.common.constan.UserData;
+import com.mdshi.common.db.dao.CircleDao;
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.dao.UserDao;
@@ -42,6 +43,7 @@ public interface AppComponent {
 
     AppExecutors appExecutors();
 
+    CircleDao circleDao();
 
     @Component.Builder
     interface Builder{

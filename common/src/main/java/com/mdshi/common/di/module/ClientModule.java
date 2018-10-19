@@ -6,6 +6,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.IMDataBase;
+import com.mdshi.common.db.dao.CircleDao;
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
 import com.mdshi.common.db.dao.UserDao;
@@ -45,6 +46,10 @@ public class ClientModule {
     @Provides
     public ContactsDao provideContactsDao(IMDataBase dataBase) {
         return dataBase.contactsDao();
+    }    @Singleton
+    @Provides
+    public CircleDao provideCircleDao(IMDataBase dataBase) {
+        return dataBase.circleDao();
     }
 
     @Singleton

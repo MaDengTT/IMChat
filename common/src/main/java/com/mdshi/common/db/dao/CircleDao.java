@@ -31,4 +31,5 @@ public interface CircleDao {
     @Delete
     void delete(CircleEntity... data);
 
+
 }

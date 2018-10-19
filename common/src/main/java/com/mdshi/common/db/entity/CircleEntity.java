@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +22,16 @@ public class CircleEntity {
     public String contnent;
     public String images;
 
+    public CircleEntity(long id, long userid, String username, String avatar, String contnent, String images, Date createTime) {
+        this.id = id;
+        this.userid = userid;
+        this.username = username;
+        this.avatar = avatar;
+        this.contnent = contnent;
+        this.images = images;
+        this.createTime = createTime;
+    }
+
     @ColumnInfo(name = "create_time")
-    public long createTime;
+    public Date createTime;
 }
