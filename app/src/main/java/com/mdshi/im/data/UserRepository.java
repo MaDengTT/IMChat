@@ -34,10 +34,10 @@ public class UserRepository {
     UserService service;
     UserData userData;
     @Inject
-    public UserRepository(UserDao dao, Retrofit retrofit,UserData userData) {
+    public UserRepository(UserDao dao, UserService userService,UserData userData) {
         this.dao = dao;
         this.userData = userData;
-        service = retrofit.create(UserService.class);
+        service = userService;
     }
 
     public Flowable<BaseBean<UserEntity>> login(String phone, String email, String password) {

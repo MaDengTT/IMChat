@@ -1,5 +1,6 @@
 package com.mdshi.im.ui.show;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -15,9 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.mdshi.common.base.BaseFragment;
+import com.mdshi.common.db.entity.CircleEntity;
+import com.mdshi.common.vo.Resource;
+import com.mdshi.common.vo.Status;
 import com.mdshi.im.R;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -72,16 +77,11 @@ public class ShowFragment extends BaseFragment {
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            ShowBean bean = new ShowBean();
-            bean.images = new ArrayList<>();
-            Random random = new Random();
-            int i1 = random.nextInt(9) + 1;
-            for (int j = 0; j < i1; j++) {
-                bean.images.add("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2970597459,3762914954&fm=58&bpow=705&bpoh=675");
+        mViewModel.getCircleData().observe(this, listResource -> {
+            if (listResource.status == Status.SUCCESS) {
+                adapter.setNewData(listResource.data);
             }
-            adapter.addData(bean);
-        }
+        });
     }
 
     @Override

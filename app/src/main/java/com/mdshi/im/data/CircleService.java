@@ -2,6 +2,7 @@ package com.mdshi.im.data;
 
 import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.db.entity.CircleEntity;
+import com.mdshi.im.bean.CircleBean;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
@@ -19,8 +21,8 @@ public interface CircleService {
 
     @FormUrlEncoded
     @POST("/circle/list")
-    Single<BaseBean<List<CircleEntity>>> getCircleData(long useId, int pageSize, int pageNo);
+    Flowable<BaseBean<List<CircleBean>>> getCircleData(@Field("userid") long useId,@Field("pagesize") int pageSize,@Field("pageno") int pageNo);
     @FormUrlEncoded
-    @POST("/circle/up")
-    Flowable<BaseBean<CircleEntity>> upCircleData(long userId, String content, List<String> images);
+    @POST("/circle/add")
+    Flowable<BaseBean<CircleBean>> upCircleData(@Field("userid")long userId,@Field("content") String content,@Field("images") String images);
 }

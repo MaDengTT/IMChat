@@ -1,23 +1,32 @@
 package com.mdshi.im.ui.show;
 
 import android.Manifest;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mdshi.common.base.BaseActivity;
 import com.mdshi.common.image.ImageLoader;
+import com.mdshi.common.vo.Resource;
+import com.mdshi.common.vo.Status;
 import com.mdshi.im.R;
+import com.mdshi.im.bean.CircleBean;
 
 
 import java.util.ArrayList;
@@ -55,6 +64,11 @@ public class UploadActivity extends BaseActivity {
     @Inject
     ImageLoader loader;
 
+    @Inject
+    ViewModelProvider.Factory factory;
+
+    ShowViewModel model;
+
     public static void start(Context context) {
         Intent starter = new Intent(context, UploadActivity.class);
         context.startActivity(starter);
@@ -65,7 +79,21 @@ public class UploadActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uploade);
         ButterKnife.bind(this);
+        model = ViewModelProviders.of(this, factory).get(ShowViewModel.class);
         initView();
+        initData();
+    }
+
+    private void initData() {
+        model.getUpLoadData().observe(this, circleBeanResource -> {
+            if (circleBeanResource.status == Status.ERROR) {
+                toast(circleBeanResource.message);
+            } else if (circleBeanResource.status == Status.LOADING) {
+
+            } else if (circleBeanResource.status == Status.SUCCESS) {
+                finish();
+            }
+        });
     }
 
     private void initView() {
@@ -78,6 +106,18 @@ public class UploadActivity extends BaseActivity {
             }
         });
         recycler.setAdapter(adapter);
+        ivAdd.setVisibility(View.VISIBLE);
+        ivAdd.setOnClickListener(v -> {
+            if (getImageSize() == 9) {
+                Toast.makeText(UploadActivity.this, "请选择图片", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (images.get(images.size() - 1).equals("0000")) {
+                images.remove(images.size() - 1);
+            }
+            model.upload(etContent.getText().toString(),images);
+        });
     }
 
     private int getImageSize() {

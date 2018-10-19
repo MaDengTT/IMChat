@@ -6,6 +6,7 @@ import com.mdshi.component_chat.di.module.ActivityModule;
 import com.mdshi.component_chat.di.module.ViewModelModule;
 import com.mdshi.im.MyApplication;
 import com.mdshi.im.data.CircleService;
+import com.mdshi.im.data.UserService;
 import com.mdshi.im.di.module.AppActivityModule;
 import com.mdshi.im.di.module.AppModule;
 import com.mdshi.im.di.module.AppViewModelModule;
@@ -30,4 +31,5 @@ public interface AppMainComponent {
     void inject(MyApplication myApplication);
 
     CircleService circleService();
+    UserService userService();
 }

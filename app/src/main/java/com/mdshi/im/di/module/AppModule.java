@@ -2,6 +2,7 @@ package com.mdshi.im.di.module;
 
 import com.mdshi.common.di.scope.ActivityScope;
 import com.mdshi.im.data.CircleService;
+import com.mdshi.im.data.UserService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,5 +17,10 @@ public class AppModule {
     @Provides
     CircleService providesCircleService(Retrofit retrofit) {
         return retrofit.create(CircleService.class);
+    }
+    @ActivityScope
+    @Provides
+    UserService providesUserService(Retrofit retrofit) {
+        return retrofit.create(UserService.class);
     }
 }
