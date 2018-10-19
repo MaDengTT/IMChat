@@ -83,6 +83,8 @@ public final class TimeUtils {
 
   private static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
       Locale.getDefault());
+  public static final DateFormat DEFAULT_FORMAT_T_Z = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+      Locale.getDefault());
   private static final String[] CHINESE_ZODIAC = {"猴", "鸡", "狗", "猪", "鼠", "牛", "虎", "兔", "龙", "蛇",
       "马", "羊"};
   private static final String[] ZODIAC = {"水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座",
@@ -165,7 +167,9 @@ public final class TimeUtils {
    */
   public static Date string2Date(final String time, final DateFormat format) {
     try {
-      return format.parse(time);
+      //Mysql 会出现 2015-12-7T16:00:00.000Z 格式需转换
+      String time1 = time.replace("Z", " UTC");
+      return format.parse(time1);
     } catch (ParseException e) {
       e.printStackTrace();
     }
