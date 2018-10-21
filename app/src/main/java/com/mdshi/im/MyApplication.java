@@ -1,16 +1,13 @@
 package com.mdshi.im;
 
 import android.app.Activity;
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.mdshi.chatlib.Debug;
 import com.mdshi.chatlib.IMChat;
 import com.mdshi.common.base.BaseApplication;
 import com.mdshi.common.constan.UserData;
-import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.di.component.AppComponent;
 import com.mdshi.common.di.component.DaggerAppComponent;
 import com.mdshi.component_chat.service.IMChatService;
@@ -50,11 +47,11 @@ public class MyApplication extends BaseApplication {
 
     private void initIMChat() {
         userData.observeForever(userEntity -> {
-            if (userEntity == null||userEntity.userID==0) {
+            if (userEntity == null||userEntity.userId ==0) {
                 IMChat.unConnect();
             }else {
                 Debug.init(true);
-                IMChat.init(String.valueOf(userEntity.userID));
+                IMChat.init(String.valueOf(userEntity.userId));
                 IMChat.connect();
                 startService(new Intent(getApplicationContext(),IMChatService.class));
             }

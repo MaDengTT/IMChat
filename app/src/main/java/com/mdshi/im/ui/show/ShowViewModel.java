@@ -26,7 +26,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableSubscriber;
-import io.reactivex.functions.Consumer;
 
 
 public class ShowViewModel extends ViewModel {
@@ -48,7 +47,7 @@ public class ShowViewModel extends ViewModel {
             if (input == null) {
                 return AbsentLiveData.create();
             }else {
-                return repository.getCircleData(input.userID);
+                return repository.getCircleData(input.userId);
             }
         });
     }
@@ -79,7 +78,7 @@ public class ShowViewModel extends ViewModel {
                     return buffer.toString();
                 })
                 .toFlowable()
-                .flatMap( s -> repository.uploadCircle(userData.getValue().userID, content, s)
+                .flatMap( s -> repository.uploadCircle(userData.getValue().userId, content, s)
                         .map( circleBeanBaseBean -> {
                             if(circleBeanBaseBean.isSuccess()){
                                 CircleBean bean = circleBeanBaseBean.data;

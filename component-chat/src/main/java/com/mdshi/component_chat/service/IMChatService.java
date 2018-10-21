@@ -52,7 +52,7 @@ public class IMChatService extends Service {
 
         userdata.observeForever(userEntity -> {
             if (userEntity != null) {
-                userid = userEntity.userID;
+                userid = userEntity.userId;
                 initImChat();
             }
         });

@@ -10,8 +10,6 @@ import com.mdshi.chatlib.IMChat;
 import com.mdshi.chatlib.listener.SendMessageListener;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.entity.ContactsEntity;
-import com.mdshi.common.db.entity.MessageEntity;
-import com.mdshi.common.db.entity.MessageListEntity;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.data.ChatRepository;
@@ -25,7 +23,6 @@ import javax.inject.Inject;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.processors.FlowableProcessor;
@@ -47,7 +44,7 @@ public class ChatActivityModel extends ViewModel{
 
     @Inject
     public ChatActivityModel(ChatRepository repository, UserData userdata) {
-        userdata.observeForever(userEntity -> user = userEntity != null ? userEntity.userID : 0);
+        userdata.observeForever(userEntity -> user = userEntity != null ? userEntity.userId : 0);
         this.repository = repository;
         sessionBus = PublishProcessor.create();
         addData = new MutableLiveData<>();

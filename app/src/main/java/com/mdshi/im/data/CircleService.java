@@ -21,8 +21,8 @@ public interface CircleService {
 
     @FormUrlEncoded
     @POST("/circle/list")
-    Flowable<BaseBean<List<CircleBean>>> getCircleData(@Field("userid") long useId,@Field("pagesize") int pageSize,@Field("pageno") int pageNo);
+    Flowable<BaseBean<List<CircleBean>>> getCircleData(@Field("userId") long useId,@Field("pagesize") int pageSize,@Field("pageno") int pageNo);
     @FormUrlEncoded
     @POST("/circle/add")
-    Flowable<BaseBean<CircleBean>> upCircleData(@Field("userid")long userId,@Field("content") String content,@Field("images") String images);
+    Flowable<BaseBean<CircleBean>> upCircleData(@Field("userId")long userId,@Field("content") String content,@Field("images") String images);
 }

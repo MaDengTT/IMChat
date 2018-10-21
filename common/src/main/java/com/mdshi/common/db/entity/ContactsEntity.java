@@ -10,19 +10,19 @@ import android.arch.persistence.room.ForeignKey;
  * Created by MaDeng on 2018/9/19.
  */
 @Entity(tableName = "tb_contacts",
-        primaryKeys = {"userid","contactsid"},
+        primaryKeys = {"user_id","contacts_id"},
         foreignKeys = {@ForeignKey(entity = UserEntity.class,
-                parentColumns = "id",childColumns = "userid",onDelete = ForeignKey.CASCADE
+                parentColumns = "id",childColumns = "user_id",onDelete = ForeignKey.CASCADE
         )} //外键 消息列表ID
 )
 public class ContactsEntity {
 
 
-    @ColumnInfo(name = "userid")
+    @ColumnInfo(name = "user_id")
     public long userId;
-    @ColumnInfo(name = "contactsid")
+    @ColumnInfo(name = "contacts_id")
     public long contactsId;
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "contacts_name")
     public String contactsName;
 
     public long groupId;
@@ -32,7 +32,7 @@ public class ContactsEntity {
     public long session_id;
 
     @Embedded
-    public UserInfo info;
+    public UserEntity info;
 
     public long getSession_id() {
         if (userId > contactsId) {
@@ -42,13 +42,5 @@ public class ContactsEntity {
         }
     }
 
-    public static class UserInfo {
-        @ColumnInfo(name = "id")
-        public long userID;
-        public String userName;
-        public String email;
-        public String phone;
-        public String avatar;
-    }
 
 }

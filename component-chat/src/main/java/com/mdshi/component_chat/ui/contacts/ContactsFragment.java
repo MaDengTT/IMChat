@@ -73,7 +73,7 @@ public class ContactsFragment extends BaseFragment {
             }
         });
 
-//        getUserData().observe(this, userEntity -> model.setUserID(userEntity.userID));
+//        getUserData().observe(this, userEntity -> model.setUserID(userEntity.userId));
     }
 
     private void initView() {

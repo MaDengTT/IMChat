@@ -75,7 +75,7 @@ public class MyFragment extends BaseFragment {
             if (userEntity != null) {
                 imageLoader.loadImaToIv(new AvatarConfig(ivAvatar,userEntity.avatar));
                 tvUserName.setText(userEntity.userName);
-                tvUserInfo.setText(userEntity.userID+"");
+                tvUserInfo.setText(userEntity.userId +"");
             }
         });
     }

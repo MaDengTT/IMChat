@@ -11,7 +11,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class UserEntity {
     @PrimaryKey
     @ColumnInfo(name = "id")
-    public long userID;
+    public long userId;
 
     @ColumnInfo(name = "name")
     public String userName;

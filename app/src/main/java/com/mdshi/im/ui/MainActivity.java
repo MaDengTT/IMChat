@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         user.observe(this, entity -> {
-            if (entity != null && entity.userID != 0) {
+            if (entity != null && entity.userId != 0) {
                 NavigationActivity.start(this);
                 finish();
             }else {

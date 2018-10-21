@@ -76,41 +76,4 @@ public abstract class MessageDao {
         insertMessageList(entity);
         insertMessage(entity2);
     }
-
-//    @Transaction
-//    public void insertMessageUpdateMessageList(final MessageEntity msg){
-//        getMsgListBySessionID(msg.session_id)
-//                .flatMap(new Function<MessageListEntity, Publisher<Long>>() {
-//                    @Override
-//                    public Publisher<Long> apply(MessageListEntity messageListEntity) throws Exception {
-//                        if (messageListEntity == null) {
-//                            MessageListEntity listEntity = new MessageListEntity();
-//                            listEntity.id=msg.session_id;
-//                            listEntity.other_Id = msg.other_id;
-//                            listEntity.sessionType = 0;
-//                            listEntity.unReadNum = 0;
-//                            insertMessageList(listEntity);
-//                            return Flowable.just(msg.session_id);
-//                        }
-//                        return Flowable.just(messageListEntity.id);
-//                    }
-//                }).flatMap(new Function<Long, Publisher<MessageEntity>>() {
-//                    @Override
-//                    public Publisher<MessageEntity> apply(Long aLong) throws Exception {
-//                        insertMessage(msg);
-//                        return getMsgByNewDate(aLong);
-//                    }
-//                }).map(new Function<MessageEntity, Boolean>() {
-//                    @Override
-//                    public Boolean apply(MessageEntity value) throws Exception {
-//                        MessageListEntity listEntity = new MessageListEntity();
-//                        listEntity.id = msg.session_id;
-//                        listEntity.newDate = value.createTime;
-//                        listEntity.newMessageId = value.id;
-//                        updateMessageList(listEntity);
-//                        return true;
-//                    }
-//                }).subscribe();
-//    }
-
 }

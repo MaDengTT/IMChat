@@ -3,7 +3,6 @@ package com.mdshi.im.ui.show;
 import android.content.Context;
 
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,8 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 /**
  * Created by MaDeng on 2018/10/17.
@@ -47,8 +44,8 @@ public class ShowAdapter extends BaseQuickAdapter<CircleEntity,BaseViewHolder> {
         List<String> images =  Arrays.asList(item.images.split(","));
         niv.setImagesData(images);
 
-        helper.setText(R.id.tv_name, item.username);
-        helper.setText(R.id.tv_content, item.contnent);
+        helper.setText(R.id.tv_name, item.userName);
+        helper.setText(R.id.tv_content, item.content);
         ImageView avatar = helper.getView(R.id.iv_avatar);
         loader.loadImaToIv(new AvatarConfig(avatar,item.avatar));
     }

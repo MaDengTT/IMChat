@@ -2,8 +2,6 @@ package com.mdshi.im.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.net.Uri;
-import android.util.Log;
 
 import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.constan.UserData;
@@ -23,7 +21,6 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.Retrofit;
 
 /**
  * Created by MaDeng on 2018/9/13.
@@ -43,7 +40,7 @@ public class UserRepository {
     public Flowable<BaseBean<UserEntity>> login(String phone, String email, String password) {
         return service.login(phone, email, password).flatMap(userEntityBaseBean -> {
             if (userEntityBaseBean.isSuccess()) {
-                UserEntity user = dao.getUser(userEntityBaseBean.data.userID);
+                UserEntity user = dao.getUser(userEntityBaseBean.data.userId);
                 if (user != null) {
                     dao.updateUser(userEntityBaseBean.data);
                 }else {

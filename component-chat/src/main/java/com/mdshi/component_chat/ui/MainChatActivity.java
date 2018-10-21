@@ -2,7 +2,6 @@ package com.mdshi.component_chat.ui;
 
 
 import android.content.Intent;
-import android.os.SystemClock;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -10,19 +9,12 @@ import android.widget.FrameLayout;
 
 import com.mdshi.common.base.BaseActivity;
 import com.mdshi.common.constan.UserData;
-import com.mdshi.common.db.IMDataBase;
 import com.mdshi.common.db.entity.UserEntity;
-import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
-import com.mdshi.component_chat.bean.ChatBean;
 import com.mdshi.component_chat.service.IMChatService;
 import com.mdshi.component_chat.ui.contacts.ContactsFragment;
 
-import java.util.Date;
-
 import javax.inject.Inject;
-
-import io.reactivex.Flowable;
 
 public class MainChatActivity extends BaseActivity {
 
@@ -80,7 +72,7 @@ public class MainChatActivity extends BaseActivity {
 //            ChatManager.getIns().receive(bean);
             new Thread(() -> {
                 UserEntity userEntity = new UserEntity();
-                userEntity.userID = 123456;
+                userEntity.userId = 123456;
                 data.postValue(userEntity);
             }).start();
 

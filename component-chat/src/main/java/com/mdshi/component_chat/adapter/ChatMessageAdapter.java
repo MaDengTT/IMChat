@@ -1,13 +1,11 @@
 package com.mdshi.component_chat.adapter;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mdshi.common.constan.UserData;
-import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.common.image.AvatarConfig;
 import com.mdshi.common.image.ImageConfig;
 import com.mdshi.common.image.ImageLoader;
@@ -40,7 +38,7 @@ public class ChatMessageAdapter extends BaseMultiItemQuickAdapter<ChatBean,BaseV
     public ChatMessageAdapter(ImageLoader loader, UserData data) {
         this(new ArrayList<>());
         this.loader = loader;
-        this.myUserId = data.getValue().userID;
+        this.myUserId = data.getValue().userId;
         this.myUserAvatar = data.getValue().avatar;
     }
 

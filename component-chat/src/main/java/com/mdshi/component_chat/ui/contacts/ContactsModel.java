@@ -4,13 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.text.TextUtils;
-import android.util.Log;
 
-import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.entity.ContactsEntity;
-import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.component_chat.data.ContactsRepository;
 import com.mdshi.common.vo.AbsentLiveData;
 import com.mdshi.common.vo.Resource;
@@ -39,17 +35,17 @@ public class ContactsModel extends ViewModel{
     public ContactsModel(ContactsRepository repository, UserData userData) {
         this.repository = repository;
         contactsData = Transformations.switchMap(userData,data->{
-            if (data == null|| data.userID == 0) {
+            if (data == null|| data.userId == 0) {
                 return AbsentLiveData.create();
             }else {
-                return repository.getContactsData(data.userID);
+                return repository.getContactsData(data.userId);
             }
         });
 
 
 
         userData.observeForever(s->{
-            if(s!=null){user.setValue(s.userID);}
+            if(s!=null){user.setValue(s.userId);}
         });
     }
 

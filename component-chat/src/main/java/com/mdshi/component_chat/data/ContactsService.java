@@ -19,13 +19,13 @@ import retrofit2.http.POST;
 public interface ContactsService {
     @FormUrlEncoded
     @POST("/contacts/list")
-    public Flowable<BaseBean<List<ContactsEntity>>> getContactsList(@Field("userid") long userid);
+    public Flowable<BaseBean<List<ContactsEntity>>> getContactsList(@Field("userId") long userid);
     @FormUrlEncoded
     @POST("/contacts/list")
-    public LiveData<BaseBean<List<ContactsEntity>>> getContactsListToLiveData(@Field("userid") long userid);
+    public LiveData<BaseBean<List<ContactsEntity>>> getContactsListToLiveData(@Field("userId") long userid);
     @FormUrlEncoded
     @POST("/contacts/add")
-    public Flowable<BaseBean<List<ContactsEntity>>> addContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);
+    public Flowable<BaseBean<List<ContactsEntity>>> addContacts(@Field("userId") long userid,@Field("contactsid")long contactsid);
 
     /**
      * 请求添加
@@ -35,7 +35,7 @@ public interface ContactsService {
      */
     @FormUrlEncoded
     @POST("/contacts/apply")
-    public Flowable<BaseBean<List<ContactsEntity>>> applyContacts(@Field("userid") long userid,@Field("contactsid")long contactsid);
+    public Flowable<BaseBean<List<ContactsEntity>>> applyContacts(@Field("userId") long userid,@Field("contactsid")long contactsid);
 
 
 }

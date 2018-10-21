@@ -14,7 +14,7 @@ public class CircleBean {
      * imgUrls : 5456465.jpg,7878.jpg
      * createTime : 2018-10-18T18:09:34.000Z
      * user_id : 10016
-     * userInfo : {"userID":10016,"userName":"18538008584","date":"2018-10-17T19:40:02.000Z","email":null,"phone":"18538008584","avatar":"group1/M00/00/00/wKgABFvIAJKATRvQAAArb-JBPio492.jpg","id":10016}
+     * userInfo : {"userId":10016,"userName":"18538008584","date":"2018-10-17T19:40:02.000Z","email":null,"phone":"18538008584","avatar":"group1/M00/00/00/wKgABFvIAJKATRvQAAArb-JBPio492.jpg","id":10016}
      */
 
     private int Id;

@@ -9,7 +9,6 @@ import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.rx.RxUtils;
 import com.mdshi.im.data.UserRepository;
 import com.zxy.tiny.Tiny;
-import com.zxy.tiny.callback.FileCallback;
 
 import org.reactivestreams.Publisher;
 
@@ -19,9 +18,6 @@ import javax.inject.Inject;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -83,7 +79,7 @@ public class UserModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .flatMap(img->repository.uploadFile(img))
                 .map(result -> result.isSuccess()?result.data:"")
-                .flatMap(imagesrc->repository.updateUserAvatar(userData.getValue().userID,imagesrc))
+                .flatMap(imagesrc->repository.updateUserAvatar(userData.getValue().userId,imagesrc))
                 .map(userEntityBaseBean -> {
                     if (userEntityBaseBean.isSuccess()) {
                         userData.postValue(userEntityBaseBean.data);

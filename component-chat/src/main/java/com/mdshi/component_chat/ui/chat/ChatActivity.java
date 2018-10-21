@@ -1,14 +1,12 @@
 package com.mdshi.component_chat.ui.chat;
 
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -25,8 +23,6 @@ import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
 import com.mdshi.component_chat.adapter.ChatMessageAdapter;
 import com.mdshi.component_chat.bean.ChatBean;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -126,7 +122,7 @@ public class ChatActivity extends BaseActivity {
             if (TextUtils.isEmpty(string)) {
                 return;
             }
-            ChatBean bean = new ChatBean(userData.getValue().userID);
+            ChatBean bean = new ChatBean(userData.getValue().userId);
             bean.date = new Date();
             bean.type = ChatBean.Type.TEXT_R;
             bean.content = string;
