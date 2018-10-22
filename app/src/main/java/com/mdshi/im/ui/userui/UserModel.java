@@ -40,6 +40,7 @@ public class UserModel extends ViewModel {
                 .map(userEntityBaseBean -> {
                     if (userEntityBaseBean.isSuccess()) {
                         userData.postValue(userEntityBaseBean.data);
+                        Log.d(TAG, "login: "+userEntityBaseBean.data.userName);
                     }
                     return userEntityBaseBean;
                 })

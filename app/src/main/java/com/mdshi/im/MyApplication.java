@@ -2,6 +2,7 @@ package com.mdshi.im;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.mdshi.chatlib.Debug;
@@ -45,9 +46,11 @@ public class MyApplication extends BaseApplication {
         ARouter.init(this);
     }
 
+    private static final String TAG = "MyApplication";
     private void initIMChat() {
         userData.observeForever(userEntity -> {
             if (userEntity == null||userEntity.userId ==0) {
+                Log.d(TAG, "initIMChat: userID == 0");
                 IMChat.unConnect();
             }else {
                 Debug.init(true);

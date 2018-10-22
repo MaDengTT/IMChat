@@ -44,10 +44,10 @@ public class ShowAdapter extends BaseQuickAdapter<CircleEntity,BaseViewHolder> {
         List<String> images =  Arrays.asList(item.images.split(","));
         niv.setImagesData(images);
 
-        helper.setText(R.id.tv_name, item.userName);
+        helper.setText(R.id.tv_name, item.userInfo.userName);
         helper.setText(R.id.tv_content, item.content);
         ImageView avatar = helper.getView(R.id.iv_avatar);
-        loader.loadImaToIv(new AvatarConfig(avatar,item.avatar));
+        loader.loadImaToIv(new AvatarConfig(avatar,item.userInfo.avatar));
     }
 
     public class ImageAdapter extends NineGridImageViewAdapter<String> {

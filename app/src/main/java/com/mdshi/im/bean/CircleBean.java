@@ -1,5 +1,6 @@
 package com.mdshi.im.bean;
 
+import com.mdshi.common.db.bean.UserInfo;
 import com.mdshi.common.db.entity.UserEntity;
 
 /**
@@ -23,7 +24,7 @@ public class CircleBean {
     private String imgUrls;
     private String createTime;
     private int user_id;
-    private UserEntity userInfo;
+    private UserInfo userInfo;
 
     public int getId() {
         return Id;
@@ -73,11 +74,11 @@ public class CircleBean {
         this.user_id = user_id;
     }
 
-    public UserEntity getUserInfo() {
+    public UserInfo getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(UserEntity userInfo) {
+    public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
     }
 

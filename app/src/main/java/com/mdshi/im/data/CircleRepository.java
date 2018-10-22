@@ -76,13 +76,12 @@ public class CircleRepository {
         return service.upCircleData(userId, content, images);
     }
     public void circleDataToDb(CircleBean bean) {
-        dao.insert(new CircleEntity(bean.getId(),
-                bean.getUserId(),
-                bean.getUserInfo().userName,
-                bean.getUserInfo().avatar,
-                bean.getContentText(),
-                bean.getImgUrls(),
-                TimeUtils.string2Date(bean.getCreateTime(),TimeUtils.DEFAULT_FORMAT_T_Z)));
+        CircleEntity entity = new CircleEntity();
+        entity.userInfo = bean.getUserInfo();
+        entity.content = bean.getContentText();
+        entity.images = bean.getImgUrls();
+        entity.createTime = TimeUtils.string2Date(bean.getCreateTime(),TimeUtils.DEFAULT_FORMAT_T_Z);
+        dao.insert(entity);
     }
 
     private static final String TAG = "CircleRepository";

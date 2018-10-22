@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.mdshi.common.base.BaseBean;
 import com.mdshi.common.constan.UserData;
+import com.mdshi.common.db.bean.UserInfo;
 import com.mdshi.common.db.entity.CircleEntity;
 
 import com.mdshi.common.rx.RxUtils;
@@ -82,7 +83,11 @@ public class ShowViewModel extends ViewModel {
                         .map( circleBeanBaseBean -> {
                             if(circleBeanBaseBean.isSuccess()){
                                 CircleBean bean = circleBeanBaseBean.data;
-                                bean.setUserInfo(userData.getValue());
+                                UserInfo info = new UserInfo();
+                                info.userId = userData.getValue().userId;
+                                info.avatar = userData.getValue().avatar;
+                                info.userName = userData.getValue().userName;
+                                bean.setUserInfo(info);
                                 repository.circleDataToDb(bean);
                             }
                             return circleBeanBaseBean;
