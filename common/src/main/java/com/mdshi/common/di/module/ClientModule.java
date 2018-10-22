@@ -9,6 +9,7 @@ import com.mdshi.common.db.IMDataBase;
 import com.mdshi.common.db.dao.CircleDao;
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.common.db.dao.MessageListDao;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.UserEntity;
 import com.mdshi.common.image.ImageLoader;
@@ -56,6 +57,10 @@ public class ClientModule {
     @Provides
     public UserDao provideUserDao(IMDataBase dataBase){
         return dataBase.userDao();
+    }    @Singleton
+    @Provides
+    public MessageListDao provideMessageListDao(IMDataBase dataBase){
+        return dataBase.listDao();
     }
     @Singleton
     @Provides

@@ -27,11 +27,7 @@ import io.reactivex.functions.Function;
  */
 @Dao
 public abstract class MessageDao {
-    @Query("SELECT* FROM tb_message_list ORDER BY new_date DESC")
-    public abstract Flowable<List<MessageListEntity>> getMessageListAll();
 
-    @Query("SELECT* FROM tb_message_list WHERE user_id IN(:userId) ORDER BY new_date DESC")
-    public abstract LiveData<List<MessageListEntity>> getMessageListAll(long userId);
 
 
     @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageSize-1)*(:pageNo)")
@@ -39,10 +35,6 @@ public abstract class MessageDao {
 
     @Query("SELECT* FROM tb_message WHERE session_id IN (:id) ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageNo)")
     public abstract List<MessageEntity> getMessageById(long id,int pageSize,int pageNo);
-
-
-    @Query("SELECT * From tb_message_list WHERE other_Id IN(:userID) LIMIT 1")
-    public abstract Flowable<MessageListEntity> getMsgListByUserID(long userID);
 
     //根据会话ID获取条目
     @Query("SELECT * From tb_message_list WHERE id IN(:sessionId) LIMIT 1")

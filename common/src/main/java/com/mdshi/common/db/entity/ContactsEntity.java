@@ -5,20 +5,22 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 
+import com.mdshi.common.db.bean.UserInfo;
+
 
 /**
  * Created by MaDeng on 2018/9/19.
  */
 @Entity(tableName = "tb_contacts",
-        primaryKeys = {"user_id","contacts_id"},
+        primaryKeys = {"id","contacts_id"},
         foreignKeys = {@ForeignKey(entity = UserEntity.class,
-                parentColumns = "id",childColumns = "user_id",onDelete = ForeignKey.CASCADE
+                parentColumns = "id",childColumns = "id",onDelete = ForeignKey.CASCADE
         )} //外键 消息列表ID
 )
 public class ContactsEntity {
 
 
-    @ColumnInfo(name = "user_id")
+    @ColumnInfo(name = "id")
     public long userId;
     @ColumnInfo(name = "contacts_id")
     public long contactsId;
@@ -32,7 +34,7 @@ public class ContactsEntity {
     public long session_id;
 
     @Embedded
-    public UserEntity info;
+    public UserInfo info;
 
     public long getSession_id() {
         if (userId > contactsId) {

@@ -17,12 +17,12 @@ import java.util.List;
 @Dao
 public interface ContactsDao {
 
-    @Query("SELECT * FROM tb_contacts WHERE userid in(:userid) ORDER BY name")
+    @Query("SELECT * FROM tb_contacts WHERE id in(:userid) ORDER BY contacts_name")
     public LiveData<List<ContactsEntity>> findAllContacts(long userid);
 
-    @Query("SELECT * FROM tb_contacts WHERE userid = :userid AND contactsid = :contactsId")
+    @Query("SELECT * FROM tb_contacts WHERE id = :userid AND contacts_id = :contactsId")
     public ContactsEntity findContacts(long userid,long contactsId);
-    @Query("SELECT * FROM tb_contacts WHERE userid = :userid AND contactsid = :contactsId")
+    @Query("SELECT * FROM tb_contacts WHERE id = :userid AND contacts_id = :contactsId")
     public LiveData<ContactsEntity> findContactsToLiveData(long userid,long contactsId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -8,6 +8,7 @@ import android.arch.persistence.room.TypeConverters;
 import com.mdshi.common.db.dao.CircleDao;
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.common.db.dao.MessageListDao;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.CircleEntity;
 import com.mdshi.common.db.entity.ContactsEntity;
@@ -28,4 +29,6 @@ public abstract class IMDataBase extends RoomDatabase {
     public abstract ContactsDao contactsDao();
 
     public abstract CircleDao circleDao();
+
+    public abstract MessageListDao listDao();
 }

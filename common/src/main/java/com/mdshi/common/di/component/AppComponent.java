@@ -7,6 +7,7 @@ import com.mdshi.common.constan.UserData;
 import com.mdshi.common.db.dao.CircleDao;
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.common.db.dao.MessageListDao;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.di.module.AppModule;
 import com.mdshi.common.di.module.ClientModule;
@@ -44,6 +45,8 @@ public interface AppComponent {
     AppExecutors appExecutors();
 
     CircleDao circleDao();
+
+    MessageListDao listDao();
 
     @Component.Builder
     interface Builder{

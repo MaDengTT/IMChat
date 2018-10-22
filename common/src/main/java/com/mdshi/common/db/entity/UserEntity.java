@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by MaDeng on 2018/9/13.
  */
@@ -11,6 +13,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class UserEntity {
     @PrimaryKey
     @ColumnInfo(name = "id")
+    @SerializedName("userID")
     public long userId;
 
     @ColumnInfo(name = "name")

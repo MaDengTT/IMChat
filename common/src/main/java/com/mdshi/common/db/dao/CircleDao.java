@@ -17,10 +17,10 @@ import java.util.List;
 @Dao
 public interface CircleDao {
 
-    @Query("SELECT * FROM tb_circle ORDER BY create_time DESC")
+    @Query("SELECT * FROM tb_circle ORDER BY circle_create_time DESC")
     LiveData<List<CircleEntity>> getCircleAll();
 
-    @Query("SELECT * FROM tb_circle ORDER BY create_time DESC LIMIT (:pageSize) offset (:pageSize-1)*(:pageNo)")
+    @Query("SELECT * FROM tb_circle ORDER BY circle_create_time DESC LIMIT (:pageSize) offset (:pageSize-1)*(:pageNo)")
     LiveData<List<CircleEntity>> getCircleAll(int pageSize, int pageNo);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

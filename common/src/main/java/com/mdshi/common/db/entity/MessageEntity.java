@@ -9,6 +9,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.mdshi.common.db.bean.UserInfo;
 
 import java.util.Date;
 
@@ -21,15 +22,18 @@ import java.util.Date;
         foreignKeys = {@ForeignKey(entity = MessageListEntity.class,
         parentColumns = "id",childColumns = "session_id"
         )} //外键 消息列表ID
-
 )
 
 public class MessageEntity {
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "message_id")
     public int id;    //id
 
+    @Ignore
+    public long fUserId;
+
     @Embedded
-    public UserEntity userInfo;
+    public UserInfo userInfo;
 
     @ColumnInfo(name = "to_user_id")
     public long tUserId;   //接收方userId
