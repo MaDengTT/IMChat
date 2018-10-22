@@ -9,6 +9,7 @@ import com.mdshi.chatlib.Bean.MessageBean;
 import com.mdshi.chatlib.IMChat;
 import com.mdshi.chatlib.listener.SendMessageListener;
 import com.mdshi.common.constan.UserData;
+import com.mdshi.common.db.bean.UserInfo;
 import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.bean.ChatBean;
@@ -42,9 +43,18 @@ public class ChatActivityModel extends ViewModel{
 
     private FlowableProcessor<SessionBean> sessionBus;
 
+    private UserInfo userInfo;
+
     @Inject
     public ChatActivityModel(ChatRepository repository, UserData userdata) {
-        userdata.observeForever(userEntity -> user = userEntity != null ? userEntity.userId : 0);
+        userdata.observeForever(userEntity -> {user = userEntity != null ? userEntity.userId : 0;
+            userInfo = new UserInfo();
+            userInfo.userId = userEntity.userId;
+            userInfo.avatar = userEntity.avatar;
+            userInfo.email = userEntity.email;
+            userInfo.userName = userEntity.userName;
+            userInfo.phone = userEntity.phone;
+        });
         this.repository = repository;
         sessionBus = PublishProcessor.create();
         addData = new MutableLiveData<>();
@@ -130,8 +140,8 @@ public class ChatActivityModel extends ViewModel{
                     ChatManager.getIns().receive(bean1);
                     return bean1;
                 })
-                .flatMap(bean12 -> Flowable.just(BeanUtils.ChatBeanToMsg(bean12)))
-                .map(bean13->{repository.addMessage(bean13,user);return bean13;})
+                .flatMap(bean12 -> Flowable.just(BeanUtils.ChatBeanToMsg(bean12,userInfo)))
+                .map(bean13->{repository.chatMessageToDb(bean13,user,bean13.tUserId);return bean13;})
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(s1-> Flowable.create((FlowableOnSubscribe<ChatBean>) emitter -> {

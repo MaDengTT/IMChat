@@ -73,7 +73,6 @@ public class IMChatService extends Service {
                     Flowable.just(bean.message)
                             .map(s -> {
                                 MessageEntity messageEntity = gson.fromJson(s, MessageEntity.class);
-                                messageEntity.other_id = messageEntity.fUserId;
                                 return messageEntity;
                             })
                             .map(s1->{
@@ -82,7 +81,7 @@ public class IMChatService extends Service {
                                 return s1;
                             })
                             .map(messageEntity -> {
-                                repository.addMessage(messageEntity,userid);
+                                repository.chatMessageToDb(messageEntity,userid,messageEntity.fUserId);
                                 ChatManager.getIns().receive(BeanUtils.MsgToChatBean(messageEntity,userid));
                                 return messageEntity;
                             }).map(s1-> BeanUtils.MsgToChatBean(s1,userid))

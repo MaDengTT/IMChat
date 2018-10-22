@@ -1,5 +1,6 @@
 package com.mdshi.component_chat.utils;
 
+import com.mdshi.common.db.bean.UserInfo;
 import com.mdshi.common.db.entity.MessageEntity;
 import com.mdshi.component_chat.bean.ChatBean;
 
@@ -18,10 +19,10 @@ public class BeanUtils {
         c.content = entity.content;
         c.session_id = entity.session_id;
         c.date = new Date(entity.createTime);
-        c.userId = entity.fUserId;
+        c.userId = entity.userInfo!=null?entity.userInfo.userId:entity.fUserId;
         switch (entity.type) {
             case 0:
-                if (entity.fUserId == userid) {
+                if (c.userId == userid) {
                     c.type = ChatBean.Type.TEXT_R;
                 }else {
                     c.type = ChatBean.Type.TEXT_L;
@@ -30,7 +31,7 @@ public class BeanUtils {
         }
         return c;
     }
-    public static MessageEntity ChatBeanToMsg(ChatBean entity) {
+    public static MessageEntity ChatBeanToMsg(ChatBean entity,UserInfo userInfo) {
         MessageEntity temp = new MessageEntity();
         switch (entity.type) {
             case TEXT_L:
@@ -41,9 +42,9 @@ public class BeanUtils {
         temp.createTime = entity.date.getTime();
         temp.content = entity.content;
         temp.session_id = entity.session_id;
+        temp.fUserId = userInfo.userId;
         temp.tUserId = entity.tUserId;
-        temp.fUserId = entity.userId;
-        temp.other_id = entity.tUserId;
+        temp.userInfo = userInfo;
         return temp;
     }
 

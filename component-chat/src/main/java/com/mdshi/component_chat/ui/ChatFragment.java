@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mdshi.common.base.BaseFragment;
+import com.mdshi.common.db.bean.MessageListBean;
 import com.mdshi.common.db.entity.MessageListEntity;
 import com.mdshi.component_chat.ChatManager;
 import com.mdshi.component_chat.R;
@@ -78,7 +79,7 @@ public class ChatFragment extends BaseFragment{
         rvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity((MessageListEntity) adapter.getItem(position));
+                toActivity((MessageListBean) adapter.getItem(position));
             }
         });
         rvList.setAdapter(adapter);
@@ -104,28 +105,12 @@ public class ChatFragment extends BaseFragment{
         ChatManager.getIns().unregisterChatListener(bean -> false);
     }
 
-    public void toActivity(MessageListEntity entity) {
-        entity.unReadNum = 0;
-        chatModel.updateChatValue(entity);
-        if (entity.sessionType == 0) {
-            ChatActivity.start(getActivity(),entity.id,entity.other_Id);
-        }
+    public void toActivity(MessageListBean entity) {
+        chatModel.clearUnReadNum();
+        ChatActivity.start(getActivity(),entity.sessionId,entity.contactsId);
     }
 
-    public void addTest() {
-        MessageListEntity entity = new MessageListEntity();
-        entity.id = SystemClock.currentThreadTimeMillis();
-        entity.user_Id = 123456;
-        entity.newDate = new Date();
-        chatModel.addChatValue(entity);
-    }
 
-    public void updateTest() {
-        MessageListEntity messageListEntity = adapter.getData().get(1);
-        messageListEntity.unReadNum++;
-        messageListEntity.newDate = new Date();
-        chatModel.updateChatValue(messageListEntity);
-    }
 
 
 }

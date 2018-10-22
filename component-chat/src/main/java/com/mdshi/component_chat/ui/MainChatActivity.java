@@ -61,8 +61,6 @@ public class MainChatActivity extends BaseActivity {
                     page++;
                 });
 
-        add.setOnClickListener(v -> chatFragment.addTest());
-        update.setOnClickListener(v->chatFragment.updateTest());
         accept.setOnClickListener(v->{
 //            ChatBean bean = new ChatBean();
 //            bean.date = new Date();

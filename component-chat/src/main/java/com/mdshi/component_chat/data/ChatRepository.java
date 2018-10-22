@@ -5,8 +5,11 @@ import android.arch.lifecycle.MutableLiveData;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.mdshi.common.db.bean.MessageListBean;
+import com.mdshi.common.db.bean.UserInfo;
 import com.mdshi.common.db.dao.ContactsDao;
 import com.mdshi.common.db.dao.MessageDao;
+import com.mdshi.common.db.dao.MessageListDao;
 import com.mdshi.common.db.dao.UserDao;
 import com.mdshi.common.db.entity.ContactsEntity;
 import com.mdshi.common.db.entity.MessageEntity;
@@ -33,14 +36,27 @@ public class ChatRepository {
 
     private MessageDao dao;
     private ContactsDao contactsDao;
+    private MessageListDao listDao;
     @Inject
-    public ChatRepository(MessageDao dao,ContactsDao contactsDao) {
+    public ChatRepository(MessageDao dao,ContactsDao contactsDao,MessageListDao listDao) {
         this.dao = dao;
         this.contactsDao = contactsDao;
+        this.listDao = listDao;
     }
 
-    public LiveData<List<MessageListEntity>> getChatBean(long userId) {
-        LiveData<List<MessageListEntity>> data = dao.getMessageListAll(userId);
+    public LiveData<List<MessageListBean>> getChatBean(long userId) {
+        LiveData<List<MessageListBean>> data = listDao.getAll(userId);
+//        Flowable.just(0)
+//                .map(new Function<Integer, Integer>() {
+//                    @Override
+//                    public Integer apply(Integer integer) throws Exception {
+//                        List<MessageListBean> allTest = listDao.getAllTest(userId);
+//                        allTest.size();
+//                        return null;
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io())
+//        .subscribe();
         return data;
     }
 
@@ -78,25 +94,41 @@ public class ChatRepository {
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-
-    public void addMessage(MessageEntity messageEntity,long userId) {
-        MessageListEntity  mle = new MessageListEntity();
-        ContactsEntity contacts = contactsDao.findContacts(userId,messageEntity.other_id);
-        mle.createBean(messageEntity.session_id,
-                userId,
-                messageEntity.other_id,
-                messageEntity.type,
-                TextUtils.isEmpty(contacts.contactsName)?contacts.info.userName:contacts.contactsName);
-        mle.updateBean(new Date(messageEntity.createTime),messageEntity.id,messageEntity.content);
-        if (contacts != null) {
-            mle.setUserInfo(contacts.contactsName,contacts.info.avatar);
-        }
-        Log.d(TAG, "addMessage: "+messageEntity.toString());
-        messageEntity.id = 0;
-        dao.insertMessageListAndMessage(mle,messageEntity);
-    }
+//
+//    public void addMessage(MessageEntity messageEntity,long userId) {
+//        MessageListEntity  mle = new MessageListEntity();
+//        mle.id = messageEntity.session_id;
+//        mle.user_Id = userId;
+//        mle.unReadNum++;
+//        mle.contactsId = messageEntity.tUserId;
+//        dao.insertMessageListAndMessage(mle,messageEntity);
+//    }
 
     public LiveData<ContactsEntity> getContact(long user, long contactsId) {
         return contactsDao.findContactsToLiveData(user,contactsId);
+    }
+
+    public void chatMessageToDb(MessageEntity messageEntity, long userId, long contactsId) {
+        MessageListEntity mle = dao.getMsgListBySessionID(messageEntity.session_id);
+
+        if (userId != contactsId) {
+            ContactsEntity contacts = contactsDao.findContacts(userId, contactsId);
+            messageEntity.userInfo = new UserInfo();
+            messageEntity.userInfo.userName = TextUtils.isEmpty(contacts.contactsName) ? contacts.info.userName : contacts.contactsName;
+            messageEntity.userInfo.avatar = contacts.info.avatar;
+            messageEntity.userInfo.userId = contactsId;
+            messageEntity.userInfo.phone = contacts.info.phone;
+            messageEntity.userInfo.email = contacts.info.email;
+        }else {
+
+        }
+        if (mle == null) {
+            mle = new MessageListEntity();
+            mle.id = messageEntity.session_id;
+            mle.user_Id = userId;
+            mle.contactsId = contactsId;
+        }
+        mle.unReadNum++;
+        dao.insertMessageListAndMessage(mle, messageEntity);
     }
 }

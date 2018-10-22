@@ -5,6 +5,7 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.mdshi.common.constan.UserData;
+import com.mdshi.common.db.bean.MessageListBean;
 import com.mdshi.common.db.entity.MessageListEntity;
 
 import com.mdshi.common.vo.AbsentLiveData;
@@ -21,12 +22,9 @@ import dagger.Module;
  */
 @Module
 public class ChatModel extends ViewModel {
-    private LiveData<List<MessageListEntity>> chatList;
+    private LiveData<List<MessageListBean>> chatList;
 
     private ChatRepository repository;
-
-    private long userid;
-
 
 
     @Inject
@@ -36,13 +34,12 @@ public class ChatModel extends ViewModel {
             if (input == null || input.userId == 0) {
                 return AbsentLiveData.create();
             }else {
-                userid = input.userId;
                 return repository.getChatBean(input.userId);
             }
         });
     }
 
-    public LiveData<List<MessageListEntity>> getChatList() {
+    public LiveData<List<MessageListBean>> getChatList() {
         return chatList;
     }
 
@@ -56,10 +53,9 @@ public class ChatModel extends ViewModel {
         repository.removeMessageList(value);
     }
 
-    public void updateChatValue(MessageListEntity value) {
-        repository.updateMessageList(value);
-    }
-
     private static final String TAG = "ChatModel";
 
+    public void clearUnReadNum() {
+
+    }
 }
