@@ -2,6 +2,7 @@ package com.mdshi.im.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.format.DateUtils;
@@ -61,11 +62,7 @@ public class CircleRepository {
             @NonNull
             @Override
             protected LiveData<BaseBean<List<CircleBean>>> createCall() {
-                MutableLiveData<BaseBean<List<CircleBean>>> liveData = new MutableLiveData<>();
-                service.getCircleData(userID,20,1)
-                        .compose(RxUtils.switchMainThread())
-                        .subscribe(listBaseBean -> liveData.postValue(listBaseBean), throwable -> Log.e(TAG, "accept: ",throwable ));
-                return liveData;
+                return service.getCircleData(userID,20,1);
             }
 
         }.asLiveData();
@@ -77,9 +74,10 @@ public class CircleRepository {
     }
     public void circleDataToDb(CircleBean bean) {
         CircleEntity entity = new CircleEntity();
+        entity.id = bean.getId();
         entity.userInfo = bean.getUserInfo();
-        entity.content = bean.getContentText();
         entity.images = bean.getImgUrls();
+        entity.content = bean.getContentText();
         entity.createTime = TimeUtils.string2Date(bean.getCreateTime(),TimeUtils.DEFAULT_FORMAT_T_Z);
         dao.insert(entity);
     }

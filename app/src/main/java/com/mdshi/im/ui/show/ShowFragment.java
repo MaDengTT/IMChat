@@ -78,8 +78,11 @@ public class ShowFragment extends BaseFragment {
 
     private void initData() {
         mViewModel.getCircleData().observe(this, listResource -> {
-            if (listResource.status == Status.SUCCESS) {
+            if (listResource.data!=null) {
                 adapter.setNewData(listResource.data);
+            }
+            if (listResource.status == Status.SUCCESS) {
+
             }
         });
     }
