@@ -61,15 +61,15 @@ public class ContactsFragment extends BaseFragment {
     private static final String TAG = "ContactsFragment";
     private void initData() {
         model.getContactsData().observe(this, listResource -> {
+            if (listResource.data != null) {
+                adapter.setNewData(listResource.data);
+            }
             if (listResource == null||listResource.status == Status.ERROR) {
-                Log.e(TAG, "initData: ", listResource != null ? listResource.throwable : null);
                 srl.setRefreshing(false);
             } else if(listResource.status == Status.LOADING){
-                Log.d(TAG, "initData: Loading");
+
             } else if (listResource.status == Status.SUCCESS) {
-                adapter.setNewData(listResource.data);
                 srl.setRefreshing(false);
-                Log.d(TAG, "initData: Success"+listResource.data.size());
             }
         });
 

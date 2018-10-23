@@ -73,17 +73,7 @@ public class ContactsRepository {
             @NonNull
             @Override
             protected LiveData<BaseBean<List<ContactsEntity>>> createCall() {
-                MutableLiveData<BaseBean<List<ContactsEntity>>> data = new MutableLiveData<>();
-                service.getContactsList(userId)
-                        .compose(RxUtils.switchMainThread())
-                        .subscribe(contactsEntities -> {
-                            data.setValue(contactsEntities);
-                        },error->{
-                            Log.e(TAG, "createCall: ",error );
-                            BaseBean<List<ContactsEntity>> baseBean = new BaseBean<>(400, "error", null);
-                            data.setValue(baseBean);
-                        });
-                return data;
+                return service.getContactsListToLiveData(userId);
             }
         }.asLiveData();
     }
