@@ -51,7 +51,6 @@ public abstract class NetworkBoundResource<ResultType,RequestType> {
             result.removeSource(dbSource);
             if(response!=null&&response.isSuccess()){
                 appExecutors.diskIO().execute(()->{
-
                     saveCallResult(processResponse(response));
                     appExecutors.mainThread().execute(()->
                     result.addSource(loadFromDb(),newData->setValue(Resource.success(newData))));
