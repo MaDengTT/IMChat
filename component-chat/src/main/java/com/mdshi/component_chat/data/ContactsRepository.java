@@ -55,7 +55,7 @@ public class ContactsRepository {
 
             @Override
             protected void saveCallResult(@NonNull List<ContactsEntity> item) {
-                dao.insert(item);
+                dao.updateContacts(item,userId);
             }
 
             @Override
