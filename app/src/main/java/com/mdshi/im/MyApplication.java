@@ -54,7 +54,7 @@ public class MyApplication extends BaseApplication {
                 IMChat.unConnect();
             }else {
                 Debug.init(true);
-                IMChat.init(String.valueOf(userEntity.userId));
+                IMChat.init(String.valueOf(userEntity.userId),this);
                 IMChat.connect();
                 startService(new Intent(getApplicationContext(),IMChatService.class));
             }

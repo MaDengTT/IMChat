@@ -1,15 +1,20 @@
 package com.mdshi.chatlib;
 
+import android.app.Application;
+import android.content.Context;
+
 import com.mdshi.chatlib.Bean.MessageBean;
 import com.mdshi.chatlib.Bean.SendMessage;
 import com.mdshi.chatlib.connection.BaseConnection;
 import com.mdshi.chatlib.connection.Config;
+import com.mdshi.chatlib.connection.J_IM_Connection;
 import com.mdshi.chatlib.connection.Mqtt_Connection;
 import com.mdshi.chatlib.listener.ConnectionListener;
 import com.mdshi.chatlib.listener.IMListener;
 import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.chatlib.listener.ReceiveListener;
 import com.mdshi.chatlib.listener.SendMessageListener;
+import com.xuhao.android.libsocket.sdk.OkSocket;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -46,6 +51,8 @@ public class IMChat {
                     for (MessageListener listener:messageListeners) {
                         listener.message(message);
                         MessageBean bean = new MessageBean(message);
+                        //TODO 服务器未处理 统一改成 12 R_CHAT_KEY
+                        bean.key = MessageBean.R_CHAT_KEY;
                         listener.messageTBean(bean);
                     }
                 }
@@ -80,7 +87,8 @@ public class IMChat {
             @Override
             public void onSuccess() {
                 Debug.d("connectionListener:onSuccess");
-                connection.sub(iMtopic+key);
+//                connection.sub(iMtopic+key);
+                connection.sub(key);
                 if (IMListener != null) {
                     IMListener.onSuccess();
                 }
@@ -97,11 +105,19 @@ public class IMChat {
 
     }
 
-    public static void init(String key){
+    public static void init(String key, Application baseContext){
+        try {
+            OkSocket.initialize(baseContext,true);
+        }catch (RuntimeException e){
+
+        }
         Config config = new Config();
-        config.CONNECTION_STRING = "www.mdshi.cn";
+//        config.CONNECTION_STRING = "www.mdshi.cn";
+        config.CONNECTION_STRING = "192.168.1.109";
+        config.CONNECTION_PORT = 8888;
         config.key = key;
-        ins = new IMChat(new Mqtt_Connection(config));
+//        ins = new IMChat(new Mqtt_Connection(config));
+        ins = new IMChat(new J_IM_Connection(config));
         ins.key = key;
 //        String topics = "/IM/Chat/"+key;
 //        Topic topic = new Topic(topics, QoS.AT_LEAST_ONCE);
@@ -144,13 +160,17 @@ public class IMChat {
 
     }
 
-    public static void sendMessage(MessageBean bean, final SendMessageListener listener){
+    public static void sendMessage(String from,String to,MessageBean bean, final SendMessageListener listener){
         if (ins == null) {
             throw new NullPointerException("IMChat is not init!");
         }
         SendMessage message = new SendMessage();
         message.key = "/IM/Chat/000";
         message.body = bean.key+bean.message;
+        message.from = from;
+        message.to = to;
+        message.messageType = SendMessage.MSG_TYPE_TEXT;
+        message.chatType = SendMessage.CHAT_TYPE_ONE;
         ins.connection.sendMessage(message);
     }
 

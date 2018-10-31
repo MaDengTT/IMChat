@@ -19,7 +19,7 @@ import com.mdshi.common.db.entity.UserEntity;
 /**
  * Created by MaDeng on 2018/9/3.
  */
-@Database(entities = {MessageEntity.class, MessageListEntity.class, UserEntity.class, ContactsEntity.class,CircleEntity.class},version = 2)
+@Database(entities = {MessageEntity.class, MessageListEntity.class, UserEntity.class, ContactsEntity.class,CircleEntity.class},version = 3)
 @TypeConverters({Converters.class})
 public abstract class IMDataBase extends RoomDatabase {
     public abstract MessageDao messageDao();

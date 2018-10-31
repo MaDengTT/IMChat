@@ -146,7 +146,7 @@ public class ChatActivityModel extends ViewModel{
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(s1-> Flowable.create((FlowableOnSubscribe<ChatBean>) emitter -> {
                     MessageBean messageBean = new MessageBean(MessageBean.CHAT_KEY,gson.toJson(s1));
-                    IMChat.sendMessage(messageBean, new SendMessageListener() {
+                    IMChat.sendMessage(String.valueOf(s1.fUserId),String.valueOf(s1.tUserId),messageBean, new SendMessageListener() {
                         @Override
                         public void onSuccess() {
                             emitter.onNext(bean);

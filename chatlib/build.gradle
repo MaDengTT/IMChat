@@ -33,4 +33,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation 'org.fusesource.mqtt-client:mqtt-client:1.14'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation project(path: ':IMLib')
 }
