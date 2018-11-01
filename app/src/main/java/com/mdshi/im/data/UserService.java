@@ -36,8 +36,8 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("/user/update")
-    Flowable<BaseBean<UserEntity>> updateUser(@Field("userId")long userid,
-                                              @Field("userName")String userName,
+    Flowable<BaseBean<UserEntity>> updateUser(@Field("userid")long userid,
+                                              @Field("username")String userName,
                                               @Field("avatar")String avatar);
 
     @FormUrlEncoded
