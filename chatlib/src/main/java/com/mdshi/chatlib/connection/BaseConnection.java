@@ -1,6 +1,7 @@
 package com.mdshi.chatlib.connection;
 
 import com.mdshi.chatlib.Bean.SendMessage;
+import com.mdshi.chatlib.listener.BaseListener;
 import com.mdshi.chatlib.listener.ConnectionListener;
 import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.chatlib.listener.ReceiveListener;
@@ -19,10 +20,11 @@ public interface BaseConnection {
     void receiveListener(ReceiveListener listener);
 
     void sendMessage(SendMessage message);
+    void sendMessage(SendMessage message,ReceiveListener listener);
 
     void sub(String sub);
 
     void unSub();
 
-
+    void subListener(BaseListener listener);
 }

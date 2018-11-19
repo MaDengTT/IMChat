@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.mdshi.chatlib.Bean.SendMessage;
 import com.mdshi.chatlib.Debug;
+import com.mdshi.chatlib.listener.BaseListener;
 import com.mdshi.chatlib.listener.ConnectionListener;
 import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.chatlib.listener.ReceiveListener;
@@ -75,12 +76,19 @@ public class Mqtt_Connection implements BaseConnection {
             @Override
             public void onSuccess(byte[] value) {
                 Debug.d("Sub success:"+sub+":value:"+new String(value));
+                if (subListener != null) {
+                    subListener.onSuccess();
+                }
             }
 
             @Override
             public void onFailure(Throwable value) {
                 Debug.e("Sub Failure:"+sub+":"+value.toString());
                 Log.e("IMChat", "onFailure: ",value );
+                if (subListener != null) {
+                    subListener.onFailure(value);
+                }
+
             }
         });
     }
@@ -93,18 +101,27 @@ public class Mqtt_Connection implements BaseConnection {
                 @Override
                 public void onSuccess(Void value) {
                     Debug.d("unSub success:"+utf8Buffers[0]);
+                    if (subListener != null) {
+                        subListener.onSuccess();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable value) {
                     Debug.e("unSub Failure:"+utf8Buffers[0]+":"+value.toString());
+                    if (subListener != null) {
+                        subListener.onFailure(value);
+                    }
                 }
             });
         }
         topics[0] = null;
     }
-
-
+    BaseListener subListener;
+    @Override
+    public void subListener(BaseListener listener) {
+        this.subListener = listener;
+    }
 
     @Override
     public void connect() {
@@ -178,6 +195,24 @@ public class Mqtt_Connection implements BaseConnection {
                 @Override
                 public void onFailure(Throwable value) {
                     Debug.e("publish : ",value);
+                }
+            });
+        }
+    }
+    @Override
+    public void sendMessage(final SendMessage message, final ReceiveListener listener) {
+        if (connection != null) {
+            connection.publish(message.key, message.body.getBytes(), QoS.EXACTLY_ONCE, false, new Callback<Void>() {
+                @Override
+                public void onSuccess(Void value) {
+                    Debug.d("publish : "+message.key);
+                    listener.onSuccess();
+                }
+
+                @Override
+                public void onFailure(Throwable value) {
+                    Debug.e("publish : ",value);
+                    listener.onFailure(value);
                 }
             });
         }
