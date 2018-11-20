@@ -1,14 +1,13 @@
 package com.mdshi.chatlib.connection;
 
-import android.net.sip.SipSession;
 import android.util.Log;
 
 import com.mdshi.chatlib.Bean.SendMessage;
 import com.mdshi.chatlib.Debug;
 import com.mdshi.chatlib.listener.BaseListener;
 import com.mdshi.chatlib.listener.ConnectionListener;
-import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.chatlib.listener.ReceiveListener;
+import com.mdshi.chatlib.listener.RequestCallback;
 
 import org.fusesource.hawtbuf.Buffer;
 import org.fusesource.hawtbuf.UTF8Buffer;
@@ -20,9 +19,6 @@ import org.fusesource.mqtt.client.QoS;
 import org.fusesource.mqtt.client.Topic;
 
 import java.net.URISyntaxException;
-import java.util.concurrent.Callable;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by MaDeng on 2018/9/3.
@@ -66,9 +62,23 @@ public class Mqtt_Connection implements BaseConnection {
         this.connectionListener = listener;
     }
 
-    public void sub(final String sub) {
+    public void sub(final String sub, final RequestCallback<String> callback) {
         if (topics[0] != null) {
-            unSub();
+            unSub(new RequestCallback<String>() {
+                @Override
+                public void onSuccess(String param) {
+
+                }
+
+                @Override
+                public void onFailed(int code) {
+
+                }
+
+                @Override
+                public void onException(Throwable exception) {
+                }
+            });
         }
         Topic topic = new Topic(sub, QoS.AT_LEAST_ONCE);
         topics[0] = topic;
@@ -76,24 +86,19 @@ public class Mqtt_Connection implements BaseConnection {
             @Override
             public void onSuccess(byte[] value) {
                 Debug.d("Sub success:"+sub+":value:"+new String(value));
-                if (subListener != null) {
-                    subListener.onSuccess();
-                }
+                callback.onSuccess(new String(value));
             }
 
             @Override
             public void onFailure(Throwable value) {
                 Debug.e("Sub Failure:"+sub+":"+value.toString());
                 Log.e("IMChat", "onFailure: ",value );
-                if (subListener != null) {
-                    subListener.onFailure(value);
-                }
-
+                callback.onException(value);
             }
         });
     }
 
-    public void unSub() {
+    public void unSub(final RequestCallback<String> callback) {
         if (topics[0] != null) {
             final UTF8Buffer[] utf8Buffers = new UTF8Buffer[1];
             utf8Buffers[0] = topics[0].name();
@@ -101,26 +106,17 @@ public class Mqtt_Connection implements BaseConnection {
                 @Override
                 public void onSuccess(Void value) {
                     Debug.d("unSub success:"+utf8Buffers[0]);
-                    if (subListener != null) {
-                        subListener.onSuccess();
-                    }
+                    callback.onSuccess(utf8Buffers.toString());
                 }
 
                 @Override
                 public void onFailure(Throwable value) {
                     Debug.e("unSub Failure:"+utf8Buffers[0]+":"+value.toString());
-                    if (subListener != null) {
-                        subListener.onFailure(value);
-                    }
+                    callback.onException(value);
                 }
             });
         }
         topics[0] = null;
-    }
-    BaseListener subListener;
-    @Override
-    public void subListener(BaseListener listener) {
-        this.subListener = listener;
     }
 
     @Override
@@ -158,7 +154,7 @@ public class Mqtt_Connection implements BaseConnection {
                     @Override
                     public void onPublish(UTF8Buffer topic, Buffer body, Callback<Callback<Void>> ack) {
                         if (receiveListener != null) {
-                            receiveListener.onReciveMessage(topic.toString(),body.utf8().toString());
+                            receiveListener.onReceiveMessage(topic.toString(),body.utf8().toString());
                             receiveListener.onSuccess();
                         }
                     }
@@ -200,19 +196,19 @@ public class Mqtt_Connection implements BaseConnection {
         }
     }
     @Override
-    public void sendMessage(final SendMessage message, final ReceiveListener listener) {
+    public void sendMessage(final SendMessage message, final RequestCallback listener) {
         if (connection != null) {
             connection.publish(message.key, message.body.getBytes(), QoS.EXACTLY_ONCE, false, new Callback<Void>() {
                 @Override
                 public void onSuccess(Void value) {
                     Debug.d("publish : "+message.key);
-                    listener.onSuccess();
+                   listener.onSuccess(Void.TYPE);
                 }
 
                 @Override
                 public void onFailure(Throwable value) {
                     Debug.e("publish : ",value);
-                    listener.onFailure(value);
+                    listener.onException(value);
                 }
             });
         }

@@ -5,6 +5,7 @@ import com.mdshi.chatlib.listener.BaseListener;
 import com.mdshi.chatlib.listener.ConnectionListener;
 import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.chatlib.listener.ReceiveListener;
+import com.mdshi.chatlib.listener.RequestCallback;
 
 /**
  * Created by MaDeng on 2018/9/3.
@@ -20,11 +21,9 @@ public interface BaseConnection {
     void receiveListener(ReceiveListener listener);
 
     void sendMessage(SendMessage message);
-    void sendMessage(SendMessage message,ReceiveListener listener);
+    void sendMessage(SendMessage message,RequestCallback<Void> listener);
 
-    void sub(String sub);
+    void sub(String sub, RequestCallback<String> callback);
 
-    void unSub();
-
-    void subListener(BaseListener listener);
+    void unSub(RequestCallback<String> callback);
 }

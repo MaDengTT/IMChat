@@ -40,7 +40,7 @@ public class IMChat {
         this.connection = connection;
         connection.receiveListener(new ReceiveListener() {
             @Override
-            public void onReciveMessage(String key, String message) {
+            public void onReceiveMessage(String key, String message) {
                 Debug.d("reciveMessage:"+key+":"+message);
                 if (messageListeners != null) {
                     for (MessageListener listener:messageListeners) {

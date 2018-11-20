@@ -1,14 +1,17 @@
 package com.mdshi.chatlib.service;
 
+import com.mdshi.chatlib.Bean.Message;
 import com.mdshi.chatlib.Bean.MessageBean;
 import com.mdshi.chatlib.Bean.SendMessage;
+import com.mdshi.chatlib.Bean.TextMsg;
 import com.mdshi.chatlib.connection.BaseConnection;
-import com.mdshi.chatlib.listener.AbortableFuture;
+import com.mdshi.chatlib.listener.AdoptableFuture;
 import com.mdshi.chatlib.listener.MessageListener;
+import com.mdshi.chatlib.listener.Promise;
 import com.mdshi.chatlib.listener.ReceiveListener;
+import com.mdshi.chatlib.listener.RequestCallback;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -22,7 +25,7 @@ public class MessageService extends IMService {
         super(connection);
         connection.receiveListener(new ReceiveListener() {
             @Override
-            public void onReciveMessage(String key, String message) {
+            public void onReceiveMessage(String key, String message) {
                 if (listeners != null) {
                     for (MessageListener listener:listeners) {
                         listener.message(message);
@@ -52,25 +55,36 @@ public class MessageService extends IMService {
         });
     }
 
-    public AbortableFuture<MessageBean> sendMessage(final MessageBean bean) {
-        final Future<MessageBean> future = new Future<>();
+    public AdoptableFuture<Void> sendMessage(final MessageBean bean) {
+        final Promise<Void> future = new Promise<>();
         SendMessage message = new SendMessage();
         message.key = "/IM/Chat/000";
         message.body = bean.key+bean.message;
-        getConnection().sendMessage(message, new ReceiveListener() {
-            @Override
-            public void onReciveMessage(String key, String message) {
+        getConnection().sendMessage(message, future);
+        return future;
+    }
 
+    public AdoptableFuture<TextMsg> sendMessage(final TextMsg msg) {
+        final Promise<TextMsg> future = new Promise<>();
+        SendMessage message = new SendMessage();
+        message.key = "/IM/Chat/000";
+        message.body = msg.from+msg.getContentText();
+        getConnection().sendMessage(message, new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void param) {
+                msg.status = Message.MsgStatus.success;
+                future.onSuccess(msg);
             }
 
             @Override
-            public void onSuccess() {
-                future.postData(bean);
+            public void onFailed(int code) {
+                msg.status = Message.MsgStatus.fail;
+                future.onFailed(code);
             }
 
             @Override
-            public void onFailure(Throwable value) {
-                future.postException(0,value);
+            public void onException(Throwable exception) {
+                future.onException(exception);
             }
         });
         return future;

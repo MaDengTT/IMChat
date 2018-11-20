@@ -6,7 +6,7 @@ package com.mdshi.chatlib.listener;
 public interface RequestCallback<T> {
     void onSuccess(T param);
 
-    void onFailde(int code);
+    void onFailed(int code);
 
     void onException(Throwable exception);
 }

@@ -7,6 +7,6 @@ import com.mdshi.chatlib.Bean.MessageBean;
  */
 public interface ReceiveListener extends BaseListener{
 
-    void onReciveMessage(String key,String message);
+    void onReceiveMessage(String key, String message);
 
 }

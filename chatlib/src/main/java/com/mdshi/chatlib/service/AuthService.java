@@ -4,8 +4,8 @@ import android.text.TextUtils;
 
 import com.mdshi.chatlib.Bean.UserInfo;
 import com.mdshi.chatlib.connection.BaseConnection;
-import com.mdshi.chatlib.listener.AbortableFuture;
-import com.mdshi.chatlib.listener.BaseListener;
+import com.mdshi.chatlib.listener.AdoptableFuture;
+import com.mdshi.chatlib.listener.Promise;
 import com.mdshi.chatlib.listener.RequestCallback;
 
 /**
@@ -23,41 +23,35 @@ public class AuthService extends IMService{
         return info;
     }
 
-    public AbortableFuture<UserInfo> login(final UserInfo user) {
-        final Future<UserInfo> userInfoFuture = new Future<>();
-        getConnection().subListener(new BaseListener() {
+    public AdoptableFuture<UserInfo> login(final UserInfo user) {
+        final Promise<UserInfo> userInfoFuture = new Promise<>();
+        RequestCallback<String> callback = new RequestCallback<String>() {
             @Override
-            public void onSuccess() {
-                info = user;
-                userInfoFuture.postData(user);
+            public void onSuccess(String param) {
+                userInfoFuture.onSuccess(user);
             }
 
             @Override
-            public void onFailure(Throwable value) {
-                userInfoFuture.postException(0,value);
+            public void onFailed(int code) {
+                userInfoFuture.onFailed(code);
             }
-        });
+
+            @Override
+            public void onException(Throwable exception) {
+                userInfoFuture.onException(exception);
+            }
+        };
         if (!TextUtils.isEmpty(user.toKen)) {
-            getConnection().sub(user.toKen);
+            getConnection().sub(user.toKen,callback);
         }else {
-            getConnection().sub(user.account);
+            getConnection().sub(user.account,callback);
         }
         return userInfoFuture;
     }
 
-    public AbortableFuture<UserInfo> logOut() {
-        final Future<UserInfo> userInfoFuture = new Future<>();
-        getConnection().subListener(new BaseListener() {
-            @Override
-            public void onSuccess() {
-                userInfoFuture.postData(info);
-            }
-
-            @Override
-            public void onFailure(Throwable value) {
-                userInfoFuture.postException(0,value);
-            }
-        });
+    public AdoptableFuture<String> logOut() {
+        final Promise<String> userInfoFuture = new Promise<>();
+        connection.unSub(userInfoFuture);
         return userInfoFuture;
     }
 

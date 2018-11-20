@@ -6,5 +6,4 @@ package com.mdshi.chatlib.Bean;
 public class SendMessage {
     public String key;
     public String body;
-
 }

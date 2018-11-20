@@ -7,6 +7,7 @@ import com.mdshi.chatlib.connection.BaseConnection;
 import com.mdshi.chatlib.connection.Config;
 import com.mdshi.chatlib.connection.Mqtt_Connection;
 import com.mdshi.chatlib.service.AuthService;
+import com.mdshi.chatlib.service.ConnectionService;
 import com.mdshi.chatlib.service.IMService;
 
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class IMChatClient {
         config.key = options.appKay;
         BaseConnection connection = new Mqtt_Connection(config);
 
+        serviceMap.put(ConnectionService.class.getCanonicalName(), new ConnectionService(connection));
         serviceMap.put(AuthService.class.getCanonicalName(),new AuthService(connection));
         serviceMap.put(IMService.class.getCanonicalName(),new IMService(connection));
         connection.connect();
@@ -38,7 +40,7 @@ public class IMChatClient {
 
     public static class IMOptions {
         String appKay;
-
+        Config config;
     }
 
     public static <T> T getService(Class<T> tClass){

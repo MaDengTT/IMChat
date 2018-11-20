@@ -12,6 +12,10 @@ public class MessageBean {
     public static String R_CHAT_KEY = "12"; //接收key
     public static String D_CHAT_KEY = "20"; //接收key后确认Key
 
+    MessageBean() {
+
+    }
+
     public MessageBean(String message) {
         key = message.substring(0,2);
         this.message = message.substring(2);
