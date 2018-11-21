@@ -6,13 +6,16 @@ import com.mdshi.chatlib.Bean.SendMessage;
 import com.mdshi.chatlib.Bean.TextMsg;
 import com.mdshi.chatlib.connection.BaseConnection;
 import com.mdshi.chatlib.listener.AdoptableFuture;
+import com.mdshi.chatlib.listener.Function;
 import com.mdshi.chatlib.listener.MessageListener;
 import com.mdshi.chatlib.listener.Promise;
 import com.mdshi.chatlib.listener.ReceiveListener;
 import com.mdshi.chatlib.listener.RequestCallback;
+import com.mdshi.chatlib.listener.Transformations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 /**
  * Created by MaDeng on 2018/11/19.
@@ -69,24 +72,13 @@ public class MessageService extends IMService {
         SendMessage message = new SendMessage();
         message.key = "/IM/Chat/000";
         message.body = msg.from+msg.getContentText();
-        getConnection().sendMessage(message, new RequestCallback<Void>() {
+        getConnection().sendMessage(message, Transformations.map(future, new Function<Void, TextMsg>() {
             @Override
-            public void onSuccess(Void param) {
-                msg.status = Message.MsgStatus.success;
-                future.onSuccess(msg);
+            public TextMsg apply(Void aVoid) {
+                msg.status = TextMsg.MsgStatus.success;
+                return msg;
             }
-
-            @Override
-            public void onFailed(int code) {
-                msg.status = Message.MsgStatus.fail;
-                future.onFailed(code);
-            }
-
-            @Override
-            public void onException(Throwable exception) {
-                future.onException(exception);
-            }
-        });
+        }));
         return future;
     }
 
